@@ -545,7 +545,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 ## Extras Opcionais
 
-189. [ ] {FRONT-END} Graficos e visualizacoes com Chart.js ou biblioteca equivalente.
+189. [X] {FRONT-END} Graficos e visualizacoes com Chart.js ou biblioteca equivalente.
 
 190. [ ] {FRONT-END} Grafico de consultas por paciente.
 

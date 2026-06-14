@@ -167,6 +167,40 @@ h2 {
   gap: 18px;
 }
 
+.chart-layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.9fr) minmax(160px, 0.7fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.chart-box {
+  position: relative;
+  min-height: 230px;
+}
+
+.chart-box.bar {
+  min-height: 250px;
+}
+
+.chart-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.status-list.compact {
+  gap: 10px;
+}
+
+.status-list.compact .status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 12px;
+  border-radius: 12px;
+  background: #f7f8ef;
+}
+
 .status-row > div:first-child {
   display: flex;
   align-items: center;
@@ -354,5 +388,9 @@ h2 {
 
   .appointment-meta {
     justify-items: start;
+  }
+
+  .chart-layout {
+    grid-template-columns: 1fr;
   }
 }

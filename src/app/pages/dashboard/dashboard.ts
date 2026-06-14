@@ -1,6 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
+import Chart from 'chart.js/auto';
 
 import { AuthService } from '../../core/auth/auth.service';
 import {
@@ -19,9 +30,16 @@ import {
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
-export class Dashboard implements OnInit {
+export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
   private readonly dashboardService = inject(DashboardService);
   private readonly authService = inject(AuthService);
+
+  @ViewChild('statusChart') private readonly statusChartRef?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('periodoChart') private readonly periodoChartRef?: ElementRef<HTMLCanvasElement>;
+
+  private statusChart?: Chart;
+  private periodoChart?: Chart;
+  private viewReady = false;
 
   protected readonly carregando = signal(true);
   protected readonly erro = signal('');
@@ -69,6 +87,15 @@ export class Dashboard implements OnInit {
     this.carregarDashboard();
   }
 
+  ngAfterViewInit(): void {
+    this.viewReady = true;
+    this.renderizarGraficos();
+  }
+
+  ngOnDestroy(): void {
+    this.destruirGraficos();
+  }
+
   protected carregarDashboard(): void {
     this.carregando.set(true);
     this.erro.set('');
@@ -77,6 +104,7 @@ export class Dashboard implements OnInit {
       next: (dados) => {
         this.dados.set(dados);
         this.carregando.set(false);
+        queueMicrotask(() => this.renderizarGraficos());
       },
       error: (error: unknown) => {
         this.erro.set(this.getMensagemErro(error));
@@ -121,6 +149,143 @@ export class Dashboard implements OnInit {
 
   protected trackConsulta(_: number, consulta: ConsultaDashboard): number {
     return consulta.id;
+  }
+
+  private renderizarGraficos(): void {
+    const dados = this.dados();
+
+    if (!this.viewReady || !dados || this.carregando()) {
+      return;
+    }
+
+    this.renderizarGraficoStatus(dados.resumo);
+    this.renderizarGraficoPeriodo(dados.consultas);
+  }
+
+  private renderizarGraficoStatus(resumo: DashboardResumo): void {
+    const canvas = this.statusChartRef?.nativeElement;
+
+    if (!canvas) {
+      return;
+    }
+
+    this.statusChart?.destroy();
+
+    // Mostra rapidamente a proporcao dos status principais do dashboard.
+    this.statusChart = new Chart(canvas, {
+      type: 'doughnut',
+      data: {
+        labels: ['Agendadas', 'Finalizadas', 'Canceladas'],
+        datasets: [
+          {
+            data: [resumo.consultasAgendadas, resumo.consultasFinalizadas, resumo.consultasCanceladas],
+            backgroundColor: ['#808744', '#5f8f61', '#c2410c'],
+            borderColor: '#fffdec',
+            borderWidth: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              boxWidth: 12,
+              color: '#59604f',
+              font: {
+                weight: 700,
+              },
+            },
+          },
+        },
+        cutout: '68%',
+      },
+    });
+  }
+
+  private renderizarGraficoPeriodo(consultas: ConsultaDashboard[]): void {
+    const canvas = this.periodoChartRef?.nativeElement;
+
+    if (!canvas) {
+      return;
+    }
+
+    this.periodoChart?.destroy();
+
+    const ultimosSeteDias = this.criarSerieUltimosSeteDias(consultas);
+
+    // Agrupa consultas por dia para visualizar movimento recente da agenda.
+    this.periodoChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: ultimosSeteDias.map((item) => item.label),
+        datasets: [
+          {
+            label: 'Consultas',
+            data: ultimosSeteDias.map((item) => item.total),
+            backgroundColor: '#8ec46c',
+            borderRadius: 8,
+            maxBarThickness: 42,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              color: '#6f7665',
+              font: {
+                weight: 700,
+              },
+            },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0,
+              color: '#6f7665',
+            },
+            grid: {
+              color: '#edf0df',
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    });
+  }
+
+  private criarSerieUltimosSeteDias(consultas: ConsultaDashboard[]): Array<{ label: string; total: number }> {
+    const hoje = new Date();
+
+    return Array.from({ length: 7 }, (_, index) => {
+      const data = new Date(hoje);
+      data.setDate(hoje.getDate() - (6 - index));
+
+      const chave = data.toISOString().slice(0, 10);
+      const total = consultas.filter((consulta) => consulta.dataInicio.slice(0, 10) === chave).length;
+
+      return {
+        label: new Intl.DateTimeFormat('pt-BR', { weekday: 'short' }).format(data),
+        total,
+      };
+    });
+  }
+
+  private destruirGraficos(): void {
+    this.statusChart?.destroy();
+    this.periodoChart?.destroy();
   }
 
   private getMensagemErro(error: unknown): string {

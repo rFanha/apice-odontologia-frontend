@@ -56,40 +56,25 @@
           </div>
         </header>
 
-        <div class="status-list">
-          <div class="status-row agendada">
-            <div>
+        <div class="chart-layout">
+          <div class="chart-box">
+            <canvas #statusChart aria-label="Grafico de consultas por status"></canvas>
+          </div>
+
+          <div class="status-list compact">
+            <div class="status-row agendada">
               <span>Agendadas</span>
               <strong>{{ resumo().consultasAgendadas }}</strong>
             </div>
-            <div class="track">
-              <span
-                [style.width.%]="percentual(resumo().consultasAgendadas, resumo().totalConsultas)"
-              ></span>
-            </div>
-          </div>
 
-          <div class="status-row finalizada">
-            <div>
+            <div class="status-row finalizada">
               <span>Finalizadas</span>
               <strong>{{ resumo().consultasFinalizadas }}</strong>
             </div>
-            <div class="track">
-              <span
-                [style.width.%]="percentual(resumo().consultasFinalizadas, resumo().totalConsultas)"
-              ></span>
-            </div>
-          </div>
 
-          <div class="status-row cancelada">
-            <div>
+            <div class="status-row cancelada">
               <span>Canceladas</span>
               <strong>{{ resumo().consultasCanceladas }}</strong>
-            </div>
-            <div class="track">
-              <span
-                [style.width.%]="percentual(resumo().consultasCanceladas, resumo().totalConsultas)"
-              ></span>
             </div>
           </div>
         </div>
@@ -98,17 +83,13 @@
       <article class="panel">
         <header>
           <div>
-            <h2>Equipe clinica</h2>
-            <p>Dentistas ativos e cadastrados</p>
+            <h2>Consultas por periodo</h2>
+            <p>Volume dos ultimos 7 dias</p>
           </div>
         </header>
 
-        <div class="team-summary">
-          <strong>{{ resumo().totalDentistas }}</strong>
-          <span>profissionais cadastrados</span>
-          <p>
-            Use este indicador para acompanhar a capacidade de atendimento da clinica.
-          </p>
+        <div class="chart-box bar">
+          <canvas #periodoChart aria-label="Grafico de consultas por periodo"></canvas>
         </div>
       </article>
     </section>
