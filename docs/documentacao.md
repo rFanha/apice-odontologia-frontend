@@ -435,11 +435,11 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 139. [X] {FRONT-END} Desativacao de dentistas implementada.
 
-140. [ ] {FRONT-END} Pagina de Especialidades criada.
+140. [X] {FRONT-END} Pagina de Especialidades criada.
 
-141. [ ] {FRONT-END} Listagem de especialidades implementada.
+141. [X] {FRONT-END} Listagem de especialidades implementada.
 
-142. [ ] {FRONT-END} Criacao de especialidades implementada.
+142. [X] {FRONT-END} Criacao de especialidades implementada.
 
 143. [ ] {FRONT-END} Pagina de Relatorios criada.
 
