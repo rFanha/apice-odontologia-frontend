@@ -1,0 +1,177 @@
+<main class="usuarios-page">
+  <header class="page-header">
+    <div>
+      <div class="brand">APICE ODONTOLOGIA</div>
+      <h1>Usuarios</h1>
+      <p>Controle de acesso e perfis do sistema.</p>
+    </div>
+
+    <button class="primary-button" type="button" (click)="abrirNovoUsuario()">
+      Novo usuario
+    </button>
+  </header>
+
+  @if (erro()) {
+    <div class="alert error" role="alert">{{ erro() }}</div>
+  }
+
+  @if (sucesso()) {
+    <div class="alert success" role="status">{{ sucesso() }}</div>
+  }
+
+  <section class="toolbar" aria-label="Filtros de usuarios">
+    <label class="search">
+      <span>Buscar</span>
+      <input
+        type="search"
+        placeholder="Nome, e-mail ou CPF"
+        [value]="busca()"
+        (input)="atualizarBusca($event)"
+      />
+    </label>
+
+    <label class="filter">
+      <span>Perfil</span>
+      <select [value]="filtroPerfil()" (change)="atualizarFiltroPerfil($event)">
+        <option value="todos">Todos perfis</option>
+        <option value="ADMIN">Administradores</option>
+        <option value="DENTISTA">Dentistas</option>
+      </select>
+    </label>
+
+    <div class="counter">{{ usuariosFiltrados().length }} usuario(s)</div>
+  </section>
+
+  <section class="table-card">
+    @if (carregando()) {
+      <div class="empty">Carregando usuarios...</div>
+    } @else if (!usuariosFiltrados().length) {
+      <div class="empty">Nenhum usuario encontrado.</div>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>CPF</th>
+              <th>Perfil</th>
+              <th>Status</th>
+              <th>Ultimo acesso</th>
+              <th class="actions-col">Acoes</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (usuario of usuariosFiltrados(); track usuario.id) {
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="avatar">{{ usuario.nome.charAt(0) }}</div>
+                    <div>
+                      <strong>{{ usuario.nome }}</strong>
+                      <span>{{ usuario.email }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ usuario.cpf }}</td>
+                <td>
+                  <span class="badge" [class.admin]="usuario.perfil === 'ADMIN'">
+                    {{ usuario.perfil }}
+                  </span>
+                </td>
+                <td>
+                  <span class="status" [class.inactive]="!usuario.ativo">
+                    {{ usuario.ativo ? 'Ativo' : 'Inativo' }}
+                  </span>
+                </td>
+                <td>{{ formatarData(usuario.ultimoLogin) }}</td>
+                <td>
+                  <div class="actions">
+                    <button type="button" (click)="abrirEdicao(usuario)">Editar</button>
+                    <button class="danger" type="button" (click)="excluirUsuario(usuario)">
+                      Excluir
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  @if (formularioAberto()) {
+    <div class="overlay" (click)="fecharFormulario()">
+      <section class="drawer" (click)="$event.stopPropagation()" aria-label="Formulario de usuario">
+        <header>
+          <div>
+            <h2>{{ usuarioEmEdicao() ? 'Editar usuario' : 'Novo usuario' }}</h2>
+            <p>
+              {{
+                usuarioEmEdicao()
+                  ? 'Atualize os dados de acesso.'
+                  : 'Crie um novo acesso ao sistema.'
+              }}
+            </p>
+          </div>
+          <button class="icon-button" type="button" (click)="fecharFormulario()">x</button>
+        </header>
+
+        <form [formGroup]="usuarioForm" (ngSubmit)="salvarUsuario()">
+          <label class="field">
+            <span>Nome completo</span>
+            <input type="text" formControlName="nome" placeholder="Nome do usuario" />
+          </label>
+
+          <label class="field">
+            <span>CPF</span>
+            <input type="text" formControlName="cpf" placeholder="00000000000" />
+          </label>
+
+          <label class="field">
+            <span>E-mail</span>
+            <input type="email" formControlName="email" placeholder="usuario@apice.com.br" />
+          </label>
+
+          <label class="field">
+            <span>{{ usuarioEmEdicao() ? 'Nova senha' : 'Senha provisoria' }}</span>
+            <input
+              type="password"
+              formControlName="senha"
+              [placeholder]="usuarioEmEdicao() ? 'Deixe vazio para manter' : 'Senha inicial'"
+            />
+          </label>
+
+          <div class="profile-options" aria-label="Perfil de acesso">
+            <label>
+              <input type="radio" formControlName="perfil" value="ADMIN" />
+              <span>
+                <strong>Administrador</strong>
+                <small>Acesso total</small>
+              </span>
+            </label>
+            <label>
+              <input type="radio" formControlName="perfil" value="DENTISTA" />
+              <span>
+                <strong>Dentista</strong>
+                <small>Acesso clinico</small>
+              </span>
+            </label>
+          </div>
+
+          <label class="active-toggle">
+            <input type="checkbox" formControlName="ativo" />
+            <span>Usuario ativo</span>
+          </label>
+
+          <footer>
+            <button class="secondary-button" type="button" (click)="fecharFormulario()">Cancelar</button>
+            <button class="primary-button" type="submit" [disabled]="salvando()">
+              {{ salvando() ? 'Salvando...' : 'Salvar' }}
+            </button>
+          </footer>
+        </form>
+      </section>
+    </div>
+  }
+</main>

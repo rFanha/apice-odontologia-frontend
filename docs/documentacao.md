@@ -401,7 +401,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 122. [X] {FRONT-END} Pagina de Login criada.
 
-123. [ ] {FRONT-END} Pagina de Gerenciamento de Usuarios criada.
+123. [X] {FRONT-END} Pagina de Gerenciamento de Usuarios criada.
 
 124. [ ] {FRONT-END} Perfis e permissoes considerados na tela de usuarios.
 

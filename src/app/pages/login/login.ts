@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth/auth.service';
 
@@ -13,6 +14,7 @@ import { AuthService } from '../../core/auth/auth.service';
 export class Login {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   protected readonly showPassword = signal(false);
   protected readonly submitted = signal(false);
@@ -73,6 +75,7 @@ export class Login {
       next: (usuario) => {
         this.loading.set(false);
         this.successMessage.set(`Login realizado com sucesso. Bem-vindo(a), ${usuario.nome}.`);
+        void this.router.navigateByUrl('/usuarios');
       },
       error: (error: unknown) => {
         this.loading.set(false);

@@ -25,7 +25,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   login(dados: LoginRequest, manterConectado: boolean): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('/auth/login', dados).pipe(
+    return this.http.post<LoginResponse>('/api/auth/login', dados).pipe(
       tap((response) => {
         const storage = manterConectado ? localStorage : sessionStorage;
         storage.setItem(AUTH_STORAGE_KEY, JSON.stringify(response));
