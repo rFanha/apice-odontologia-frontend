@@ -1,0 +1,92 @@
+<!-- Pagina de listagem de pacientes. -->
+<main class="pacientes-page">
+  <header class="page-header">
+    <div>
+      <div class="brand">APICE ODONTOLOGIA</div>
+      <h1>Pacientes</h1>
+      <p>Cadastro e consulta rapida dos pacientes da clinica.</p>
+      <span class="permission-note">Acesso liberado para usuarios autenticados</span>
+    </div>
+
+    <button type="button" class="primary-button" (click)="carregarPacientes()">Atualizar</button>
+  </header>
+
+  @if (erro()) {
+    <div class="alert" role="alert">{{ erro() }}</div>
+  }
+
+  <section class="summary-grid" aria-label="Resumo de pacientes">
+    <article>
+      <span>Total</span>
+      <strong>{{ resumo().total }}</strong>
+      <p>pacientes cadastrados</p>
+    </article>
+    <article>
+      <span>Com e-mail</span>
+      <strong>{{ resumo().comEmail }}</strong>
+      <p>contato digital disponivel</p>
+    </article>
+    <article>
+      <span>Com telefone</span>
+      <strong>{{ resumo().comTelefone }}</strong>
+      <p>contato telefonico disponivel</p>
+    </article>
+  </section>
+
+  <section class="toolbar" aria-label="Filtros de pacientes">
+    <label class="search">
+      <span>Buscar</span>
+      <input
+        type="search"
+        placeholder="Nome, CPF, e-mail ou telefone"
+        [value]="busca()"
+        (input)="atualizarBusca($event)"
+      />
+    </label>
+
+    <div class="counter">{{ pacientesFiltrados().length }} paciente(s)</div>
+  </section>
+
+  <section class="table-card">
+    @if (carregando()) {
+      <div class="loading-list" aria-label="Carregando pacientes">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    } @else if (!pacientesFiltrados().length) {
+      <div class="empty">Nenhum paciente encontrado.</div>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Paciente</th>
+              <th>CPF</th>
+              <th>Contato</th>
+              <th>Cadastro</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (paciente of pacientesFiltrados(); track paciente.id) {
+              <tr>
+                <td>
+                  <div class="patient-cell">
+                    <div class="avatar">{{ iniciais(paciente.nome) }}</div>
+                    <strong>{{ paciente.nome }}</strong>
+                  </div>
+                </td>
+                <td>{{ paciente.cpf }}</td>
+                <td>
+                  <strong class="contact">{{ paciente.telefone || 'Sem telefone' }}</strong>
+                  <span>{{ paciente.email }}</span>
+                </td>
+                <td>{{ formatarData(paciente.dataCriacao) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</main>

@@ -417,7 +417,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 130. [X] {FRONT-END} Cancelamento de consultas implementado.
 
-131. [ ] {FRONT-END} Pagina de Pacientes criada.
+131. [X] {FRONT-END} Pagina de Pacientes criada.
 
 132. [ ] {FRONT-END} Listagem de pacientes implementada.
 
