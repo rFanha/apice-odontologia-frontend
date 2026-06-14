@@ -399,9 +399,9 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 ### Paginas e Componentes
 
-122. [ ] {FRONT-END} Pagina de Login criada.
+122. [X] {FRONT-END} Pagina de Login criada.
 
-123. [ ] {FRONT-END} Pagina de Gerenciamento de Usuarios criada.
+123. [X] {FRONT-END} Pagina de Gerenciamento de Usuarios criada.
 
 124. [ ] {FRONT-END} Perfis e permissoes considerados na tela de usuarios.
 
@@ -457,9 +457,9 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 149. [ ] {FRONT-END} Navegacao entre paginas implementada.
 
-150. [ ] {FRONT-END} Consumo da API configurado com `HttpClient`, Fetch API, Axios ou alternativa.
+150. [X] {FRONT-END} Consumo da API configurado com `HttpClient`, Fetch API, Axios ou alternativa.
 
-151. [ ] {FRONT-END} Services Angular criados para comunicacao com a API.
+151. [X] {FRONT-END} Services Angular criados para comunicacao com a API.
 
 152. [ ] {FRONT-END} Interceptor HTTP configurado para envio do JWT, se aplicavel.
 
@@ -467,9 +467,9 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 ### Autenticacao no Front-End
 
-154. [ ] {FRONT-END} Fluxo de login implementado.
+154. [X] {FRONT-END} Fluxo de login implementado.
 
-155. [ ] {FRONT-END} Token JWT armazenado de forma definida, como `localStorage`, `sessionStorage` ou cookie HttpOnly.
+155. [X] {FRONT-END} Token JWT armazenado de forma definida, como `localStorage`, `sessionStorage` ou cookie HttpOnly.
 
 156. [ ] {FRONT-END} Protecao de rotas com guards implementada.
 

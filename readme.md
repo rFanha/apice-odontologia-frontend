@@ -27,8 +27,8 @@ A aplicacao ficara disponivel em:
 http://localhost:4200/
 ```
 
-O servidor de desenvolvimento usa `proxy.conf.json` para encaminhar chamadas como
-`/auth/login`, `/pacientes` e `/consultas` para o backend em `http://localhost:8080`.
+O servidor de desenvolvimento usa `proxy.conf.json` para encaminhar chamadas com prefixo
+`/api`, como `/api/auth/login`, `/api/pacientes` e `/api/consultas`, para o backend em `http://localhost:8080`.
 Assim o navegador nao bloqueia as chamadas por CORS durante o desenvolvimento local.
 
 ## Build

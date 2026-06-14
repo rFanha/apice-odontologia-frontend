@@ -1,0 +1,120 @@
+<main class="login-page">
+  <section class="brand-panel" aria-label="Apice Odontologia">
+    <div class="brand-lockup">
+      <img src="/assets/logo-apice-transp.png" alt="Logo Apice Odontologia" />
+      <span>APICE</span>
+      <small>ODONTOLOGIA</small>
+    </div>
+
+    <div class="brand-copy">
+      <div class="eyebrow">
+        <span></span>
+        Sistema de Gestao Clinica
+      </div>
+      <h1>Excelencia em cada sorriso.</h1>
+      <p>
+        Gerencie pacientes, agenda, equipe e relatorios da clinica em um so lugar.
+      </p>
+    </div>
+
+    <div class="brand-stats" aria-label="Indicadores da clinica">
+      <div>
+        <strong>12k</strong>
+        <span>Pacientes</span>
+      </div>
+      <div>
+        <strong>24</strong>
+        <span>Profissionais</span>
+      </div>
+      <div>
+        <strong>4.9</strong>
+        <span>Satisfacao</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-panel">
+    <div class="login-card">
+      <div class="card-top">
+        <div class="logo-mark" aria-hidden="true">A</div>
+        <div class="system-label">Ápice Odontologia</div>
+      </div>
+
+      <h2>Bem-vindo(a)</h2>
+      <p class="subtitle">Acesse sua conta para continuar.</p>
+
+      @if (errorMessage()) {
+        <div class="alert" role="alert">
+          <span aria-hidden="true">!</span>
+          {{ errorMessage() }}
+        </div>
+      }
+
+      @if (successMessage()) {
+        <div class="alert success" role="status">
+          <span aria-hidden="true">✓</span>
+          {{ successMessage() }}
+        </div>
+      }
+
+      <form [formGroup]="loginForm" (ngSubmit)="entrar()" novalidate>
+        <label class="field">
+          <span>E-mail</span>
+          <div class="input-shell">
+            <span class="input-icon" aria-hidden="true">&#64;</span>
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="voce@apice.com.br"
+              autocomplete="email"
+              [class.invalid]="submitted() && loginForm.controls.email.invalid"
+            />
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Senha</span>
+          <div class="input-shell">
+            <span class="input-icon" aria-hidden="true">#</span>
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="senha"
+              placeholder="********"
+              autocomplete="current-password"
+              [class.invalid]="submitted() && loginForm.controls.senha.invalid"
+            />
+            <button
+              class="show-password"
+              type="button"
+              (click)="togglePassword()"
+              [attr.aria-label]="showPassword() ? 'Ocultar senha' : 'Mostrar senha'"
+            >
+              {{ showPassword() ? 'Ocultar' : 'Mostrar' }}
+            </button>
+          </div>
+        </label>
+
+        <div class="form-options">
+          <label class="remember">
+            <input type="checkbox" formControlName="manterConectado" />
+            <span>Manter conectado</span>
+          </label>
+          <a href="#" aria-label="Recuperar senha">Esqueci a senha</a>
+        </div>
+
+        <button class="primary-action" type="submit" [disabled]="loading()">
+          {{ loading() ? 'Entrando...' : 'Entrar' }}
+        </button>
+      </form>
+
+      <div class="demo-access">
+        <div class="demo-title">Painel de acesso</div>
+        <div class="demo-actions">
+          <button type="button" (click)="preencherDemo('admin')">Entrar como Admin</button>
+          <button type="button" (click)="preencherDemo('dentista')">Como Dentista</button>
+        </div>
+        <p>Senha: <code>Apice&#64;123</code></p>
+      </div>
+    </div>
+  </section>
+</main>
