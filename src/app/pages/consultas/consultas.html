@@ -7,11 +7,18 @@
       <span class="permission-note">Acesso liberado para {{ perfilLabel() }}</span>
     </div>
 
-    <button type="button" (click)="carregarConsultas()">Atualizar</button>
+    <div class="header-actions">
+      <button type="button" class="secondary-action" (click)="carregarConsultas()">Atualizar</button>
+      <button type="button" class="primary-action" (click)="abrirModalConsulta()">+ Agendar consulta</button>
+    </div>
   </header>
 
   @if (erro()) {
     <div class="alert" role="alert">{{ erro() }}</div>
+  }
+
+  @if (sucesso()) {
+    <div class="alert success" role="status">{{ sucesso() }}</div>
   }
 
   @if (carregando()) {
@@ -131,5 +138,98 @@
         </div>
       }
     </section>
+  }
+
+  @if (modalAberto()) {
+    <div class="modal-backdrop" role="presentation" (click)="fecharModalConsulta()">
+      <section class="consulta-modal" role="dialog" aria-modal="true" aria-labelledby="consulta-modal-title" (click)="$event.stopPropagation()">
+        <header class="modal-head">
+          <div>
+            <h2 id="consulta-modal-title">Agendar consulta</h2>
+            <p>Preencha os dados do novo agendamento.</p>
+          </div>
+          <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharModalConsulta()">×</button>
+        </header>
+
+        <form class="consulta-form" [formGroup]="consultaForm" (ngSubmit)="salvarConsulta()">
+          <label class="field full">
+            <span>Paciente <strong>*</strong></span>
+            <select formControlName="pacienteId" [class.invalid]="campoInvalido('pacienteId')">
+              <option value="">Selecione o paciente...</option>
+              @for (paciente of pacientes(); track paciente.id) {
+                <option [value]="paciente.id">{{ paciente.nome }}</option>
+              }
+            </select>
+            @if (campoInvalido('pacienteId')) {
+              <small>Selecione o paciente.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Profissional <strong>*</strong></span>
+            <select formControlName="dentistaId" [class.invalid]="campoInvalido('dentistaId')">
+              <option value="">Selecione...</option>
+              @for (dentista of dentistas(); track dentista.id) {
+                <option [value]="dentista.id">{{ dentista.nome }}</option>
+              }
+            </select>
+            @if (campoInvalido('dentistaId')) {
+              <small>Selecione o profissional.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Status</span>
+            <input value="Agendada" disabled />
+          </label>
+
+          <label class="field">
+            <span>Data <strong>*</strong></span>
+            <input type="date" formControlName="data" [class.invalid]="campoInvalido('data')" />
+            @if (campoInvalido('data')) {
+              <small>Informe a data.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Horario <strong>*</strong></span>
+            <select formControlName="horaInicio" [class.invalid]="campoInvalido('horaInicio')">
+              @for (horario of horarios; track horario) {
+                <option [value]="horario">{{ horario }}</option>
+              }
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Duracao</span>
+            <select formControlName="duracao">
+              @for (duracao of duracoes; track duracao.valor) {
+                <option [value]="duracao.valor">{{ duracao.label }}</option>
+              }
+            </select>
+          </label>
+
+          <label class="field full">
+            <span>Observacoes <strong>*</strong></span>
+            <textarea
+              rows="3"
+              formControlName="descricao"
+              placeholder="Motivo da consulta, observacoes..."
+              [class.invalid]="campoInvalido('descricao')"
+            ></textarea>
+            @if (campoInvalido('descricao')) {
+              <small>Informe uma descricao com pelo menos 3 caracteres.</small>
+            }
+          </label>
+
+          <footer class="modal-foot">
+            <button type="button" class="ghost-action" (click)="fecharModalConsulta()">Cancelar</button>
+            <button type="submit" class="primary-action" [disabled]="salvando()">
+              {{ salvando() ? 'Agendando...' : 'Confirmar agendamento' }}
+            </button>
+          </footer>
+        </form>
+      </section>
+    </div>
   }
 </main>

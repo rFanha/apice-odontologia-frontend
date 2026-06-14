@@ -411,7 +411,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 127. [X] {FRONT-END} Listagem de consultas implementada.
 
-128. [ ] {FRONT-END} Criacao de consultas implementada.
+128. [X] {FRONT-END} Criacao de consultas implementada.
 
 129. [ ] {FRONT-END} Edicao de consultas implementada.
 

@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AuthService } from '../../core/auth/auth.service';
 import { ConsultasDados, ConsultasService } from '../../core/consultas/consultas.service';
@@ -8,22 +9,58 @@ import { ConsultaDashboard, StatusConsulta } from '../../core/dashboard/dashboar
 
 @Component({
   selector: 'app-consultas',
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './consultas.html',
   styleUrl: './consultas.scss',
 })
 export class Consultas implements OnInit {
   private readonly consultasService = inject(ConsultasService);
   private readonly authService = inject(AuthService);
+  private readonly formBuilder = inject(FormBuilder);
 
   protected readonly carregando = signal(true);
   protected readonly erro = signal('');
+  protected readonly sucesso = signal('');
+  protected readonly salvando = signal(false);
+  protected readonly modalAberto = signal(false);
   protected readonly dados = signal<ConsultasDados | null>(null);
   protected readonly usuario = this.authService.getSessao();
   protected readonly filtroPaciente = signal('');
   protected readonly filtroDentista = signal('');
   protected readonly filtroStatus = signal<'todos' | StatusConsulta>('todos');
   protected readonly filtroData = signal('');
+  protected readonly horarios = [
+    '08:00',
+    '08:30',
+    '09:00',
+    '09:30',
+    '10:00',
+    '10:30',
+    '11:00',
+    '13:00',
+    '13:30',
+    '14:00',
+    '14:30',
+    '15:00',
+    '15:30',
+    '16:00',
+    '16:30',
+    '17:00',
+  ];
+  protected readonly duracoes = [
+    { valor: 30, label: '30 minutos' },
+    { valor: 45, label: '45 minutos' },
+    { valor: 60, label: '1 hora' },
+    { valor: 90, label: '1h30' },
+  ];
+  protected readonly consultaForm = this.formBuilder.nonNullable.group({
+    pacienteId: ['', Validators.required],
+    dentistaId: ['', Validators.required],
+    data: [this.getDataAtual(), Validators.required],
+    horaInicio: ['09:00', Validators.required],
+    duracao: [60, [Validators.required, Validators.min(15)]],
+    descricao: ['', [Validators.required, Validators.minLength(3)]],
+  });
 
   protected readonly resumoStatus = computed(() => {
     const consultas = this.dados()?.consultas ?? [];
@@ -78,6 +115,7 @@ export class Consultas implements OnInit {
     this.consultasService.carregarDados().subscribe({
       next: (dados) => {
         this.dados.set(dados);
+        this.definirDentistaPadrao();
         this.carregando.set(false);
       },
       error: (error: unknown) => {
@@ -99,6 +137,80 @@ export class Consultas implements OnInit {
     };
 
     return labels[status];
+  }
+
+  protected abrirModalConsulta(): void {
+    this.erro.set('');
+    this.sucesso.set('');
+    this.consultaForm.reset({
+      pacienteId: '',
+      dentistaId: '',
+      data: this.getDataAtual(),
+      horaInicio: '09:00',
+      duracao: 60,
+      descricao: '',
+    });
+    this.definirDentistaPadrao();
+    this.modalAberto.set(true);
+  }
+
+  protected fecharModalConsulta(): void {
+    if (this.salvando()) {
+      return;
+    }
+
+    this.modalAberto.set(false);
+  }
+
+  protected salvarConsulta(): void {
+    this.erro.set('');
+    this.sucesso.set('');
+    this.consultaForm.markAllAsTouched();
+
+    if (this.consultaForm.invalid) {
+      this.erro.set('Preencha os dados obrigatorios para agendar a consulta.');
+      return;
+    }
+
+    const form = this.consultaForm.getRawValue();
+    const dataInicio = this.montarDataHora(form.data, form.horaInicio);
+    const dataFim = new Date(dataInicio.getTime() + Number(form.duracao) * 60000);
+
+    if (dataInicio.getTime() < Date.now()) {
+      this.erro.set('Nao e permitido agendar consulta em data ou horario passado.');
+      return;
+    }
+
+    this.salvando.set(true);
+
+    this.consultasService
+      .criarConsulta({
+        pacienteId: Number(form.pacienteId),
+        dentistaId: Number(form.dentistaId),
+        descricao: form.descricao.trim(),
+        motivoCancelamento: null,
+        dataInicio: this.formatarLocalDateTime(dataInicio),
+        dataFim: this.formatarLocalDateTime(dataFim),
+        status: 'AGENDADA',
+      })
+      .subscribe({
+        next: () => {
+          this.sucesso.set('Consulta agendada com sucesso.');
+          this.modalAberto.set(false);
+          this.salvando.set(false);
+          this.carregarConsultas();
+        },
+        error: (error: unknown) => {
+          this.erro.set(this.getMensagemErro(error));
+          this.salvando.set(false);
+        },
+      });
+  }
+
+  protected campoInvalido(campo: keyof typeof this.consultaForm.controls): boolean {
+    const control = this.consultaForm.controls[campo];
+
+    return control.invalid && (control.dirty || control.touched);
   }
 
   protected formatarData(data: string): string {
@@ -135,6 +247,29 @@ export class Consultas implements OnInit {
     this.filtroData.set('');
   }
 
+  private definirDentistaPadrao(): void {
+    const dentistas = this.dentistas();
+
+    if (this.usuario?.perfil === 'DENTISTA' && dentistas.length === 1) {
+      this.consultaForm.controls.dentistaId.setValue(String(dentistas[0].id));
+    }
+  }
+
+  private montarDataHora(data: string, hora: string): Date {
+    return new Date(`${data}T${hora}:00`);
+  }
+
+  private formatarLocalDateTime(data: Date): string {
+    // Envia LocalDateTime sem timezone para combinar com o DTO do backend Spring.
+    const pad = (value: number) => String(value).padStart(2, '0');
+
+    return `${data.getFullYear()}-${pad(data.getMonth() + 1)}-${pad(data.getDate())}T${pad(data.getHours())}:${pad(data.getMinutes())}:00`;
+  }
+
+  private getDataAtual(): string {
+    return this.formatarLocalDateTime(new Date()).slice(0, 10);
+  }
+
   private getMensagemErro(error: unknown): string {
     if (error instanceof HttpErrorResponse) {
       if (error.status === 0) {
@@ -144,9 +279,17 @@ export class Consultas implements OnInit {
       if (error.status === 403) {
         return 'Seu usuario nao tem permissao para visualizar consultas.';
       }
+
+      if (typeof error.error?.message === 'string') {
+        return error.error.message;
+      }
+
+      if (typeof error.error?.error === 'string') {
+        return error.error.error;
+      }
     }
 
-    return 'Nao foi possivel carregar a pagina de consultas.';
+    return 'Nao foi possivel concluir a operacao de consulta.';
   }
 
 }

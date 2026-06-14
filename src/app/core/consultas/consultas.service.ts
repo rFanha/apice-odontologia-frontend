@@ -6,12 +6,23 @@ import {
   ConsultaDashboard,
   DentistaResumo,
   PacienteResumo,
+  StatusConsulta,
 } from '../dashboard/dashboard.service';
 
 export interface ConsultasDados {
   consultas: ConsultaDashboard[];
   pacientes: PacienteResumo[];
   dentistas: DentistaResumo[];
+}
+
+export interface ConsultaRequest {
+  pacienteId: number;
+  dentistaId: number;
+  descricao: string;
+  motivoCancelamento: string | null;
+  dataInicio: string;
+  dataFim: string;
+  status: StatusConsulta;
 }
 
 @Injectable({
@@ -27,5 +38,9 @@ export class ConsultasService {
       pacientes: this.http.get<PacienteResumo[]>('/api/pacientes'),
       dentistas: this.http.get<DentistaResumo[]>('/api/dentistas'),
     });
+  }
+
+  criarConsulta(dados: ConsultaRequest): Observable<ConsultaDashboard> {
+    return this.http.post<ConsultaDashboard>('/api/consultas', dados);
   }
 }
