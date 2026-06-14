@@ -45,7 +45,11 @@
 
   <section class="table-card">
     @if (carregando()) {
-      <div class="empty">Carregando usuarios...</div>
+      <div class="table-loading" aria-label="Carregando usuarios">
+        <div class="loading-row"></div>
+        <div class="loading-row"></div>
+        <div class="loading-row"></div>
+      </div>
     } @else if (!usuariosFiltrados().length) {
       <div class="empty">Nenhum usuario encontrado.</div>
     } @else {

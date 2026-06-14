@@ -301,6 +301,28 @@ tbody tr:hover {
   text-align: center;
 }
 
+.table-loading {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.loading-row {
+  height: 58px;
+  border-radius: 12px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent),
+    #f4f6e9;
+  background-size: 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+
 .overlay {
   position: fixed;
   inset: 0;
