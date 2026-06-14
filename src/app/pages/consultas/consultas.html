@@ -1,0 +1,81 @@
+<main class="consultas-page">
+  <header class="page-header">
+    <div>
+      <div class="brand">APICE ODONTOLOGIA</div>
+      <h1>Consultas</h1>
+      <p>Agenda clinica e acompanhamento dos atendimentos.</p>
+      <span class="permission-note">Acesso liberado para {{ perfilLabel() }}</span>
+    </div>
+
+    <button type="button" (click)="carregarConsultas()">Atualizar</button>
+  </header>
+
+  @if (erro()) {
+    <div class="alert" role="alert">{{ erro() }}</div>
+  }
+
+  @if (carregando()) {
+    <section class="loading-grid" aria-label="Carregando consultas">
+      <div></div>
+      <div></div>
+      <div></div>
+    </section>
+  } @else {
+    <section class="status-grid" aria-label="Resumo de consultas">
+      <article>
+        <span>Total</span>
+        <strong>{{ resumoStatus().total }}</strong>
+        <p>consultas registradas</p>
+      </article>
+      <article>
+        <span>Agendadas</span>
+        <strong>{{ resumoStatus().agendadas }}</strong>
+        <p>aguardando atendimento</p>
+      </article>
+      <article>
+        <span>Finalizadas</span>
+        <strong>{{ resumoStatus().finalizadas }}</strong>
+        <p>atendimentos concluidos</p>
+      </article>
+      <article class="danger">
+        <span>Canceladas</span>
+        <strong>{{ resumoStatus().canceladas }}</strong>
+        <p>consultas canceladas</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <header>
+        <div>
+          <h2>Proximas consultas</h2>
+          <p>Recorte inicial da agenda. A listagem completa sera detalhada no item 127.</p>
+        </div>
+      </header>
+
+      @if (!proximasConsultas().length) {
+        <div class="empty">Nenhuma consulta ativa encontrada.</div>
+      } @else {
+        <div class="appointments">
+          @for (consulta of proximasConsultas(); track trackConsulta($index, consulta)) {
+            <article>
+              <div class="appointment-main">
+                <div class="avatar">{{ consulta.pacienteNome.charAt(0) }}</div>
+                <div>
+                  <strong>{{ consulta.pacienteNome }}</strong>
+                  <span>{{ consulta.dentistaNome }}</span>
+                </div>
+              </div>
+
+              <div class="appointment-info">
+                <span>{{ formatarData(consulta.dataInicio) }}</span>
+                <strong [class]="'status-pill ' + consulta.status.toLowerCase()">
+                  {{ statusLabel(consulta.status) }}
+                </strong>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  }
+</main>

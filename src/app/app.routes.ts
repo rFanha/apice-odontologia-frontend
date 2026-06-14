@@ -29,6 +29,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/usuarios/usuarios').then((m) => m.Usuarios),
   },
   {
+    path: 'consultas',
+    canActivate: [perfilGuard],
+    data: {
+      perfis: ['ADMIN', 'DENTISTA'],
+    },
+    loadComponent: () => import('./pages/consultas/consultas').then((m) => m.Consultas),
+  },
+  {
     path: 'acesso-negado',
     loadComponent: () =>
       import('./pages/acesso-negado/acesso-negado').then((m) => m.AcessoNegado),

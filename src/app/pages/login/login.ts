@@ -75,7 +75,7 @@ export class Login {
       next: (usuario) => {
         this.loading.set(false);
         this.successMessage.set(`Login realizado com sucesso. Bem-vindo(a), ${usuario.nome}.`);
-        void this.router.navigateByUrl(usuario.perfil === 'ADMIN' ? '/dashboard' : '/acesso-negado');
+        void this.router.navigateByUrl(usuario.perfil === 'ADMIN' ? '/dashboard' : '/consultas');
       },
       error: (error: unknown) => {
         this.loading.set(false);

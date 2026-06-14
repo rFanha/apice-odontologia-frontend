@@ -407,7 +407,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 125. [X] {FRONT-END} Dashboard criado com visao geral de consultas, pacientes e profissionais.
 
-126. [ ] {FRONT-END} Pagina de Consultas criada.
+126. [X] {FRONT-END} Pagina de Consultas criada.
 
 127. [ ] {FRONT-END} Listagem de consultas implementada.
 
