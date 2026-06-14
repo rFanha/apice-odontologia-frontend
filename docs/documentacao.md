@@ -419,7 +419,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 131. [X] {FRONT-END} Pagina de Pacientes criada.
 
-132. [ ] {FRONT-END} Listagem de pacientes implementada.
+132. [X] {FRONT-END} Listagem de pacientes implementada.
 
 133. [ ] {FRONT-END} Criacao de pacientes implementada.
 

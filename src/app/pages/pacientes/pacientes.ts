@@ -21,15 +21,16 @@ export class Pacientes implements OnInit {
   protected readonly pacientesFiltrados = computed(() => {
     const busca = this.busca().trim().toLowerCase();
 
-    if (!busca) {
-      return this.pacientes();
-    }
+    const pacientes = busca
+      ? this.pacientes().filter((paciente) =>
+          [paciente.nome, paciente.email, paciente.cpf, paciente.telefone]
+            .filter(Boolean)
+            .some((valor) => valor.toLowerCase().includes(busca)),
+        )
+      : this.pacientes();
 
-    return this.pacientes().filter((paciente) =>
-      [paciente.nome, paciente.email, paciente.cpf, paciente.telefone]
-        .filter(Boolean)
-        .some((valor) => valor.toLowerCase().includes(busca)),
-    );
+    // Mantem a listagem previsivel para consulta rapida no atendimento.
+    return [...pacientes].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
   });
 
   protected readonly resumo = computed(() => {
