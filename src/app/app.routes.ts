@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { perfilGuard } from './core/auth/perfil.guard';
+
 export const routes: Routes = [
   {
     path: '',
@@ -12,7 +14,16 @@ export const routes: Routes = [
   },
   {
     path: 'usuarios',
+    canActivate: [perfilGuard],
+    data: {
+      perfis: ['ADMIN'],
+    },
     loadComponent: () => import('./pages/usuarios/usuarios').then((m) => m.Usuarios),
+  },
+  {
+    path: 'acesso-negado',
+    loadComponent: () =>
+      import('./pages/acesso-negado/acesso-negado').then((m) => m.AcessoNegado),
   },
   {
     path: '**',

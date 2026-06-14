@@ -403,7 +403,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 123. [X] {FRONT-END} Pagina de Gerenciamento de Usuarios criada.
 
-124. [ ] {FRONT-END} Perfis e permissoes considerados na tela de usuarios.
+124. [X] {FRONT-END} Perfis e permissoes considerados na tela de usuarios.
 
 125. [ ] {FRONT-END} Dashboard criado com visao geral de consultas, pacientes e profissionais.
 
@@ -471,9 +471,9 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 155. [X] {FRONT-END} Token JWT armazenado de forma definida, como `localStorage`, `sessionStorage` ou cookie HttpOnly.
 
-156. [ ] {FRONT-END} Protecao de rotas com guards implementada.
+156. [X] {FRONT-END} Protecao de rotas com guards implementada.
 
-157. [ ] {FRONT-END} Controle de acesso por perfil implementado no front-end.
+157. [X] {FRONT-END} Controle de acesso por perfil implementado no front-end.
 
 158. [ ] {FRONT-END} Logout implementado.
 
@@ -493,7 +493,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 164. [ ] {FRONT-END} Comunicacao entre front-end e back-end validada.
 
-165. [ ] Rotas protegidas testadas.
+165. [X] Rotas protegidas testadas.
 
 166. [ ] CRUD de usuarios testado.
 
@@ -509,9 +509,9 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 172. [ ] Relatorios testados.
 
-173. [ ] Permissoes de administrador validadas.
+173. [X] Permissoes de administrador validadas.
 
-174. [ ] Permissoes de dentista validadas.
+174. [X] Permissoes de dentista validadas.
 
 175. [ ] Regras de negocio validadas manualmente.
 
