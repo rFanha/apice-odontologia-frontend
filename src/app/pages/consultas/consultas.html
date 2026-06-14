@@ -44,36 +44,90 @@
       </article>
     </section>
 
+    <section class="filters-panel" aria-label="Filtros de consultas">
+      <label>
+        <span>Paciente</span>
+        <select [value]="filtroPaciente()" (change)="atualizarFiltroPaciente($event)">
+          <option value="">Todos pacientes</option>
+          @for (paciente of pacientes(); track paciente.id) {
+            <option [value]="paciente.id">{{ paciente.nome }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Dentista</span>
+        <select [value]="filtroDentista()" (change)="atualizarFiltroDentista($event)">
+          <option value="">Todos dentistas</option>
+          @for (dentista of dentistas(); track dentista.id) {
+            <option [value]="dentista.id">{{ dentista.nome }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Status</span>
+        <select [value]="filtroStatus()" (change)="atualizarFiltroStatus($event)">
+          <option value="todos">Todos status</option>
+          <option value="AGENDADA">Agendadas</option>
+          <option value="FINALIZADA">Finalizadas</option>
+          <option value="CANCELADA">Canceladas</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Data</span>
+        <input type="date" [value]="filtroData()" (input)="atualizarFiltroData($event)" />
+      </label>
+
+      <button type="button" (click)="limparFiltros()">Limpar</button>
+    </section>
+
     <section class="panel">
       <header>
         <div>
-          <h2>Proximas consultas</h2>
-          <p>Recorte inicial da agenda. A listagem completa sera detalhada no item 127.</p>
+          <h2>Listagem de consultas</h2>
+          <p>{{ consultasListadas().length }} consulta(s) encontradas.</p>
         </div>
       </header>
 
-      @if (!proximasConsultas().length) {
-        <div class="empty">Nenhuma consulta ativa encontrada.</div>
+      @if (!consultasListadas().length) {
+        <div class="empty">Nenhuma consulta encontrada.</div>
       } @else {
-        <div class="appointments">
-          @for (consulta of proximasConsultas(); track trackConsulta($index, consulta)) {
-            <article>
-              <div class="appointment-main">
-                <div class="avatar">{{ consulta.pacienteNome.charAt(0) }}</div>
-                <div>
-                  <strong>{{ consulta.pacienteNome }}</strong>
-                  <span>{{ consulta.dentistaNome }}</span>
-                </div>
-              </div>
-
-              <div class="appointment-info">
-                <span>{{ formatarData(consulta.dataInicio) }}</span>
-                <strong [class]="'status-pill ' + consulta.status.toLowerCase()">
-                  {{ statusLabel(consulta.status) }}
-                </strong>
-              </div>
-            </article>
-          }
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Dentista</th>
+                <th>Descricao</th>
+                <th>Inicio</th>
+                <th>Fim</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (consulta of consultasListadas(); track trackConsulta($index, consulta)) {
+                <tr>
+                  <td>
+                    <div class="patient-cell">
+                      <div class="avatar">{{ consulta.pacienteNome.charAt(0) }}</div>
+                      <strong>{{ consulta.pacienteNome }}</strong>
+                    </div>
+                  </td>
+                  <td>{{ consulta.dentistaNome }}</td>
+                  <td>{{ consulta.descricao }}</td>
+                  <td>{{ formatarData(consulta.dataInicio) }}</td>
+                  <td>{{ formatarData(consulta.dataFim) }}</td>
+                  <td>
+                    <strong [class]="'status-pill ' + consulta.status.toLowerCase()">
+                      {{ statusLabel(consulta.status) }}
+                    </strong>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
       }
     </section>

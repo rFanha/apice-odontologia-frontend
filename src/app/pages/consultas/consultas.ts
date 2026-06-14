@@ -20,6 +20,10 @@ export class Consultas implements OnInit {
   protected readonly erro = signal('');
   protected readonly dados = signal<ConsultasDados | null>(null);
   protected readonly usuario = this.authService.getSessao();
+  protected readonly filtroPaciente = signal('');
+  protected readonly filtroDentista = signal('');
+  protected readonly filtroStatus = signal<'todos' | StatusConsulta>('todos');
+  protected readonly filtroData = signal('');
 
   protected readonly resumoStatus = computed(() => {
     const consultas = this.dados()?.consultas ?? [];
@@ -32,7 +36,7 @@ export class Consultas implements OnInit {
     };
   });
 
-  protected readonly proximasConsultas = computed(() => {
+  protected readonly consultasListadas = computed(() => {
     const dados = this.dados();
 
     if (!dados) {
@@ -41,18 +45,27 @@ export class Consultas implements OnInit {
 
     const pacientes = new Map(dados.pacientes.map((paciente) => [paciente.id, paciente.nome]));
     const dentistas = new Map(dados.dentistas.map((dentista) => [dentista.id, dentista.nome]));
+    const pacienteId = this.filtroPaciente();
+    const dentistaId = this.filtroDentista();
+    const status = this.filtroStatus();
+    const data = this.filtroData();
 
-    // A pagina inicial mostra um recorte da agenda; a listagem completa entra no item 127.
+    // Enriquecemos os registros com nomes para evitar logica repetida no template.
     return dados.consultas
-      .filter((consulta) => consulta.status !== 'CANCELADA')
-      .sort((a, b) => new Date(a.dataInicio).getTime() - new Date(b.dataInicio).getTime())
-      .slice(0, 5)
+      .filter((consulta) => !pacienteId || consulta.pacienteId === Number(pacienteId))
+      .filter((consulta) => !dentistaId || consulta.dentistaId === Number(dentistaId))
+      .filter((consulta) => status === 'todos' || consulta.status === status)
+      .filter((consulta) => !data || consulta.dataInicio.slice(0, 10) === data)
+      .sort((a, b) => new Date(b.dataInicio).getTime() - new Date(a.dataInicio).getTime())
       .map((consulta) => ({
         ...consulta,
         pacienteNome: pacientes.get(consulta.pacienteId) ?? 'Paciente nao encontrado',
         dentistaNome: dentistas.get(consulta.dentistaId) ?? 'Dentista nao encontrado',
       }));
   });
+
+  protected readonly pacientes = computed(() => this.dados()?.pacientes ?? []);
+  protected readonly dentistas = computed(() => this.dados()?.dentistas ?? []);
 
   ngOnInit(): void {
     this.carregarConsultas();
@@ -97,6 +110,29 @@ export class Consultas implements OnInit {
 
   protected trackConsulta(_: number, consulta: ConsultaDashboard): number {
     return consulta.id;
+  }
+
+  protected atualizarFiltroPaciente(event: Event): void {
+    this.filtroPaciente.set((event.target as HTMLSelectElement).value);
+  }
+
+  protected atualizarFiltroDentista(event: Event): void {
+    this.filtroDentista.set((event.target as HTMLSelectElement).value);
+  }
+
+  protected atualizarFiltroStatus(event: Event): void {
+    this.filtroStatus.set((event.target as HTMLSelectElement).value as 'todos' | StatusConsulta);
+  }
+
+  protected atualizarFiltroData(event: Event): void {
+    this.filtroData.set((event.target as HTMLInputElement).value);
+  }
+
+  protected limparFiltros(): void {
+    this.filtroPaciente.set('');
+    this.filtroDentista.set('');
+    this.filtroStatus.set('todos');
+    this.filtroData.set('');
   }
 
   private getMensagemErro(error: unknown): string {

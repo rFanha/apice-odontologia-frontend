@@ -137,23 +137,85 @@ h2 {
   margin-bottom: 16px;
 }
 
-.appointments {
+.filters-panel {
   display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr)) auto;
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 22px;
+  padding: 16px;
+  border: 1px solid #e1e4d2;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 18px 40px rgba(80, 84, 50, 0.06);
 }
 
-.appointments article {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 15px 0;
+.filters-panel span {
+  display: block;
+  margin-bottom: 7px;
+  color: #59604f;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.filters-panel select,
+.filters-panel input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1.5px solid #d9ddcb;
+  border-radius: 10px;
+  color: #25291d;
+  background: #fff;
+  font: inherit;
+}
+
+.filters-panel button {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid #d9ddcb;
+  border-radius: 10px;
+  color: #51583f;
+  background: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 14px 16px;
+  color: #78806c;
+  border-bottom: 1px solid #e1e4d2;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+td {
+  padding: 15px 16px;
   border-top: 1px solid #edf0df;
+  color: #3a3f2e;
+  font-size: 0.92rem;
+  vertical-align: middle;
 }
 
-.appointment-main {
+.patient-cell {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 210px;
 }
 
 .avatar {
@@ -166,25 +228,6 @@ h2 {
   color: #fff;
   background: linear-gradient(150deg, #808744, #6ed6a4);
   font-weight: 800;
-}
-
-.appointment-main strong,
-.appointment-main span,
-.appointment-info span {
-  display: block;
-}
-
-.appointment-main span,
-.appointment-info span {
-  margin-top: 3px;
-  color: #6f7665;
-  font-size: 0.84rem;
-}
-
-.appointment-info {
-  display: grid;
-  justify-items: end;
-  gap: 7px;
 }
 
 .status-pill {
@@ -229,7 +272,8 @@ h2 {
 
 @media (max-width: 920px) {
   .status-grid,
-  .loading-grid {
+  .loading-grid,
+  .filters-panel {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -240,18 +284,14 @@ h2 {
     padding-top: 24px;
   }
 
-  .page-header,
-  .appointments article {
+  .page-header {
     align-items: stretch;
     flex-direction: column;
   }
 
   .status-grid,
-  .loading-grid {
+  .loading-grid,
+  .filters-panel {
     grid-template-columns: 1fr;
-  }
-
-  .appointment-info {
-    justify-items: start;
   }
 }
