@@ -11,6 +11,13 @@ export interface Paciente {
   dataCriacao: string;
 }
 
+export interface PacienteRequest {
+  nome: string;
+  email: string;
+  cpf: string;
+  telefone: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -19,5 +26,9 @@ export class PacientesService {
 
   listar(): Observable<Paciente[]> {
     return this.http.get<Paciente[]>('/api/pacientes');
+  }
+
+  criar(dados: PacienteRequest): Observable<Paciente> {
+    return this.http.post<Paciente>('/api/pacientes', dados);
   }
 }

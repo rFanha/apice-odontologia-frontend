@@ -8,11 +8,18 @@
       <span class="permission-note">Acesso liberado para usuarios autenticados</span>
     </div>
 
-    <button type="button" class="primary-button" (click)="carregarPacientes()">Atualizar</button>
+    <div class="header-actions">
+      <button type="button" class="secondary-button" (click)="carregarPacientes()">Atualizar</button>
+      <button type="button" class="primary-button" (click)="abrirNovoPaciente()">Novo paciente</button>
+    </div>
   </header>
 
   @if (erro()) {
     <div class="alert" role="alert">{{ erro() }}</div>
+  }
+
+  @if (sucesso()) {
+    <div class="alert success" role="status">{{ sucesso() }}</div>
   }
 
   <section class="summary-grid" aria-label="Resumo de pacientes">
@@ -89,4 +96,71 @@
       </div>
     }
   </section>
+
+  @if (formularioAberto()) {
+    <div class="modal-backdrop" role="presentation" (click)="fecharFormulario()">
+      <section class="paciente-modal" role="dialog" aria-modal="true" aria-labelledby="paciente-modal-title" (click)="$event.stopPropagation()">
+        <header class="modal-head">
+          <div>
+            <h2 id="paciente-modal-title">Novo paciente</h2>
+            <p>Cadastre um novo paciente na clinica.</p>
+          </div>
+          <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharFormulario()">x</button>
+        </header>
+
+        <form class="paciente-form" [formGroup]="pacienteForm" (ngSubmit)="salvarPaciente()">
+          <label class="field full">
+            <span>Nome completo <strong>*</strong></span>
+            <input
+              type="text"
+              formControlName="nome"
+              placeholder="Ex: Maria da Silva"
+              [class.invalid]="campoInvalido('nome')"
+            />
+            @if (campoInvalido('nome')) {
+              <small>Informe o nome do paciente.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>CPF <strong>*</strong></span>
+            <input
+              type="text"
+              formControlName="cpf"
+              placeholder="000.000.000-00"
+              [class.invalid]="campoInvalido('cpf')"
+            />
+            @if (campoInvalido('cpf')) {
+              <small>Informe o CPF.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Telefone</span>
+            <input type="text" formControlName="telefone" placeholder="(11) 99999-0000" />
+          </label>
+
+          <label class="field full">
+            <span>E-mail <strong>*</strong></span>
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="paciente@email.com"
+              [class.invalid]="campoInvalido('email')"
+            />
+            @if (campoInvalido('email')) {
+              <small>Informe um e-mail valido.</small>
+            }
+          </label>
+
+          <footer class="modal-foot">
+            <button type="button" class="secondary-button" (click)="fecharFormulario()">Cancelar</button>
+            <button type="submit" class="primary-button" [disabled]="salvando()">
+              {{ salvando() ? 'Salvando...' : 'Cadastrar paciente' }}
+            </button>
+          </footer>
+        </form>
+      </section>
+    </div>
+  }
 </main>
