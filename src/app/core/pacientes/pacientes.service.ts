@@ -31,4 +31,8 @@ export class PacientesService {
   criar(dados: PacienteRequest): Observable<Paciente> {
     return this.http.post<Paciente>('/api/pacientes', dados);
   }
+
+  atualizar(id: number, dados: PacienteRequest): Observable<Paciente> {
+    return this.http.put<Paciente>(`/api/pacientes/${id}`, dados);
+  }
 }

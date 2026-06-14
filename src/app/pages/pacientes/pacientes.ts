@@ -22,6 +22,7 @@ export class Pacientes implements OnInit {
   protected readonly sucesso = signal('');
   protected readonly busca = signal('');
   protected readonly formularioAberto = signal(false);
+  protected readonly pacienteEmEdicao = signal<Paciente | null>(null);
   protected readonly pacienteForm = this.formBuilder.nonNullable.group({
     nome: ['', [Validators.required, Validators.maxLength(255)]],
     cpf: ['', [Validators.required, Validators.maxLength(14)]],
@@ -78,11 +79,24 @@ export class Pacientes implements OnInit {
 
   protected abrirNovoPaciente(): void {
     this.limparMensagens();
+    this.pacienteEmEdicao.set(null);
     this.pacienteForm.reset({
       nome: '',
       cpf: '',
       email: '',
       telefone: '',
+    });
+    this.formularioAberto.set(true);
+  }
+
+  protected abrirEdicao(paciente: Paciente): void {
+    this.limparMensagens();
+    this.pacienteEmEdicao.set(paciente);
+    this.pacienteForm.reset({
+      nome: paciente.nome,
+      cpf: paciente.cpf,
+      email: paciente.email,
+      telefone: paciente.telefone ?? '',
     });
     this.formularioAberto.set(true);
   }
@@ -93,6 +107,7 @@ export class Pacientes implements OnInit {
     }
 
     this.formularioAberto.set(false);
+    this.pacienteEmEdicao.set(null);
   }
 
   protected salvarPaciente(): void {
@@ -105,12 +120,17 @@ export class Pacientes implements OnInit {
     }
 
     this.salvando.set(true);
+    const pacienteAtual = this.pacienteEmEdicao();
+    const request$ = pacienteAtual
+      ? this.pacientesService.atualizar(pacienteAtual.id, this.criarPayload())
+      : this.pacientesService.criar(this.criarPayload());
 
-    this.pacientesService.criar(this.criarPayload()).subscribe({
+    request$.subscribe({
       next: () => {
-        this.sucesso.set('Paciente criado com sucesso.');
+        this.sucesso.set(pacienteAtual ? 'Paciente atualizado com sucesso.' : 'Paciente criado com sucesso.');
         this.salvando.set(false);
         this.formularioAberto.set(false);
+        this.pacienteEmEdicao.set(null);
         this.carregarPacientes();
       },
       error: (error: unknown) => {
@@ -124,6 +144,24 @@ export class Pacientes implements OnInit {
     const control = this.pacienteForm.controls[campo];
 
     return control.invalid && (control.dirty || control.touched);
+  }
+
+  protected tituloFormulario(): string {
+    return this.pacienteEmEdicao() ? 'Editar paciente' : 'Novo paciente';
+  }
+
+  protected subtituloFormulario(): string {
+    return this.pacienteEmEdicao()
+      ? 'Atualize os dados cadastrais do paciente.'
+      : 'Cadastre um novo paciente na clinica.';
+  }
+
+  protected textoBotaoSalvar(): string {
+    if (this.salvando()) {
+      return 'Salvando...';
+    }
+
+    return this.pacienteEmEdicao() ? 'Salvar alteracoes' : 'Cadastrar paciente';
   }
 
   protected atualizarBusca(event: Event): void {

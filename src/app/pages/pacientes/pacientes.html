@@ -72,6 +72,7 @@
               <th>CPF</th>
               <th>Contato</th>
               <th>Cadastro</th>
+              <th>Acoes</th>
             </tr>
           </thead>
           <tbody>
@@ -89,6 +90,11 @@
                   <span>{{ paciente.email }}</span>
                 </td>
                 <td>{{ formatarData(paciente.dataCriacao) }}</td>
+                <td>
+                  <button type="button" class="secondary-button table-action" (click)="abrirEdicao(paciente)">
+                    Editar
+                  </button>
+                </td>
               </tr>
             }
           </tbody>
@@ -102,8 +108,8 @@
       <section class="paciente-modal" role="dialog" aria-modal="true" aria-labelledby="paciente-modal-title" (click)="$event.stopPropagation()">
         <header class="modal-head">
           <div>
-            <h2 id="paciente-modal-title">Novo paciente</h2>
-            <p>Cadastre um novo paciente na clinica.</p>
+            <h2 id="paciente-modal-title">{{ tituloFormulario() }}</h2>
+            <p>{{ subtituloFormulario() }}</p>
           </div>
           <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharFormulario()">x</button>
         </header>
@@ -156,7 +162,7 @@
           <footer class="modal-foot">
             <button type="button" class="secondary-button" (click)="fecharFormulario()">Cancelar</button>
             <button type="submit" class="primary-button" [disabled]="salvando()">
-              {{ salvando() ? 'Salvando...' : 'Cadastrar paciente' }}
+              {{ textoBotaoSalvar() }}
             </button>
           </footer>
         </form>
