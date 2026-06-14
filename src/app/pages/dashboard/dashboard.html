@@ -1,0 +1,150 @@
+<main class="dashboard-page">
+  <header class="hero">
+    <div>
+      <div class="brand">APICE ODONTOLOGIA</div>
+      <h1>Ola, {{ nomeCurto() }}</h1>
+      <p>Resumo da clinica com consultas, pacientes e profissionais.</p>
+    </div>
+
+    <button type="button" (click)="carregarDashboard()">Atualizar</button>
+  </header>
+
+  @if (erro()) {
+    <div class="alert" role="alert">{{ erro() }}</div>
+  }
+
+  @if (carregando()) {
+    <section class="loading-grid" aria-label="Carregando indicadores">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </section>
+  } @else {
+    <section class="stats-grid" aria-label="Indicadores principais">
+      <article class="stat-card">
+        <span class="icon">C</span>
+        <strong>{{ resumo().totalConsultas }}</strong>
+        <p>Total de consultas</p>
+      </article>
+
+      <article class="stat-card accent">
+        <span class="icon">P</span>
+        <strong>{{ resumo().totalPacientes }}</strong>
+        <p>Pacientes cadastrados</p>
+      </article>
+
+      <article class="stat-card">
+        <span class="icon">D</span>
+        <strong>{{ resumo().totalDentistas }}</strong>
+        <p>Dentistas cadastrados</p>
+      </article>
+
+      <article class="stat-card muted">
+        <span class="icon">E</span>
+        <strong>{{ resumo().totalEspecialidades }}</strong>
+        <p>Especialidades</p>
+      </article>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="panel">
+        <header>
+          <div>
+            <h2>Indicadores por status</h2>
+            <p>Distribuicao atual das consultas</p>
+          </div>
+        </header>
+
+        <div class="status-list">
+          <div class="status-row agendada">
+            <div>
+              <span>Agendadas</span>
+              <strong>{{ resumo().consultasAgendadas }}</strong>
+            </div>
+            <div class="track">
+              <span
+                [style.width.%]="percentual(resumo().consultasAgendadas, resumo().totalConsultas)"
+              ></span>
+            </div>
+          </div>
+
+          <div class="status-row finalizada">
+            <div>
+              <span>Finalizadas</span>
+              <strong>{{ resumo().consultasFinalizadas }}</strong>
+            </div>
+            <div class="track">
+              <span
+                [style.width.%]="percentual(resumo().consultasFinalizadas, resumo().totalConsultas)"
+              ></span>
+            </div>
+          </div>
+
+          <div class="status-row cancelada">
+            <div>
+              <span>Canceladas</span>
+              <strong>{{ resumo().consultasCanceladas }}</strong>
+            </div>
+            <div class="track">
+              <span
+                [style.width.%]="percentual(resumo().consultasCanceladas, resumo().totalConsultas)"
+              ></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <header>
+          <div>
+            <h2>Equipe clinica</h2>
+            <p>Dentistas ativos e cadastrados</p>
+          </div>
+        </header>
+
+        <div class="team-summary">
+          <strong>{{ resumo().totalDentistas }}</strong>
+          <span>profissionais cadastrados</span>
+          <p>
+            Use este indicador para acompanhar a capacidade de atendimento da clinica.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel appointments">
+      <header>
+        <div>
+          <h2>Proximas consultas</h2>
+          <p>Agendamentos ativos retornados pela API</p>
+        </div>
+      </header>
+
+      @if (!proximasConsultas().length) {
+        <div class="empty">Nenhuma consulta ativa encontrada.</div>
+      } @else {
+        <div class="appointments-list">
+          @for (consulta of proximasConsultas(); track trackConsulta($index, consulta)) {
+            <article>
+              <div class="appointment-main">
+                <div class="avatar">{{ pacienteNome(consulta.paciente).charAt(0) }}</div>
+                <div>
+                  <strong>{{ pacienteNome(consulta.paciente) }}</strong>
+                  <span>{{ dentistaNome(consulta.dentista) }}</span>
+                </div>
+              </div>
+
+              <div class="appointment-meta">
+                <span>{{ formatarData(consulta.dataInicio) }}</span>
+                <strong [class]="'status-pill ' + consulta.status.toLowerCase()">
+                  {{ statusLabel(consulta.status) }}
+                </strong>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  }
+</main>

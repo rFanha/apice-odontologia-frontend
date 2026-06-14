@@ -405,7 +405,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 124. [X] {FRONT-END} Perfis e permissoes considerados na tela de usuarios.
 
-125. [ ] {FRONT-END} Dashboard criado com visao geral de consultas, pacientes e profissionais.
+125. [X] {FRONT-END} Dashboard criado com visao geral de consultas, pacientes e profissionais.
 
 126. [ ] {FRONT-END} Pagina de Consultas criada.
 
