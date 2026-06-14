@@ -399,7 +399,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 ### Paginas e Componentes
 
-122. [ ] {FRONT-END} Pagina de Login criada.
+122. [X] {FRONT-END} Pagina de Login criada.
 
 123. [ ] {FRONT-END} Pagina de Gerenciamento de Usuarios criada.
 
