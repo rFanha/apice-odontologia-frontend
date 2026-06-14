@@ -1,0 +1,185 @@
+<!-- Pagina de gerenciamento de dentistas. -->
+<main class="dentistas-page">
+  <header class="page-header">
+    <div>
+      <div class="brand">APICE ODONTOLOGIA</div>
+      <h1>Dentistas</h1>
+      <p>Equipe clinica, CRO e status de atendimento.</p>
+      <span class="permission-note">Area exclusiva para perfil ADMIN</span>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="secondary-button" (click)="carregarDentistas()">Atualizar</button>
+      <button type="button" class="primary-button" (click)="abrirNovoDentista()">Novo dentista</button>
+    </div>
+  </header>
+
+  @if (erro()) {
+    <div class="alert" role="alert">{{ erro() }}</div>
+  }
+
+  @if (sucesso()) {
+    <div class="alert success" role="status">{{ sucesso() }}</div>
+  }
+
+  <section class="summary-grid" aria-label="Resumo de dentistas">
+    <article>
+      <span>Total</span>
+      <strong>{{ resumo().total }}</strong>
+      <p>profissionais cadastrados</p>
+    </article>
+    <article>
+      <span>Ativos</span>
+      <strong>{{ resumo().ativos }}</strong>
+      <p>liberados para agenda</p>
+    </article>
+    <article class="danger">
+      <span>Inativos</span>
+      <strong>{{ resumo().inativos }}</strong>
+      <p>fora da agenda</p>
+    </article>
+  </section>
+
+  <section class="toolbar" aria-label="Filtros de dentistas">
+    <label class="search">
+      <span>Buscar</span>
+      <input
+        type="search"
+        placeholder="Nome, CPF, e-mail ou CRO"
+        [value]="busca()"
+        (input)="atualizarBusca($event)"
+      />
+    </label>
+
+    <label class="filter">
+      <span>Status</span>
+      <select [value]="filtroStatus()" (change)="atualizarFiltroStatus($event)">
+        <option value="todos">Todos</option>
+        <option value="ativos">Ativos</option>
+        <option value="inativos">Inativos</option>
+      </select>
+    </label>
+
+    <div class="counter">{{ dentistasFiltrados().length }} dentista(s)</div>
+  </section>
+
+  <section class="table-card">
+    @if (carregando()) {
+      <div class="loading-list" aria-label="Carregando dentistas">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    } @else if (!dentistasFiltrados().length) {
+      <div class="empty">Nenhum dentista encontrado.</div>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Dentista</th>
+              <th>CPF</th>
+              <th>CRO</th>
+              <th>Status</th>
+              <th>Cadastro</th>
+              <th>Acoes</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (dentista of dentistasFiltrados(); track dentista.id) {
+              <tr [class.inactive]="!dentista.ativo">
+                <td>
+                  <div class="dentist-cell">
+                    <div class="avatar">{{ iniciais(dentista.nome) }}</div>
+                    <div>
+                      <strong>{{ dentista.nome }}</strong>
+                      <span>{{ dentista.email }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ dentista.cpf }}</td>
+                <td>{{ dentista.cro }}</td>
+                <td>
+                  <strong class="status" [class.inactive]="!dentista.ativo">
+                    {{ dentista.ativo ? 'Ativo' : 'Inativo' }}
+                  </strong>
+                </td>
+                <td>{{ formatarData(dentista.dataCriacao) }}</td>
+                <td>
+                  <div class="actions">
+                    <button type="button" class="secondary-button table-action" (click)="abrirEdicao(dentista)">
+                      Editar
+                    </button>
+                    <button type="button" class="secondary-button table-action" (click)="alternarStatus(dentista)">
+                      {{ dentista.ativo ? 'Desativar' : 'Reativar' }}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  @if (formularioAberto()) {
+    <div class="modal-backdrop" role="presentation" (click)="fecharFormulario()">
+      <section class="dentista-modal" role="dialog" aria-modal="true" aria-labelledby="dentista-modal-title" (click)="$event.stopPropagation()">
+        <header class="modal-head">
+          <div>
+            <h2 id="dentista-modal-title">{{ tituloFormulario() }}</h2>
+            <p>{{ subtituloFormulario() }}</p>
+          </div>
+          <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharFormulario()">x</button>
+        </header>
+
+        <form class="dentista-form" [formGroup]="dentistaForm" (ngSubmit)="salvarDentista()">
+          <label class="field full">
+            <span>Nome completo <strong>*</strong></span>
+            <input type="text" formControlName="nome" placeholder="Ex: Dra. Ana Costa" [class.invalid]="campoInvalido('nome')" />
+            @if (campoInvalido('nome')) {
+              <small>Informe o nome do dentista.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>CPF <strong>*</strong></span>
+            <input type="text" formControlName="cpf" placeholder="000.000.000-00" [class.invalid]="campoInvalido('cpf')" />
+            @if (campoInvalido('cpf')) {
+              <small>Informe o CPF.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>CRO <strong>*</strong></span>
+            <input type="text" formControlName="cro" placeholder="CRO-SP 00.000" [class.invalid]="campoInvalido('cro')" />
+            @if (campoInvalido('cro')) {
+              <small>Informe o CRO.</small>
+            }
+          </label>
+
+          <label class="field full">
+            <span>E-mail <strong>*</strong></span>
+            <input type="email" formControlName="email" placeholder="profissional@apice.com.br" [class.invalid]="campoInvalido('email')" />
+            @if (campoInvalido('email')) {
+              <small>Informe um e-mail valido.</small>
+            }
+          </label>
+
+          <label class="active-toggle full">
+            <input type="checkbox" formControlName="ativo" />
+            <span>Dentista ativo para agendamentos</span>
+          </label>
+
+          <footer class="modal-foot">
+            <button type="button" class="secondary-button" (click)="fecharFormulario()">Cancelar</button>
+            <button type="submit" class="primary-button" [disabled]="salvando()">
+              {{ textoBotaoSalvar() }}
+            </button>
+          </footer>
+        </form>
+      </section>
+    </div>
+  }
+</main>

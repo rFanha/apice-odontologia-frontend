@@ -425,15 +425,15 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 134. [X] {FRONT-END} Edicao de pacientes implementada.
 
-135. [ ] {FRONT-END} Pagina de Dentistas criada.
+135. [X] {FRONT-END} Pagina de Dentistas criada.
 
-136. [ ] {FRONT-END} Listagem de dentistas implementada.
+136. [X] {FRONT-END} Listagem de dentistas implementada.
 
-137. [ ] {FRONT-END} Criacao de dentistas implementada.
+137. [X] {FRONT-END} Criacao de dentistas implementada.
 
-138. [ ] {FRONT-END} Edicao de dentistas implementada.
+138. [X] {FRONT-END} Edicao de dentistas implementada.
 
-139. [ ] {FRONT-END} Desativacao de dentistas implementada.
+139. [X] {FRONT-END} Desativacao de dentistas implementada.
 
 140. [ ] {FRONT-END} Pagina de Especialidades criada.
 

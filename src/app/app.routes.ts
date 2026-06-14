@@ -45,6 +45,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/pacientes/pacientes').then((m) => m.Pacientes),
   },
   {
+    path: 'dentistas',
+    canActivate: [perfilGuard],
+    data: {
+      perfis: ['ADMIN'],
+    },
+    loadComponent: () => import('./pages/dentistas/dentistas').then((m) => m.Dentistas),
+  },
+  {
     path: 'acesso-negado',
     loadComponent: () =>
       import('./pages/acesso-negado/acesso-negado').then((m) => m.AcessoNegado),
