@@ -405,7 +405,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 124. [X] {FRONT-END} Perfis e permissoes considerados na tela de usuarios.
 
-125. [ ] {FRONT-END} Dashboard criado com visao geral de consultas, pacientes e profissionais.
+125. [X] {FRONT-END} Dashboard criado com visao geral de consultas, pacientes e profissionais.
 
 126. [ ] {FRONT-END} Pagina de Consultas criada.
 
@@ -481,11 +481,11 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 159. [ ] {FRONT-END} Mensagens de sucesso exibidas.
 
-160. [ ] {FRONT-END} Mensagens de erro exibidas.
+160. [X] {FRONT-END} Mensagens de erro exibidas.
 
 161. [ ] {FRONT-END} Formularios com validacoes visuais.
 
-162. [ ] {FRONT-END} Estados de carregamento implementados.
+162. [X] {FRONT-END} Estados de carregamento implementados.
 
 163. [ ] {FRONT-END} Interface responsiva implementada.
 
@@ -545,7 +545,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 ## Extras Opcionais
 
-189. [ ] {FRONT-END} Graficos e visualizacoes com Chart.js ou biblioteca equivalente.
+189. [X] {FRONT-END} Graficos e visualizacoes com Chart.js ou biblioteca equivalente.
 
 190. [ ] {FRONT-END} Grafico de consultas por paciente.
 
@@ -695,9 +695,9 @@ Use os status abaixo para atualizar este documento conforme o projeto evoluir:
 
 257. [ ] {FRONT-END} Criar tela de acesso negado 403.
 
-258. [ ] {FRONT-END} Criar dashboard com cards de indicadores.
+258. [X] {FRONT-END} Criar dashboard com cards de indicadores.
 
-259. [ ] {FRONT-END} Criar graficos de consultas por status, especialidade e periodo.
+259. [X] {FRONT-END} Criar graficos de consultas por status, especialidade e periodo.
 
 260. [ ] {FRONT-END} Criar filtros persistentes por usuario usando storage local.
 
