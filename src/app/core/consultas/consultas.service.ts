@@ -25,6 +25,10 @@ export interface ConsultaRequest {
   status: StatusConsulta;
 }
 
+export interface CancelamentoConsultaRequest {
+  motivoCancelamento: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -46,5 +50,9 @@ export class ConsultasService {
 
   atualizarConsulta(id: number, dados: ConsultaRequest): Observable<ConsultaDashboard> {
     return this.http.put<ConsultaDashboard>(`/api/consultas/${id}`, dados);
+  }
+
+  cancelarConsulta(id: number, dados: CancelamentoConsultaRequest): Observable<ConsultaDashboard> {
+    return this.http.put<ConsultaDashboard>(`/api/consultas/${id}/cancelar`, dados);
   }
 }

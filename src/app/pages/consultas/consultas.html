@@ -135,6 +135,14 @@
                   </td>
                   <td>
                     <button type="button" class="secondary-action" (click)="abrirModalEdicao(consulta)">Editar</button>
+                    <button
+                      type="button"
+                      class="secondary-action"
+                      [disabled]="!podeCancelar(consulta)"
+                      (click)="abrirModalCancelamento(consulta)"
+                    >
+                      Cancelar
+                    </button>
                   </td>
                 </tr>
               }
@@ -231,6 +239,45 @@
             <button type="button" class="ghost-action" (click)="fecharModalConsulta()">Cancelar</button>
             <button type="submit" class="primary-action" [disabled]="salvando()">
               {{ textoBotaoSalvar() }}
+            </button>
+          </footer>
+        </form>
+      </section>
+    </div>
+  }
+
+  @if (modalCancelamentoAberto()) {
+    <div class="modal-backdrop" role="presentation" (click)="fecharModalCancelamento()">
+      <section class="consulta-modal cancel-modal" role="dialog" aria-modal="true" aria-labelledby="cancelamento-modal-title" (click)="$event.stopPropagation()">
+        <header class="modal-head">
+          <div>
+            <h2 id="cancelamento-modal-title">Cancelar consulta</h2>
+            <p>
+              {{ consultaEmCancelamento()?.pacienteNome }} em
+              {{ formatarData(consultaEmCancelamento()?.dataInicio ?? '') }}
+            </p>
+          </div>
+          <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharModalCancelamento()">x</button>
+        </header>
+
+        <form class="consulta-form" [formGroup]="cancelamentoForm" (ngSubmit)="cancelarConsulta()">
+          <label class="field full">
+            <span>Motivo do cancelamento <strong>*</strong></span>
+            <textarea
+              rows="4"
+              formControlName="motivoCancelamento"
+              placeholder="Informe o motivo do cancelamento..."
+              [class.invalid]="motivoCancelamentoInvalido()"
+            ></textarea>
+            @if (motivoCancelamentoInvalido()) {
+              <small>Informe um motivo com pelo menos 5 caracteres.</small>
+            }
+          </label>
+
+          <footer class="modal-foot">
+            <button type="button" class="ghost-action" (click)="fecharModalCancelamento()">Voltar</button>
+            <button type="submit" class="primary-action" [disabled]="cancelando()">
+              {{ cancelando() ? 'Cancelando...' : 'Cancelar consulta' }}
             </button>
           </footer>
         </form>

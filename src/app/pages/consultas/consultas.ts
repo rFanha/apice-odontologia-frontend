@@ -29,6 +29,9 @@ export class Consultas implements OnInit {
   protected readonly salvando = signal(false);
   protected readonly modalAberto = signal(false);
   protected readonly consultaEmEdicao = signal<ConsultaDashboard | null>(null);
+  protected readonly cancelando = signal(false);
+  protected readonly modalCancelamentoAberto = signal(false);
+  protected readonly consultaEmCancelamento = signal<ConsultaListada | null>(null);
   protected readonly dados = signal<ConsultasDados | null>(null);
   protected readonly usuario = this.authService.getSessao();
   protected readonly filtroPaciente = signal('');
@@ -66,6 +69,9 @@ export class Consultas implements OnInit {
     horaInicio: ['09:00', Validators.required],
     duracao: [60, [Validators.required, Validators.min(15)]],
     descricao: ['', [Validators.required, Validators.minLength(3)]],
+  });
+  protected readonly cancelamentoForm = this.formBuilder.nonNullable.group({
+    motivoCancelamento: ['', [Validators.required, Validators.minLength(5)]],
   });
 
   protected readonly resumoStatus = computed(() => {
@@ -188,6 +194,62 @@ export class Consultas implements OnInit {
     this.modalAberto.set(false);
   }
 
+  protected abrirModalCancelamento(consulta: ConsultaListada): void {
+    this.erro.set('');
+    this.sucesso.set('');
+
+    if (!this.podeCancelar(consulta)) {
+      this.erro.set('Somente consultas agendadas podem ser canceladas.');
+      return;
+    }
+
+    this.consultaEmCancelamento.set(consulta);
+    this.cancelamentoForm.reset({ motivoCancelamento: '' });
+    this.modalCancelamentoAberto.set(true);
+  }
+
+  protected fecharModalCancelamento(): void {
+    if (this.cancelando()) {
+      return;
+    }
+
+    this.modalCancelamentoAberto.set(false);
+    this.consultaEmCancelamento.set(null);
+  }
+
+  protected cancelarConsulta(): void {
+    const consulta = this.consultaEmCancelamento();
+
+    this.erro.set('');
+    this.sucesso.set('');
+    this.cancelamentoForm.markAllAsTouched();
+
+    if (!consulta || this.cancelamentoForm.invalid) {
+      this.erro.set('Informe o motivo do cancelamento.');
+      return;
+    }
+
+    this.cancelando.set(true);
+
+    // Envia apenas o motivo; o backend controla a mudanca de status da consulta.
+    this.consultasService
+      .cancelarConsulta(consulta.id, {
+        motivoCancelamento: this.cancelamentoForm.controls.motivoCancelamento.value.trim(),
+      })
+      .subscribe({
+        next: () => {
+          this.sucesso.set('Consulta cancelada com sucesso.');
+          this.cancelando.set(false);
+          this.fecharModalCancelamento();
+          this.carregarConsultas();
+        },
+        error: (error: unknown) => {
+          this.erro.set(this.getMensagemErro(error));
+          this.cancelando.set(false);
+        },
+      });
+  }
+
   protected salvarConsulta(): void {
     this.erro.set('');
     this.sucesso.set('');
@@ -250,6 +312,16 @@ export class Consultas implements OnInit {
     const control = this.consultaForm.controls[campo];
 
     return control.invalid && (control.dirty || control.touched);
+  }
+
+  protected motivoCancelamentoInvalido(): boolean {
+    const control = this.cancelamentoForm.controls.motivoCancelamento;
+
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  protected podeCancelar(consulta: ConsultaDashboard): boolean {
+    return consulta.status === 'AGENDADA';
   }
 
   protected formatarData(data: string): string {
