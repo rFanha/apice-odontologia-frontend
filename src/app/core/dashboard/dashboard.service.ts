@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 export type StatusConsulta = 'AGENDADA' | 'CANCELADA' | 'FINALIZADA';
 
@@ -46,11 +47,24 @@ export interface DentistaResumo {
   dataCriacao: string;
 }
 
+export interface EspecialidadeResumo {
+  id: number;
+  nome: string;
+}
+
+export interface EspecialidadeIndicador {
+  id: number;
+  nome: string;
+  totalConsultas: number;
+}
+
 export interface DashboardDados {
   resumo: DashboardResumo;
   consultas: ConsultaDashboard[];
   pacientes: PacienteResumo[];
   dentistas: DentistaResumo[];
+  especialidades: EspecialidadeResumo[];
+  consultasPorEspecialidade: EspecialidadeIndicador[];
 }
 
 @Injectable({
@@ -66,6 +80,35 @@ export class DashboardService {
       consultas: this.http.get<ConsultaDashboard[]>('/api/consultas'),
       pacientes: this.http.get<PacienteResumo[]>('/api/pacientes'),
       dentistas: this.http.get<DentistaResumo[]>('/api/dentistas'),
-    });
+      especialidades: this.http.get<EspecialidadeResumo[]>('/api/especialidades'),
+    }).pipe(
+      switchMap((dados) => {
+        if (!dados.especialidades.length) {
+          return of({
+            ...dados,
+            consultasPorEspecialidade: [],
+          });
+        }
+
+        const consultasPorEspecialidade$ = dados.especialidades.map((especialidade) =>
+          this.http
+            .get<DashboardResumo>(`/api/relatorios/dashboard?especialidadeId=${especialidade.id}`)
+            .pipe(
+              map((resumo) => ({
+                id: especialidade.id,
+                nome: especialidade.nome,
+                totalConsultas: resumo.totalConsultas,
+              })),
+            ),
+        );
+
+        return forkJoin(consultasPorEspecialidade$).pipe(
+          map((consultasPorEspecialidade) => ({
+            ...dados,
+            consultasPorEspecialidade,
+          })),
+        );
+      }),
+    );
   }
 }

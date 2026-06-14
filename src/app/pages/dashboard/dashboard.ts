@@ -36,9 +36,11 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('statusChart') private readonly statusChartRef?: ElementRef<HTMLCanvasElement>;
   @ViewChild('periodoChart') private readonly periodoChartRef?: ElementRef<HTMLCanvasElement>;
+  @ViewChild('especialidadeChart') private readonly especialidadeChartRef?: ElementRef<HTMLCanvasElement>;
 
   private statusChart?: Chart;
   private periodoChart?: Chart;
+  private especialidadeChart?: Chart;
   private viewReady = false;
 
   protected readonly carregando = signal(true);
@@ -160,6 +162,7 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
 
     this.renderizarGraficoStatus(dados.resumo);
     this.renderizarGraficoPeriodo(dados.consultas);
+    this.renderizarGraficoEspecialidade(dados.consultasPorEspecialidade);
   }
 
   private renderizarGraficoStatus(resumo: DashboardResumo): void {
@@ -266,6 +269,72 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  private renderizarGraficoEspecialidade(
+    consultasPorEspecialidade: DashboardDados['consultasPorEspecialidade'],
+  ): void {
+    const canvas = this.especialidadeChartRef?.nativeElement;
+
+    if (!canvas) {
+      return;
+    }
+
+    this.especialidadeChart?.destroy();
+
+    const dadosOrdenados = [...consultasPorEspecialidade].sort(
+      (a, b) => b.totalConsultas - a.totalConsultas,
+    );
+
+    // Usa o resumo filtrado do backend para representar consultas por especialidade.
+    this.especialidadeChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: dadosOrdenados.map((item) => item.nome),
+        datasets: [
+          {
+            label: 'Consultas',
+            data: dadosOrdenados.map((item) => item.totalConsultas),
+            backgroundColor: ['#808744', '#6ed6a4', '#8ec46c', '#a5d5aa', '#5f8f61'],
+            borderRadius: 8,
+            maxBarThickness: 36,
+          },
+        ],
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0,
+              color: '#6f7665',
+            },
+            grid: {
+              color: '#edf0df',
+            },
+          },
+          y: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              color: '#59604f',
+              font: {
+                weight: 700,
+              },
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    });
+  }
+
   private criarSerieUltimosSeteDias(consultas: ConsultaDashboard[]): Array<{ label: string; total: number }> {
     const hoje = new Date();
 
@@ -286,6 +355,7 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
   private destruirGraficos(): void {
     this.statusChart?.destroy();
     this.periodoChart?.destroy();
+    this.especialidadeChart?.destroy();
   }
 
   private getMensagemErro(error: unknown): string {

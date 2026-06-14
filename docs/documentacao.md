@@ -697,7 +697,7 @@ Use os status abaixo para atualizar este documento conforme o projeto evoluir:
 
 258. [X] {FRONT-END} Criar dashboard com cards de indicadores.
 
-259. [ ] {FRONT-END} Criar graficos de consultas por status, especialidade e periodo.
+259. [X] {FRONT-END} Criar graficos de consultas por status, especialidade e periodo.
 
 260. [ ] {FRONT-END} Criar filtros persistentes por usuario usando storage local.
 

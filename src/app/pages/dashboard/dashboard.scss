@@ -151,6 +151,10 @@ h2 {
   margin-bottom: 22px;
 }
 
+.specialty-panel {
+  margin-bottom: 22px;
+}
+
 .panel {
   padding: 22px;
 }
@@ -181,6 +185,10 @@ h2 {
 
 .chart-box.bar {
   min-height: 250px;
+}
+
+.chart-box.specialty {
+  min-height: 260px;
 }
 
 .chart-box canvas {
