@@ -50,6 +50,13 @@
         </div>
       }
 
+      @if (successMessage()) {
+        <div class="alert success" role="status">
+          <span aria-hidden="true">✓</span>
+          {{ successMessage() }}
+        </div>
+      }
+
       <form [formGroup]="loginForm" (ngSubmit)="entrar()" novalidate>
         <label class="field">
           <span>E-mail</span>

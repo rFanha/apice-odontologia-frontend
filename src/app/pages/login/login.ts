@@ -1,5 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +12,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export class Login {
   private readonly formBuilder = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
 
   protected readonly showPassword = signal(false);
   protected readonly submitted = signal(false);
   protected readonly loading = signal(false);
+  protected readonly apiError = signal('');
+  protected readonly successMessage = signal('');
 
   protected readonly loginForm = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -21,6 +27,10 @@ export class Login {
   });
 
   protected readonly errorMessage = computed(() => {
+    if (this.apiError()) {
+      return this.apiError();
+    }
+
     if (!this.submitted() || this.loginForm.valid) {
       return '';
     }
@@ -41,10 +51,14 @@ export class Login {
       manterConectado: true,
     });
     this.submitted.set(false);
+    this.apiError.set('');
+    this.successMessage.set('');
   }
 
   protected entrar(): void {
     this.submitted.set(true);
+    this.apiError.set('');
+    this.successMessage.set('');
 
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -53,7 +67,31 @@ export class Login {
 
     this.loading.set(true);
 
-    // A integracao real com /auth/login entra no item 154 do checklist.
-    setTimeout(() => this.loading.set(false), 500);
+    const { email, senha, manterConectado } = this.loginForm.getRawValue();
+
+    this.authService.login({ email: email.trim(), senha }, manterConectado).subscribe({
+      next: (usuario) => {
+        this.loading.set(false);
+        this.successMessage.set(`Login realizado com sucesso. Bem-vindo(a), ${usuario.nome}.`);
+      },
+      error: (error: unknown) => {
+        this.loading.set(false);
+        this.apiError.set(this.getLoginErrorMessage(error));
+      },
+    });
+  }
+
+  private getLoginErrorMessage(error: unknown): string {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 0) {
+        return 'Nao foi possivel conectar ao backend em http://localhost:8080.';
+      }
+
+      if (error.status === 401) {
+        return 'E-mail ou senha invalidos.';
+      }
+    }
+
+    return 'Nao foi possivel realizar o login. Tente novamente.';
   }
 }
