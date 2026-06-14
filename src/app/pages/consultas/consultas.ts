@@ -4,8 +4,13 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AuthService } from '../../core/auth/auth.service';
-import { ConsultasDados, ConsultasService } from '../../core/consultas/consultas.service';
+import { ConsultaRequest, ConsultasDados, ConsultasService } from '../../core/consultas/consultas.service';
 import { ConsultaDashboard, StatusConsulta } from '../../core/dashboard/dashboard.service';
+
+type ConsultaListada = ConsultaDashboard & {
+  pacienteNome: string;
+  dentistaNome: string;
+};
 
 @Component({
   selector: 'app-consultas',
@@ -23,6 +28,7 @@ export class Consultas implements OnInit {
   protected readonly sucesso = signal('');
   protected readonly salvando = signal(false);
   protected readonly modalAberto = signal(false);
+  protected readonly consultaEmEdicao = signal<ConsultaDashboard | null>(null);
   protected readonly dados = signal<ConsultasDados | null>(null);
   protected readonly usuario = this.authService.getSessao();
   protected readonly filtroPaciente = signal('');
@@ -142,6 +148,7 @@ export class Consultas implements OnInit {
   protected abrirModalConsulta(): void {
     this.erro.set('');
     this.sucesso.set('');
+    this.consultaEmEdicao.set(null);
     this.consultaForm.reset({
       pacienteId: '',
       dentistaId: '',
@@ -151,6 +158,25 @@ export class Consultas implements OnInit {
       descricao: '',
     });
     this.definirDentistaPadrao();
+    this.modalAberto.set(true);
+  }
+
+  protected abrirModalEdicao(consulta: ConsultaListada): void {
+    const dataInicio = new Date(consulta.dataInicio);
+    const dataFim = new Date(consulta.dataFim);
+    const duracao = Math.max(15, Math.round((dataFim.getTime() - dataInicio.getTime()) / 60000));
+
+    this.erro.set('');
+    this.sucesso.set('');
+    this.consultaEmEdicao.set(consulta);
+    this.consultaForm.reset({
+      pacienteId: String(consulta.pacienteId),
+      dentistaId: String(consulta.dentistaId),
+      data: consulta.dataInicio.slice(0, 10),
+      horaInicio: this.formatarHora(dataInicio),
+      duracao,
+      descricao: consulta.descricao,
+    });
     this.modalAberto.set(true);
   }
 
@@ -172,9 +198,9 @@ export class Consultas implements OnInit {
       return;
     }
 
-    const form = this.consultaForm.getRawValue();
-    const dataInicio = this.montarDataHora(form.data, form.horaInicio);
-    const dataFim = new Date(dataInicio.getTime() + Number(form.duracao) * 60000);
+    const consultaAtual = this.consultaEmEdicao();
+    const payload = this.montarPayloadConsulta(consultaAtual);
+    const dataInicio = new Date(payload.dataInicio);
 
     if (dataInicio.getTime() < Date.now()) {
       this.erro.set('Nao e permitido agendar consulta em data ou horario passado.');
@@ -183,19 +209,14 @@ export class Consultas implements OnInit {
 
     this.salvando.set(true);
 
-    this.consultasService
-      .criarConsulta({
-        pacienteId: Number(form.pacienteId),
-        dentistaId: Number(form.dentistaId),
-        descricao: form.descricao.trim(),
-        motivoCancelamento: null,
-        dataInicio: this.formatarLocalDateTime(dataInicio),
-        dataFim: this.formatarLocalDateTime(dataFim),
-        status: 'AGENDADA',
-      })
-      .subscribe({
+    const operacao$ = consultaAtual
+      ? this.consultasService.atualizarConsulta(consultaAtual.id, payload)
+      : this.consultasService.criarConsulta(payload);
+
+    operacao$.subscribe({
         next: () => {
-          this.sucesso.set('Consulta agendada com sucesso.');
+          this.sucesso.set(consultaAtual ? 'Consulta atualizada com sucesso.' : 'Consulta agendada com sucesso.');
+          this.consultaEmEdicao.set(null);
           this.modalAberto.set(false);
           this.salvando.set(false);
           this.carregarConsultas();
@@ -205,6 +226,24 @@ export class Consultas implements OnInit {
           this.salvando.set(false);
         },
       });
+  }
+
+  protected tituloModalConsulta(): string {
+    return this.consultaEmEdicao() ? 'Editar consulta' : 'Agendar consulta';
+  }
+
+  protected subtituloModalConsulta(): string {
+    return this.consultaEmEdicao()
+      ? 'Atualize os dados do agendamento.'
+      : 'Preencha os dados do novo agendamento.';
+  }
+
+  protected textoBotaoSalvar(): string {
+    if (this.salvando()) {
+      return this.consultaEmEdicao() ? 'Salvando...' : 'Agendando...';
+    }
+
+    return this.consultaEmEdicao() ? 'Salvar alteracoes' : 'Confirmar agendamento';
   }
 
   protected campoInvalido(campo: keyof typeof this.consultaForm.controls): boolean {
@@ -268,6 +307,29 @@ export class Consultas implements OnInit {
 
   private getDataAtual(): string {
     return this.formatarLocalDateTime(new Date()).slice(0, 10);
+  }
+
+  private montarPayloadConsulta(consultaAtual: ConsultaDashboard | null): ConsultaRequest {
+    const form = this.consultaForm.getRawValue();
+    const dataInicio = this.montarDataHora(form.data, form.horaInicio);
+    const dataFim = new Date(dataInicio.getTime() + Number(form.duracao) * 60000);
+
+    // Na edicao preserva o status atual para nao misturar com o fluxo de cancelamento.
+    return {
+      pacienteId: Number(form.pacienteId),
+      dentistaId: Number(form.dentistaId),
+      descricao: form.descricao.trim(),
+      motivoCancelamento: consultaAtual?.motivoCancelamento ?? null,
+      dataInicio: this.formatarLocalDateTime(dataInicio),
+      dataFim: this.formatarLocalDateTime(dataFim),
+      status: consultaAtual?.status ?? 'AGENDADA',
+    };
+  }
+
+  private formatarHora(data: Date): string {
+    const pad = (value: number) => String(value).padStart(2, '0');
+
+    return `${pad(data.getHours())}:${pad(data.getMinutes())}`;
   }
 
   private getMensagemErro(error: unknown): string {

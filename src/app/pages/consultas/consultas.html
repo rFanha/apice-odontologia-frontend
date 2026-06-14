@@ -112,6 +112,7 @@
                 <th>Inicio</th>
                 <th>Fim</th>
                 <th>Status</th>
+                <th>Acoes</th>
               </tr>
             </thead>
             <tbody>
@@ -132,6 +133,9 @@
                       {{ statusLabel(consulta.status) }}
                     </strong>
                   </td>
+                  <td>
+                    <button type="button" class="secondary-action" (click)="abrirModalEdicao(consulta)">Editar</button>
+                  </td>
                 </tr>
               }
             </tbody>
@@ -146,10 +150,10 @@
       <section class="consulta-modal" role="dialog" aria-modal="true" aria-labelledby="consulta-modal-title" (click)="$event.stopPropagation()">
         <header class="modal-head">
           <div>
-            <h2 id="consulta-modal-title">Agendar consulta</h2>
-            <p>Preencha os dados do novo agendamento.</p>
+            <h2 id="consulta-modal-title">{{ tituloModalConsulta() }}</h2>
+            <p>{{ subtituloModalConsulta() }}</p>
           </div>
-          <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharModalConsulta()">×</button>
+          <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharModalConsulta()">x</button>
         </header>
 
         <form class="consulta-form" [formGroup]="consultaForm" (ngSubmit)="salvarConsulta()">
@@ -226,7 +230,7 @@
           <footer class="modal-foot">
             <button type="button" class="ghost-action" (click)="fecharModalConsulta()">Cancelar</button>
             <button type="submit" class="primary-action" [disabled]="salvando()">
-              {{ salvando() ? 'Agendando...' : 'Confirmar agendamento' }}
+              {{ textoBotaoSalvar() }}
             </button>
           </footer>
         </form>

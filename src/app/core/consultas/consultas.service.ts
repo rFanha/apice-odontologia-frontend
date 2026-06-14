@@ -43,4 +43,8 @@ export class ConsultasService {
   criarConsulta(dados: ConsultaRequest): Observable<ConsultaDashboard> {
     return this.http.post<ConsultaDashboard>('/api/consultas', dados);
   }
+
+  atualizarConsulta(id: number, dados: ConsultaRequest): Observable<ConsultaDashboard> {
+    return this.http.put<ConsultaDashboard>(`/api/consultas/${id}`, dados);
+  }
 }
