@@ -1,0 +1,16 @@
+<main class="forbidden-page">
+  <section class="forbidden-card">
+    <div class="logo-mark" aria-hidden="true">A</div>
+    <p class="eyebrow">Acesso negado</p>
+    <h1>Voce nao tem permissao para acessar esta area.</h1>
+    <p class="message">
+      A tela de usuarios e exclusiva para o perfil ADMIN. O perfil atual
+      @if (sessao; as usuario) {
+        e <strong>{{ usuario.perfil }}</strong>.
+      } @else {
+        nao possui uma sessao ativa.
+      }
+    </p>
+    <a routerLink="/login">Voltar para o login</a>
+  </section>
+</main>

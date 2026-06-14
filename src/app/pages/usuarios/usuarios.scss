@@ -47,6 +47,17 @@ h1 {
   color: #6f7665;
 }
 
+.permission-note {
+  display: inline-flex;
+  margin-top: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #376a52;
+  background: #e6f7ed;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
 .primary-button,
 .secondary-button,
 .actions button,
