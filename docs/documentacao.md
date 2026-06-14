@@ -493,7 +493,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 164. [ ] {FRONT-END} Comunicacao entre front-end e back-end validada.
 
-165. [ ] Rotas protegidas testadas.
+165. [X] Rotas protegidas testadas.
 
 166. [ ] CRUD de usuarios testado.
 
@@ -509,9 +509,9 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 172. [ ] Relatorios testados.
 
-173. [ ] Permissoes de administrador validadas.
+173. [X] Permissoes de administrador validadas.
 
-174. [ ] Permissoes de dentista validadas.
+174. [X] Permissoes de dentista validadas.
 
 175. [ ] Regras de negocio validadas manualmente.
 
