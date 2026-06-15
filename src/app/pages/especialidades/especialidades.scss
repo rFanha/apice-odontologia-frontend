@@ -136,6 +136,15 @@ h2 {
 
 .confirm-dialog {
   width: min(440px, 100%);
+
+  .modal-foot {
+    margin: 0;
+    padding: 18px 24px;
+    border-top: 1px solid #e1e4d2;
+    background: #f8f8ec;
+    justify-content: flex-end;
+    gap: 12px;
+  }
 }
 
 .alert {

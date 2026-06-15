@@ -356,7 +356,9 @@ tbody tr:hover {
   inset: 0;
   z-index: 50;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
   background: rgba(31, 35, 22, 0.42);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -364,11 +366,13 @@ tbody tr:hover {
 }
 
 .drawer {
-  width: min(460px, 100%);
-  height: 100%;
+  width: min(520px, 100%);
+  max-height: calc(100vh - 40px);
   overflow-y: auto;
+  border: 1px solid #e1e4d2;
+  border-radius: 14px;
   background: #fffdec;
-  box-shadow: -20px 0 50px rgba(31, 35, 22, 0.2);
+  box-shadow: 0 28px 70px rgba(31, 35, 22, 0.2);
   animation: modalPop .22s cubic-bezier(.2,.7,.3,1);
 }
 
