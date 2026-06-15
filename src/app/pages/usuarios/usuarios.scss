@@ -370,6 +370,25 @@ form {
   margin-bottom: 15px;
 }
 
+.field .invalid {
+  border-color: #c2410c;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.15);
+  }
+}
+
+.campo-erro {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #9a3412;
+}
+
+.field .req {
+  color: #c2410c;
+}
+
 .profile-options {
   display: grid;
   grid-template-columns: 1fr 1fr;

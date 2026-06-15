@@ -479,15 +479,15 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 ### Experiencia do Usuario
 
-159. [ ] {FRONT-END} Mensagens de sucesso exibidas.
+159. [X] {FRONT-END} Mensagens de sucesso exibidas.
 
 160. [X] {FRONT-END} Mensagens de erro exibidas.
 
-161. [ ] {FRONT-END} Formularios com validacoes visuais.
+161. [X] {FRONT-END} Formularios com validacoes visuais.
 
 162. [X] {FRONT-END} Estados de carregamento implementados.
 
-163. [ ] {FRONT-END} Interface responsiva implementada.
+163. [X] {FRONT-END} Interface responsiva implementada.
 
 ## Integracao e Testes
 
