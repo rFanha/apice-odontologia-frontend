@@ -1,0 +1,107 @@
+<!-- Pagina de gerenciamento de especialidades. -->
+<main class="especialidades-page">
+  <header class="page-header">
+    <div>
+      <div class="brand">APICE ODONTOLOGIA</div>
+      <h1>Especialidades</h1>
+      <p>Areas clinicas usadas para organizar equipe e atendimentos.</p>
+      <span class="permission-note">Area exclusiva para perfil ADMIN</span>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="secondary-button" (click)="carregarEspecialidades()">Atualizar</button>
+      <button type="button" class="primary-button" (click)="abrirNovaEspecialidade()">Nova especialidade</button>
+    </div>
+  </header>
+
+  @if (erro()) {
+    <div class="alert" role="alert">{{ erro() }}</div>
+  }
+
+  @if (sucesso()) {
+    <div class="alert success" role="status">{{ sucesso() }}</div>
+  }
+
+  <section class="summary-grid" aria-label="Resumo de especialidades">
+    <article>
+      <span>Total</span>
+      <strong>{{ especialidades().length }}</strong>
+      <p>especialidades cadastradas</p>
+    </article>
+    <article>
+      <span>Encontradas</span>
+      <strong>{{ especialidadesFiltradas().length }}</strong>
+      <p>resultado da busca atual</p>
+    </article>
+  </section>
+
+  <section class="toolbar" aria-label="Filtros de especialidades">
+    <label class="search">
+      <span>Buscar</span>
+      <input
+        type="search"
+        placeholder="Nome da especialidade"
+        [value]="busca()"
+        (input)="atualizarBusca($event)"
+      />
+    </label>
+  </section>
+
+  <section class="specialty-grid">
+    @if (carregando()) {
+      <div class="loading-list" aria-label="Carregando especialidades">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    } @else if (!especialidadesFiltradas().length) {
+      <div class="empty">Nenhuma especialidade encontrada.</div>
+    } @else {
+      @for (especialidade of especialidadesFiltradas(); track especialidade.id) {
+        <article class="specialty-card">
+          <div class="specialty-mark">{{ especialidade.nome.charAt(0).toUpperCase() }}</div>
+          <div>
+            <h2>{{ especialidade.nome }}</h2>
+            <p>Codigo interno #{{ especialidade.id }}</p>
+          </div>
+        </article>
+      }
+    }
+  </section>
+
+  @if (formularioAberto()) {
+    <div class="modal-backdrop" role="presentation" (click)="fecharFormulario()">
+      <section class="especialidade-modal" role="dialog" aria-modal="true" aria-labelledby="especialidade-modal-title" (click)="$event.stopPropagation()">
+        <header class="modal-head">
+          <div>
+            <h2 id="especialidade-modal-title">Nova especialidade</h2>
+            <p>Cadastre uma area clinica para a organizacao da agenda.</p>
+          </div>
+          <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharFormulario()">x</button>
+        </header>
+
+        <form class="especialidade-form" [formGroup]="especialidadeForm" (ngSubmit)="salvarEspecialidade()">
+          <label class="field">
+            <span>Nome <strong>*</strong></span>
+            <input
+              type="text"
+              formControlName="nome"
+              placeholder="Ex: Ortodontia"
+              [class.invalid]="campoInvalido()"
+            />
+            @if (campoInvalido()) {
+              <small>Informe o nome da especialidade.</small>
+            }
+          </label>
+
+          <footer class="modal-foot">
+            <button type="button" class="secondary-button" (click)="fecharFormulario()">Cancelar</button>
+            <button type="submit" class="primary-button" [disabled]="salvando()">
+              {{ salvando() ? 'Salvando...' : 'Cadastrar especialidade' }}
+            </button>
+          </footer>
+        </form>
+      </section>
+    </div>
+  }
+</main>

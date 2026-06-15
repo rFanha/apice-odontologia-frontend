@@ -29,6 +29,47 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/usuarios/usuarios').then((m) => m.Usuarios),
   },
   {
+    path: 'consultas',
+    canActivate: [perfilGuard],
+    data: {
+      perfis: ['ADMIN', 'DENTISTA'],
+    },
+    loadComponent: () => import('./pages/consultas/consultas').then((m) => m.Consultas),
+  },
+  {
+    path: 'pacientes',
+    canActivate: [perfilGuard],
+    data: {
+      perfis: ['ADMIN', 'DENTISTA'],
+    },
+    loadComponent: () => import('./pages/pacientes/pacientes').then((m) => m.Pacientes),
+  },
+  {
+    path: 'dentistas',
+    canActivate: [perfilGuard],
+    data: {
+      perfis: ['ADMIN'],
+    },
+    loadComponent: () => import('./pages/dentistas/dentistas').then((m) => m.Dentistas),
+  },
+  {
+    path: 'especialidades',
+    canActivate: [perfilGuard],
+    data: {
+      perfis: ['ADMIN'],
+    },
+    loadComponent: () =>
+      import('./pages/especialidades/especialidades').then((m) => m.Especialidades),
+  },
+  {
+    path: 'relatorios',
+    canActivate: [perfilGuard],
+    data: {
+      perfis: ['ADMIN'],
+    },
+    loadComponent: () => import('./pages/relatorios/relatorios').then((m) => m.Relatorios),
+  },
+  {
     path: 'acesso-negado',
     loadComponent: () =>
       import('./pages/acesso-negado/acesso-negado').then((m) => m.AcessoNegado),

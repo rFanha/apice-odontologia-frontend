@@ -1,0 +1,281 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #25291d;
+  background:
+    linear-gradient(180deg, rgba(165, 213, 170, 0.15), transparent 260px),
+    #fffdec;
+}
+
+.relatorios-page {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 34px 0 54px;
+}
+
+.page-header,
+.table-card header,
+.status-summary {
+  display: flex;
+}
+
+.page-header {
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.brand {
+  margin-bottom: 12px;
+  color: #78806c;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+h1,
+h2,
+.summary-grid strong {
+  margin: 0;
+  color: #25291d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 3vw, 3rem);
+}
+
+h2 {
+  font-size: 1.35rem;
+}
+
+.page-header p,
+.summary-grid p,
+.table-card header p {
+  margin: 6px 0 0;
+  color: #6f7665;
+}
+
+.permission-note,
+.summary-grid span,
+.status-pill {
+  display: inline-flex;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.permission-note {
+  margin-top: 12px;
+  padding: 6px 10px;
+  color: #376a52;
+  background: #e6f7ed;
+  font-size: 0.76rem;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-button {
+  border: 0;
+  color: #fff;
+  background: #808744;
+  box-shadow: 0 14px 26px rgba(128, 135, 68, 0.18);
+}
+
+.secondary-button {
+  border: 1px solid #d9ddcb;
+  color: #51583f;
+  background: #fff;
+}
+
+.alert {
+  margin-bottom: 16px;
+  padding: 13px 16px;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  color: #9a3412;
+  background: #fff1e8;
+}
+
+.filters-panel,
+.table-card,
+.summary-grid article,
+.loading-grid div {
+  border: 1px solid #e1e4d2;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 40px rgba(80, 84, 50, 0.08);
+}
+
+.filters-panel {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(130px, 1fr)) auto;
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 22px;
+  padding: 16px;
+}
+
+.filters-panel span {
+  display: block;
+  margin-bottom: 7px;
+  color: #59604f;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.filters-panel select,
+.filters-panel input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1.5px solid #d9ddcb;
+  border-radius: 10px;
+  color: #25291d;
+  background: #fff;
+  font: inherit;
+}
+
+.summary-grid,
+.loading-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.summary-grid article {
+  padding: 20px;
+}
+
+.summary-grid span,
+.status-pill {
+  padding: 5px 10px;
+  color: #6a704f;
+  background: #eef5df;
+  font-size: 0.76rem;
+}
+
+.summary-grid .danger span,
+.status-pill.cancelada {
+  color: #9a3412;
+  background: #fff1e8;
+}
+
+.status-pill.finalizada {
+  color: #315f38;
+  background: #edf8ee;
+}
+
+.summary-grid strong {
+  display: block;
+  margin-top: 14px;
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.table-card {
+  padding: 22px;
+}
+
+.table-card header {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.status-summary {
+  flex-wrap: wrap;
+  gap: 8px;
+  color: #6f7665;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px 16px;
+  border-top: 1px solid #edf0df;
+  text-align: left;
+}
+
+th {
+  color: #78806c;
+  border-top: 0;
+  border-bottom: 1px solid #e1e4d2;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+td {
+  color: #3a3f2e;
+  font-size: 0.92rem;
+}
+
+.empty {
+  padding: 34px 0;
+  color: #6f7665;
+  text-align: center;
+}
+
+.loading-grid div {
+  min-height: 130px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent),
+    #f4f6e9;
+  background-size: 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+@media (max-width: 1120px) {
+  .filters-panel {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .relatorios-page {
+    width: min(100% - 28px, 1180px);
+    padding-top: 24px;
+  }
+
+  .page-header,
+  .table-card header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .filters-panel,
+  .summary-grid,
+  .loading-grid {
+    grid-template-columns: 1fr;
+  }
+}

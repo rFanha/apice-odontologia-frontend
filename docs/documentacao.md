@@ -407,49 +407,49 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 125. [X] {FRONT-END} Dashboard criado com visao geral de consultas, pacientes e profissionais.
 
-126. [ ] {FRONT-END} Pagina de Consultas criada.
+126. [X] {FRONT-END} Pagina de Consultas criada.
 
-127. [ ] {FRONT-END} Listagem de consultas implementada.
+127. [X] {FRONT-END} Listagem de consultas implementada.
 
-128. [ ] {FRONT-END} Criacao de consultas implementada.
+128. [X] {FRONT-END} Criacao de consultas implementada.
 
-129. [ ] {FRONT-END} Edicao de consultas implementada.
+129. [X] {FRONT-END} Edicao de consultas implementada.
 
-130. [ ] {FRONT-END} Cancelamento de consultas implementado.
+130. [X] {FRONT-END} Cancelamento de consultas implementado.
 
-131. [ ] {FRONT-END} Pagina de Pacientes criada.
+131. [X] {FRONT-END} Pagina de Pacientes criada.
 
-132. [ ] {FRONT-END} Listagem de pacientes implementada.
+132. [X] {FRONT-END} Listagem de pacientes implementada.
 
-133. [ ] {FRONT-END} Criacao de pacientes implementada.
+133. [X] {FRONT-END} Criacao de pacientes implementada.
 
-134. [ ] {FRONT-END} Edicao de pacientes implementada.
+134. [X] {FRONT-END} Edicao de pacientes implementada.
 
-135. [ ] {FRONT-END} Pagina de Dentistas criada.
+135. [X] {FRONT-END} Pagina de Dentistas criada.
 
-136. [ ] {FRONT-END} Listagem de dentistas implementada.
+136. [X] {FRONT-END} Listagem de dentistas implementada.
 
-137. [ ] {FRONT-END} Criacao de dentistas implementada.
+137. [X] {FRONT-END} Criacao de dentistas implementada.
 
-138. [ ] {FRONT-END} Edicao de dentistas implementada.
+138. [X] {FRONT-END} Edicao de dentistas implementada.
 
-139. [ ] {FRONT-END} Desativacao de dentistas implementada.
+139. [X] {FRONT-END} Desativacao de dentistas implementada.
 
-140. [ ] {FRONT-END} Pagina de Especialidades criada.
+140. [X] {FRONT-END} Pagina de Especialidades criada.
 
-141. [ ] {FRONT-END} Listagem de especialidades implementada.
+141. [X] {FRONT-END} Listagem de especialidades implementada.
 
-142. [ ] {FRONT-END} Criacao de especialidades implementada.
+142. [X] {FRONT-END} Criacao de especialidades implementada.
 
-143. [ ] {FRONT-END} Pagina de Relatorios criada.
+143. [X] {FRONT-END} Pagina de Relatorios criada.
 
-144. [ ] {FRONT-END} Filtro de relatorio por paciente implementado.
+144. [X] {FRONT-END} Filtro de relatorio por paciente implementado.
 
-145. [ ] {FRONT-END} Filtro de relatorio por profissional implementado.
+145. [X] {FRONT-END} Filtro de relatorio por profissional implementado.
 
-146. [ ] {FRONT-END} Filtro de relatorio por especialidade implementado.
+146. [X] {FRONT-END} Filtro de relatorio por especialidade implementado.
 
-147. [ ] {FRONT-END} Filtro de relatorio por usuario implementado.
+147. [X] {FRONT-END} Filtro de relatorio por usuario implementado.
 
 ### Roteamento e Integracao
 
