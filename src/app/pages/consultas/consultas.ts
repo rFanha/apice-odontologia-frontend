@@ -25,6 +25,8 @@ export class Consultas implements OnInit {
 
   protected readonly carregando = signal(true);
   protected readonly erro = signal('');
+  protected readonly erroModalConsulta = signal('');
+  protected readonly dataHoraPassada = signal(false);
   protected readonly sucesso = signal('');
   protected readonly salvando = signal(false);
   protected readonly modalAberto = signal(false);
@@ -160,6 +162,8 @@ export class Consultas implements OnInit {
 
   protected abrirModalConsulta(): void {
     this.erro.set('');
+    this.erroModalConsulta.set('');
+    this.dataHoraPassada.set(false);
     this.sucesso.set('');
     this.consultaEmEdicao.set(null);
     this.consultaForm.reset({
@@ -181,6 +185,8 @@ export class Consultas implements OnInit {
     const duracao = Math.max(15, Math.round((dataFim.getTime() - dataInicio.getTime()) / 60000));
 
     this.erro.set('');
+    this.erroModalConsulta.set('');
+    this.dataHoraPassada.set(false);
     this.sucesso.set('');
     this.consultaEmEdicao.set(consulta);
     this.consultaForm.reset({
@@ -201,6 +207,8 @@ export class Consultas implements OnInit {
     }
 
     this.modalAberto.set(false);
+    this.erroModalConsulta.set('');
+    this.dataHoraPassada.set(false);
   }
 
   protected abrirModalCancelamento(consulta: ConsultaListada): void {
@@ -261,11 +269,13 @@ export class Consultas implements OnInit {
 
   protected salvarConsulta(): void {
     this.erro.set('');
+    this.erroModalConsulta.set('');
+    this.dataHoraPassada.set(false);
     this.sucesso.set('');
     this.consultaForm.markAllAsTouched();
 
     if (this.consultaForm.invalid) {
-      this.erro.set('Preencha os dados obrigatórios para agendar a consulta.');
+      this.erroModalConsulta.set('Preencha os dados obrigatórios para agendar a consulta.');
       return;
     }
 
@@ -273,7 +283,8 @@ export class Consultas implements OnInit {
     const payload = this.montarPayloadConsulta(consultaAtual);
 
     if (!consultaAtual && new Date(payload.dataInicio).getTime() < Date.now()) {
-      this.erro.set('Não é permitido agendar consulta em data ou horário passado.');
+      this.dataHoraPassada.set(true);
+      this.erroModalConsulta.set('Não é permitido agendar consulta em data ou horário passado.');
       return;
     }
 
@@ -292,10 +303,30 @@ export class Consultas implements OnInit {
           this.carregarConsultas();
         },
         error: (error: unknown) => {
-          this.erro.set(this.getMensagemErro(error));
+          this.erroModalConsulta.set(this.getMensagemErro(error));
           this.salvando.set(false);
         },
       });
+  }
+
+  protected validarDataHoraConsulta(): void {
+    this.erroModalConsulta.set('');
+    this.dataHoraPassada.set(false);
+
+    if (this.consultaEmEdicao()) {
+      return;
+    }
+
+    const { data, horaInicio } = this.consultaForm.getRawValue();
+
+    if (!data || !horaInicio) {
+      return;
+    }
+
+    if (this.montarDataHora(data, horaInicio).getTime() < Date.now()) {
+      this.dataHoraPassada.set(true);
+      this.erroModalConsulta.set('Não é permitido agendar consulta em data ou horário passado.');
+    }
   }
 
   protected tituloModalConsulta(): string {

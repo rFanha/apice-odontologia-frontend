@@ -196,15 +196,15 @@ h2 {
 
 .chart-box {
   position: relative;
-  min-height: 230px;
+  height: 230px;
 }
 
 .chart-box.bar {
-  min-height: 250px;
+  height: 250px;
 }
 
 .chart-box.specialty {
-  min-height: 260px;
+  height: 260px;
 }
 
 .chart-box canvas {

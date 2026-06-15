@@ -207,7 +207,12 @@
 
           <label class="field">
             <span>Data <strong>*</strong></span>
-            <input type="date" formControlName="data" [class.invalid]="campoInvalido('data')" />
+            <input
+              type="date"
+              formControlName="data"
+              [class.invalid]="campoInvalido('data') || dataHoraPassada()"
+              (input)="validarDataHoraConsulta()"
+            />
             @if (campoInvalido('data')) {
               <small>Informe a data.</small>
             }
@@ -215,7 +220,11 @@
 
           <label class="field">
             <span>Horário <strong>*</strong></span>
-            <select formControlName="horaInicio" [class.invalid]="campoInvalido('horaInicio')">
+            <select
+              formControlName="horaInicio"
+              [class.invalid]="campoInvalido('horaInicio') || dataHoraPassada()"
+              (change)="validarDataHoraConsulta()"
+            >
               @for (horario of horarios; track horario) {
                 <option [value]="horario">{{ horario }}</option>
               }
@@ -243,6 +252,10 @@
               <small>Informe uma descrição com pelo menos 3 caracteres.</small>
             }
           </label>
+
+          @if (erroModalConsulta()) {
+            <div class="modal-alert" role="alert">{{ erroModalConsulta() }}</div>
+          }
 
           <footer class="modal-foot">
             <button type="button" class="ghost-action" (click)="fecharModalConsulta()">Cancelar</button>
