@@ -1,0 +1,149 @@
+<!-- Pagina de relatorios administrativos. -->
+<main class="relatorios-page">
+  <header class="page-header">
+    <div>
+      <div class="brand">APICE ODONTOLOGIA</div>
+      <h1>Relatorios</h1>
+      <p>Indicadores por paciente, profissional, especialidade, usuario e periodo.</p>
+      <span class="permission-note">Area exclusiva para perfil ADMIN</span>
+    </div>
+
+    <button type="button" class="primary-button" (click)="carregarRelatorio()">Atualizar</button>
+  </header>
+
+  @if (erro()) {
+    <div class="alert" role="alert">{{ erro() }}</div>
+  }
+
+  <section class="filters-panel" aria-label="Filtros de relatorio">
+    <label>
+      <span>Paciente</span>
+      <select [value]="filtros().pacienteId ?? ''" (change)="atualizarFiltro('pacienteId', $event)">
+        <option value="">Todos pacientes</option>
+        @for (paciente of pacientes; track paciente.id) {
+          <option [value]="paciente.id">{{ paciente.nome }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      <span>Profissional</span>
+      <select [value]="filtros().dentistaId ?? ''" (change)="atualizarFiltro('dentistaId', $event)">
+        <option value="">Todos dentistas</option>
+        @for (dentista of dentistas; track dentista.id) {
+          <option [value]="dentista.id">{{ dentista.nome }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      <span>Especialidade</span>
+      <select [value]="filtros().especialidadeId ?? ''" (change)="atualizarFiltro('especialidadeId', $event)">
+        <option value="">Todas especialidades</option>
+        @for (especialidade of especialidades; track especialidade.id) {
+          <option [value]="especialidade.id">{{ especialidade.nome }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      <span>Usuario</span>
+      <select [value]="filtros().usuarioId ?? ''" (change)="atualizarFiltro('usuarioId', $event)">
+        <option value="">Todos usuarios</option>
+        @for (usuario of usuarios; track usuario.id) {
+          <option [value]="usuario.id">{{ usuario.nome }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      <span>Inicio</span>
+      <input type="date" [value]="filtros().dataInicio ?? ''" (input)="atualizarFiltro('dataInicio', $event)" />
+    </label>
+
+    <label>
+      <span>Fim</span>
+      <input type="date" [value]="filtros().dataFim ?? ''" (input)="atualizarFiltro('dataFim', $event)" />
+    </label>
+
+    <button type="button" class="secondary-button" (click)="limparFiltros()">Limpar</button>
+  </section>
+
+  @if (carregando()) {
+    <section class="loading-grid" aria-label="Carregando relatorios">
+      <div></div>
+      <div></div>
+      <div></div>
+    </section>
+  } @else {
+    <section class="summary-grid" aria-label="Resumo do relatorio">
+      <article>
+        <span>Total</span>
+        <strong>{{ dados()?.resumo?.totalConsultas ?? 0 }}</strong>
+        <p>consultas no relatorio</p>
+      </article>
+      <article>
+        <span>Agendadas</span>
+        <strong>{{ dados()?.resumo?.consultasAgendadas ?? 0 }}</strong>
+        <p>aguardando atendimento</p>
+      </article>
+      <article>
+        <span>Finalizadas</span>
+        <strong>{{ dados()?.resumo?.consultasFinalizadas ?? 0 }}</strong>
+        <p>atendimentos concluidos</p>
+      </article>
+      <article class="danger">
+        <span>Canceladas</span>
+        <strong>{{ dados()?.resumo?.consultasCanceladas ?? 0 }}</strong>
+        <p>consultas canceladas</p>
+      </article>
+    </section>
+
+    <section class="table-card">
+      <header>
+        <div>
+          <h2>Consultas filtradas</h2>
+          <p>{{ resumoTabela().total }} registro(s) na listagem.</p>
+        </div>
+        <div class="status-summary">
+          <span>{{ resumoTabela().agendadas }} agendadas</span>
+          <span>{{ resumoTabela().finalizadas }} finalizadas</span>
+          <span>{{ resumoTabela().canceladas }} canceladas</span>
+        </div>
+      </header>
+
+      @if (!consultasFiltradas().length) {
+        <div class="empty">Nenhuma consulta encontrada.</div>
+      } @else {
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Profissional</th>
+                <th>Usuario</th>
+                <th>Inicio</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (consulta of consultasFiltradas(); track consulta.id) {
+                <tr>
+                  <td>{{ consulta.pacienteNome }}</td>
+                  <td>{{ consulta.dentistaNome }}</td>
+                  <td>{{ consulta.usuarioNome }}</td>
+                  <td>{{ formatarData(consulta.dataInicio) }}</td>
+                  <td>
+                    <strong [class]="'status-pill ' + consulta.status.toLowerCase()">
+                      {{ statusLabel(consulta.status) }}
+                    </strong>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  }
+</main>

@@ -441,15 +441,15 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 142. [X] {FRONT-END} Criacao de especialidades implementada.
 
-143. [ ] {FRONT-END} Pagina de Relatorios criada.
+143. [X] {FRONT-END} Pagina de Relatorios criada.
 
-144. [ ] {FRONT-END} Filtro de relatorio por paciente implementado.
+144. [X] {FRONT-END} Filtro de relatorio por paciente implementado.
 
-145. [ ] {FRONT-END} Filtro de relatorio por profissional implementado.
+145. [X] {FRONT-END} Filtro de relatorio por profissional implementado.
 
-146. [ ] {FRONT-END} Filtro de relatorio por especialidade implementado.
+146. [X] {FRONT-END} Filtro de relatorio por especialidade implementado.
 
-147. [ ] {FRONT-END} Filtro de relatorio por usuario implementado.
+147. [X] {FRONT-END} Filtro de relatorio por usuario implementado.
 
 ### Roteamento e Integracao
 

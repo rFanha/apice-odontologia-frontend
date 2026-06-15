@@ -62,6 +62,14 @@ export const routes: Routes = [
       import('./pages/especialidades/especialidades').then((m) => m.Especialidades),
   },
   {
+    path: 'relatorios',
+    canActivate: [perfilGuard],
+    data: {
+      perfis: ['ADMIN'],
+    },
+    loadComponent: () => import('./pages/relatorios/relatorios').then((m) => m.Relatorios),
+  },
+  {
     path: 'acesso-negado',
     loadComponent: () =>
       import('./pages/acesso-negado/acesso-negado').then((m) => m.AcessoNegado),
