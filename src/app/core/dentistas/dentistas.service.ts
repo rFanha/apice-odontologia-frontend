@@ -8,6 +8,10 @@ export interface Dentista {
   cpf: string;
   email: string;
   cro: string;
+  especialidadeId?: number | null;
+  especialidadeIds?: number[];
+  especialidade?: { id: number; nome: string } | null;
+  especialidades?: Array<{ id: number; nome: string }>;
   ativo: boolean;
   dataCriacao: string;
 }
@@ -17,6 +21,8 @@ export interface DentistaRequest {
   cpf: string;
   email: string;
   cro: string;
+  especialidadeId: number;
+  especialidadeIds: number[];
   ativo: boolean;
 }
 

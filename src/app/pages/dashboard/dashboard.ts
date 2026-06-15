@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   computed,
   ElementRef,
@@ -33,6 +34,7 @@ import {
 export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
   private readonly dashboardService = inject(DashboardService);
   private readonly authService = inject(AuthService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   @ViewChild('statusChart') private readonly statusChartRef?: ElementRef<HTMLCanvasElement>;
   @ViewChild('periodoChart') private readonly periodoChartRef?: ElementRef<HTMLCanvasElement>;
@@ -101,12 +103,14 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
   protected carregarDashboard(): void {
     this.carregando.set(true);
     this.erro.set('');
+    this.destruirGraficos();
 
     this.dashboardService.carregarDados().subscribe({
       next: (dados) => {
         this.dados.set(dados);
         this.carregando.set(false);
-        queueMicrotask(() => this.renderizarGraficos());
+        this.changeDetectorRef.detectChanges();
+        this.renderizarGraficos();
       },
       error: (error: unknown) => {
         this.erro.set(this.getMensagemErro(error));

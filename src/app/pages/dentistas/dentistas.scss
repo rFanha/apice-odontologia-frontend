@@ -182,7 +182,8 @@ h2 {
 
 .search span,
 .filter span,
-.field span {
+.field span,
+.specialties-field legend {
   display: block;
   margin-bottom: 7px;
   color: #59604f;
@@ -352,12 +353,71 @@ td span {
   border-color: #f59e0b;
 }
 
-.field small {
+.field small,
+.specialties-field small {
   display: block;
   margin-top: 6px;
   color: #9a3412;
   font-size: 0.76rem;
   font-weight: 700;
+}
+
+.specialty-text {
+  display: block;
+  max-width: 220px;
+  color: #51583f;
+  line-height: 1.35;
+}
+
+.specialties-field {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.specialties-field legend {
+  padding: 0;
+}
+
+.specialties-field p {
+  margin: 0;
+  color: #6f7665;
+  font-size: 0.88rem;
+}
+
+.specialties-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.specialty-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 9px 11px;
+  border: 1.5px solid #d9ddcb;
+  border-radius: 10px;
+  background: #fff;
+  color: #51583f;
+  font-weight: 700;
+}
+
+.specialty-option input {
+  width: 16px;
+  height: 16px;
+  accent-color: #808744;
+}
+
+.specialty-option span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.specialties-field.invalid-group .specialty-option {
+  border-color: #f59e0b;
 }
 
 .active-toggle {
@@ -406,7 +466,8 @@ td span {
 
   .summary-grid,
   .toolbar,
-  .dentista-form {
+  .dentista-form,
+  .specialties-grid {
     grid-template-columns: 1fr;
   }
 

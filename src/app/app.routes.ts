@@ -61,6 +61,12 @@ export const routes: Routes = [
         canActivate: [perfilGuard],
         loadComponent: () => import('./pages/relatorios/relatorios').then((m) => m.Relatorios),
       },
+      {
+        path: 'mensagens',
+        data: { perfis: ['ADMIN'] },
+        canActivate: [perfilGuard],
+        loadComponent: () => import('./pages/mensagens/mensagens').then((m) => m.Mensagens),
+      },
     ],
   },
   {

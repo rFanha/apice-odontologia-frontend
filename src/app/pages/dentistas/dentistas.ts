@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 
 import { Dentista, DentistaRequest, DentistasService } from '../../core/dentistas/dentistas.service';
 import { extrairMensagemErro } from '../../core/errors/api-error.util';
+import { Especialidade, EspecialidadesService } from '../../core/especialidades/especialidades.service';
 
 @Component({
   selector: 'app-dentistas',
@@ -13,9 +15,11 @@ import { extrairMensagemErro } from '../../core/errors/api-error.util';
 })
 export class Dentistas implements OnInit {
   private readonly dentistasService = inject(DentistasService);
+  private readonly especialidadesService = inject(EspecialidadesService);
   private readonly formBuilder = inject(FormBuilder);
 
   protected readonly dentistas = signal<Dentista[]>([]);
+  protected readonly especialidades = signal<Especialidade[]>([]);
   protected readonly carregando = signal(true);
   protected readonly salvando = signal(false);
   protected readonly erro = signal('');
@@ -29,6 +33,7 @@ export class Dentistas implements OnInit {
     cpf: ['', [Validators.required, Validators.maxLength(14)]],
     email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
     cro: ['', [Validators.required, Validators.maxLength(30)]],
+    especialidadeIds: this.formBuilder.array<string>([], Validators.required),
     ativo: [true, Validators.required],
   });
 
@@ -71,9 +76,13 @@ export class Dentistas implements OnInit {
     this.carregando.set(true);
     this.erro.set('');
 
-    this.dentistasService.listar().subscribe({
-      next: (dentistas) => {
+    forkJoin({
+      dentistas: this.dentistasService.listar(),
+      especialidades: this.especialidadesService.listar(),
+    }).subscribe({
+      next: ({ dentistas, especialidades }) => {
         this.dentistas.set(dentistas);
+        this.especialidades.set(especialidades);
         this.carregando.set(false);
       },
       error: (error: unknown) => {
@@ -91,8 +100,10 @@ export class Dentistas implements OnInit {
       cpf: '',
       email: '',
       cro: '',
+      especialidadeIds: [],
       ativo: true,
     });
+    this.definirEspecialidadesSelecionadas([]);
     this.formularioAberto.set(true);
   }
 
@@ -104,8 +115,10 @@ export class Dentistas implements OnInit {
       cpf: dentista.cpf,
       email: dentista.email,
       cro: dentista.cro,
+      especialidadeIds: [],
       ativo: dentista.ativo,
     });
+    this.definirEspecialidadesSelecionadas(this.getEspecialidadeIdsDentista(dentista));
     this.formularioAberto.set(true);
   }
 
@@ -159,6 +172,8 @@ export class Dentistas implements OnInit {
         cpf: dentista.cpf,
         email: dentista.email,
         cro: dentista.cro,
+        especialidadeId: this.getEspecialidadeIdsDentista(dentista)[0],
+        especialidadeIds: this.getEspecialidadeIdsDentista(dentista),
         ativo: !dentista.ativo,
       })
       .subscribe({
@@ -174,6 +189,51 @@ export class Dentistas implements OnInit {
     const control = this.dentistaForm.controls[campo];
 
     return control.invalid && (control.dirty || control.touched);
+  }
+
+  especialidadesInvalidas(): boolean {
+    const control = this.dentistaForm.controls.especialidadeIds;
+
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  especialidadeSelecionada(especialidadeId: number): boolean {
+    return this.especialidadeIdsForm.value.includes(String(especialidadeId));
+  }
+
+  alternarEspecialidade(especialidadeId: number, event: Event): void {
+    const selecionado = (event.target as HTMLInputElement).checked;
+    const id = String(especialidadeId);
+    const index = this.especialidadeIdsForm.controls.findIndex((control) => control.value === id);
+
+    if (selecionado && index === -1) {
+      this.especialidadeIdsForm.push(this.formBuilder.nonNullable.control(id));
+    }
+
+    if (!selecionado && index > -1) {
+      this.especialidadeIdsForm.removeAt(index);
+    }
+
+    this.especialidadeIdsForm.markAsDirty();
+    this.especialidadeIdsForm.markAsTouched();
+  }
+
+  especialidadesDentista(dentista: Dentista): string {
+    const nomesVindosDaApi = dentista.especialidades?.map((especialidade) => especialidade.nome);
+
+    if (nomesVindosDaApi?.length) {
+      return nomesVindosDaApi.join(', ');
+    }
+
+    if (dentista.especialidade?.nome) {
+      return dentista.especialidade.nome;
+    }
+
+    const nomes = this.getEspecialidadeIdsDentista(dentista)
+      .map((id) => this.especialidades().find((especialidade) => especialidade.id === id)?.nome)
+      .filter((nome): nome is string => Boolean(nome));
+
+    return nomes.length ? nomes.join(', ') : 'Sem especialidade';
   }
 
   protected atualizarBusca(event: Event): void {
@@ -221,6 +281,7 @@ export class Dentistas implements OnInit {
 
   private criarPayload(): DentistaRequest {
     const form = this.dentistaForm.getRawValue();
+    const especialidadeIds = form.especialidadeIds.map(Number);
 
     // Mantem o payload alinhado ao DTO do backend e sem espacos acidentais.
     return {
@@ -228,8 +289,38 @@ export class Dentistas implements OnInit {
       cpf: form.cpf.trim(),
       email: form.email.trim(),
       cro: form.cro.trim(),
+      especialidadeId: especialidadeIds[0],
+      especialidadeIds,
       ativo: form.ativo,
     };
+  }
+
+  private get especialidadeIdsForm(): FormArray {
+    return this.dentistaForm.controls.especialidadeIds;
+  }
+
+  private definirEspecialidadesSelecionadas(especialidadeIds: number[]): void {
+    this.especialidadeIdsForm.clear();
+
+    especialidadeIds.forEach((especialidadeId) => {
+      this.especialidadeIdsForm.push(this.formBuilder.nonNullable.control(String(especialidadeId)));
+    });
+  }
+
+  private getEspecialidadeIdsDentista(dentista: Dentista): number[] {
+    if (dentista.especialidadeIds?.length) {
+      return dentista.especialidadeIds;
+    }
+
+    if (dentista.especialidades?.length) {
+      return dentista.especialidades.map((especialidade) => especialidade.id);
+    }
+
+    if (dentista.especialidade?.id) {
+      return [dentista.especialidade.id];
+    }
+
+    return dentista.especialidadeId ? [dentista.especialidadeId] : [];
   }
 
   private limparMensagens(): void {

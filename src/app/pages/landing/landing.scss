@@ -94,6 +94,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.
   width: 100%; aspect-ratio: 4/5; border-radius: 260px 260px 28px 28px;
   overflow: hidden; box-shadow: var(--shadow-xl);
   background: var(--surface-inset);
+  img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
 }
 .hero-leaf { position: absolute; inset: -40px -40px auto auto; width: 150px; height: 150px; z-index: -1; color: var(--sage); opacity: .55; }
 
@@ -153,7 +154,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.
 .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 70px; align-items: center; }
 .about-photos {
   position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
-  .p-tall { aspect-ratio: 3/4.4; border-radius: 18px; background: var(--surface-inset); }
+  .p-tall {
+    aspect-ratio: 3/4.4; border-radius: 18px; background: var(--surface-inset); overflow: hidden;
+    img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  }
   .p-1 { margin-top: 40px; }
 }
 .about-badge {
@@ -185,7 +189,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
   overflow: hidden; transition: .3s;
   &:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-  .ph { aspect-ratio: 1/1.06; background: var(--surface-inset); }
+  .ph {
+    aspect-ratio: 1/1.06; background: var(--surface-inset); overflow: hidden;
+    img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  }
   .info { padding: 20px 22px; }
   h3 { font-family: var(--font-ui); font-weight: 600; font-size: 17px; }
   .role { color: var(--mint-deep); font-family: var(--font-ui); font-size: 13px; font-weight: 500; margin-top: 3px; }

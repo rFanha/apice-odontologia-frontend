@@ -80,6 +80,7 @@
               <th>Dentista</th>
               <th>CPF</th>
               <th>CRO</th>
+              <th>Especialidade</th>
               <th>Status</th>
               <th>Cadastro</th>
               <th>Ações</th>
@@ -99,6 +100,9 @@
                 </td>
                 <td>{{ dentista.cpf }}</td>
                 <td>{{ dentista.cro }}</td>
+                <td>
+                  <span class="specialty-text">{{ especialidadesDentista(dentista) }}</span>
+                </td>
                 <td>
                   <strong class="status" [class.inactive]="!dentista.ativo">
                     {{ dentista.ativo ? 'Ativo' : 'Inativo' }}
@@ -173,10 +177,37 @@
             }
           </label>
 
+          <fieldset class="field specialties-field full" [class.invalid-group]="especialidadesInvalidas()">
+            <legend>Especialidades <strong>*</strong></legend>
+            @if (!especialidades().length) {
+              <p>Nenhuma especialidade cadastrada.</p>
+            } @else {
+              <div class="specialties-grid">
+                @for (especialidade of especialidades(); track especialidade.id) {
+                  <label class="specialty-option">
+                    <input
+                      type="checkbox"
+                      [checked]="especialidadeSelecionada(especialidade.id)"
+                      (change)="alternarEspecialidade(especialidade.id, $event)"
+                    />
+                    <span>{{ especialidade.nome }}</span>
+                  </label>
+                }
+              </div>
+            }
+            @if (especialidadesInvalidas()) {
+              <small>Selecione pelo menos uma especialidade.</small>
+            }
+          </fieldset>
+
           <label class="active-toggle full">
             <input type="checkbox" formControlName="ativo" />
             <span>Dentista ativo para agendamentos</span>
           </label>
+
+          @if (erro()) {
+            <div class="alert" role="alert">{{ erro() }}</div>
+          }
 
           <footer class="modal-foot">
             <button type="button" class="secondary-button" (click)="fecharFormulario()">Cancelar</button>

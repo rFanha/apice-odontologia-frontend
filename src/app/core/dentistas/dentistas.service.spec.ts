@@ -10,6 +10,8 @@ const DENTISTA_MOCK: Dentista = {
   cpf: '11122233344',
   email: 'lucas@apice.com.br',
   cro: 'CRO-SP 12345',
+  especialidadeId: 1,
+  especialidadeIds: [1],
   ativo: true,
   dataCriacao: '2025-02-01T08:00:00',
 };
@@ -19,6 +21,8 @@ const PAYLOAD_MOCK: DentistaRequest = {
   cpf: '11122233344',
   email: 'lucas@apice.com.br',
   cro: 'CRO-SP 12345',
+  especialidadeId: 1,
+  especialidadeIds: [1],
   ativo: true,
 };
 
