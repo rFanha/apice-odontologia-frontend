@@ -48,9 +48,7 @@
     <div class="hero-visual">
       <svg class="hero-leaf" viewBox="0 0 100 100" fill="currentColor"><path d="M50 5C30 25 15 45 50 95 85 45 70 25 50 5z"/></svg>
       <div class="hero-photo">
-        <div class="hero-photo-placeholder">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
+        <img src="assets/1.avif" alt="Profissional Ápice Odontologia">
       </div>
       <div class="float-card fc-1">
         <div class="fc-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
@@ -116,11 +114,11 @@
 <section class="sec" id="sobre" style="padding-top: 30px">
   <div class="wrap about-grid">
     <div class="about-photos">
-      <div class="p-tall p-1 img-placeholder">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+      <div class="p-tall p-1">
+        <img src="assets/2.avif" alt="Clínica Ápice Odontologia">
       </div>
-      <div class="p-tall img-placeholder">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+      <div class="p-tall">
+        <img src="assets/3.avif" alt="Equipe Ápice Odontologia">
       </div>
       <div class="about-badge">
         <div class="b-num">98%</div>
@@ -164,8 +162,8 @@
     <div class="team-grid">
       @for (m of equipe; track m.nome) {
         <div class="member">
-          <div class="member-ph">
-            <div class="member-avatar">{{ inicial(m.nome) }}</div>
+          <div class="ph">
+            <img [src]="m.foto" [alt]="m.nome">
           </div>
           <div class="info">
             <h3>{{ m.nome }}</h3>
@@ -251,24 +249,29 @@
       <p class="fc-sub">Preencha e nossa equipe entra em contato para confirmar o melhor horário.</p>
       <form (ngSubmit)="enviarFormulario($event)">
         <div class="field-row">
-          <div class="field"><label>Nome completo</label><input type="text" placeholder="Seu nome" required></div>
-          <div class="field"><label>Telefone</label><input type="tel" placeholder="(11) 99999-0000" required></div>
+          <div class="field"><label>Nome completo</label><input type="text" name="nome" [(ngModel)]="formData.nome" placeholder="Seu nome" required></div>
+          <div class="field"><label>Telefone</label><input type="tel" name="telefone" [(ngModel)]="formData.telefone" placeholder="(11) 99999-0000" required></div>
         </div>
-        <div class="field"><label>E-mail</label><input type="email" placeholder="voce@email.com"></div>
+        <div class="field"><label>E-mail</label><input type="email" name="email" [(ngModel)]="formData.email" placeholder="voce@email.com"></div>
         <div class="field">
           <label>Especialidade de interesse</label>
-          <select>
-            <option>Selecione...</option>
-            <option>Avaliação geral</option>
+          <select name="especialidade" [(ngModel)]="formData.especialidade">
+            <option value="">Selecione...</option>
+            <option value="Avaliação geral">Avaliação geral</option>
             @for (s of servicos; track s.titulo) {
-              <option>{{ s.titulo }}</option>
+              <option [value]="s.titulo">{{ s.titulo }}</option>
             }
           </select>
         </div>
-        <div class="field"><label>Mensagem</label><textarea rows="3" placeholder="Conte-nos como podemos ajudar"></textarea></div>
-        <button type="submit" class="btn btn-primary btn-full">Solicitar agendamento</button>
+        <div class="field"><label>Mensagem</label><textarea name="mensagem" [(ngModel)]="formData.mensagem" rows="3" placeholder="Conte-nos como podemos ajudar"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-full" [disabled]="enviando()">
+          {{ enviando() ? 'Enviando...' : 'Solicitar agendamento' }}
+        </button>
         @if (formOk()) {
           <p class="form-ok">✓ Recebemos seu pedido! Entraremos em contato em breve.</p>
+        }
+        @if (formErro()) {
+          <p class="form-erro">Ocorreu um erro ao enviar. Tente novamente ou ligue para nós.</p>
         }
       </form>
     </div>

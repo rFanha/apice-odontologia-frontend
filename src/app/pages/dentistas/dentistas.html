@@ -205,6 +205,10 @@
             <span>Dentista ativo para agendamentos</span>
           </label>
 
+          @if (erro()) {
+            <div class="alert" role="alert">{{ erro() }}</div>
+          }
+
           <footer class="modal-foot">
             <button type="button" class="secondary-button" (click)="fecharFormulario()">Cancelar</button>
             <button type="submit" class="primary-button" [disabled]="salvando()">
