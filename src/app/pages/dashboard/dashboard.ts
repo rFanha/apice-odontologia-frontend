@@ -120,6 +120,10 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
     return nome.replace(/^(Dr\.|Dra\.)\s+/i, '').split(' ')[0];
   }
 
+  protected perfilLabel(): string {
+    return this.usuario?.perfil === 'ADMIN' ? 'Administrador' : 'Dentista';
+  }
+
   protected percentual(valor: number, total: number): number {
     return total ? Math.round((valor / total) * 100) : 0;
   }

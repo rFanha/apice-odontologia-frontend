@@ -1,10 +1,10 @@
 :host {
   display: block;
   min-height: 100vh;
-  color: #25291d;
+  color: var(--text, #25291d);
   background:
     linear-gradient(180deg, rgba(165, 213, 170, 0.16), transparent 300px),
-    #fffdec;
+    var(--bg, #fffdec);
 }
 
 .dashboard-page {
@@ -23,7 +23,7 @@
 
 .brand {
   margin-bottom: 12px;
-  color: #78806c;
+  color: var(--text-muted, #78806c);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -31,10 +31,9 @@
 
 h1,
 h2,
-.stat-card strong,
-.team-summary strong {
+.stat-card strong {
   margin: 0;
-  color: #25291d;
+  color: var(--text, #25291d);
   font-family: Georgia, "Times New Roman", serif;
   font-weight: 600;
 }
@@ -49,24 +48,37 @@ h2 {
 
 .hero p,
 .panel header p,
-.stat-card p,
-.team-summary span,
-.team-summary p {
+.stat-card p {
   margin: 6px 0 0;
-  color: #6f7665;
+  color: var(--text-soft, #6f7665);
 }
 
-.hero button {
+.permission-note {
+  display: inline-flex;
+  margin-top: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #376a52;
+  background: #e6f7ed;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.secondary-action {
   min-height: 42px;
   padding: 0 18px;
-  border: 0;
+  border: 1px solid var(--border, #d9ddcb);
   border-radius: 10px;
-  color: #fff;
-  background: #808744;
-  box-shadow: 0 14px 26px rgba(128, 135, 68, 0.18);
+  color: var(--text-soft, #51583f);
+  background: var(--surface, #fff);
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+  transition: background .15s;
+
+  &:hover {
+    background: var(--surface-2, #f5f6ea);
+  }
 }
 
 .alert {
@@ -89,9 +101,9 @@ h2 {
 .stat-card,
 .panel,
 .loading-grid div {
-  border: 1px solid #e1e4d2;
+  border: 1px solid var(--border, #e1e4d2);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--surface, rgba(255, 255, 255, 0.82));
   box-shadow: 0 18px 40px rgba(80, 84, 50, 0.08);
 }
 
@@ -109,24 +121,28 @@ h2 {
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  background: rgba(128, 135, 68, 0.1);
+  background: rgba(128, 135, 68, 0.08);
 }
 
 .stat-card .icon {
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   margin-bottom: 18px;
   place-items: center;
   border-radius: 12px;
   color: #6a704f;
   background: #eef5df;
-  font-weight: 800;
 }
 
 .stat-card.accent .icon {
   color: #376a52;
   background: #e6f7ed;
+}
+
+.stat-card.soft .icon {
+  color: #2e5c8a;
+  background: #e8f1fb;
 }
 
 .stat-card.muted .icon {
@@ -206,14 +222,7 @@ h2 {
   justify-content: space-between;
   padding: 11px 12px;
   border-radius: 12px;
-  background: #f7f8ef;
-}
-
-.status-row > div:first-child {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  background: var(--surface-inset, #f7f8ef);
 }
 
 .status-row span {
@@ -223,52 +232,14 @@ h2 {
 }
 
 .status-row strong {
-  color: #25291d;
+  color: var(--text, #25291d);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
 }
 
-.track {
-  height: 10px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #eef0e6;
-}
-
-.track span {
-  display: block;
-  height: 100%;
-  min-width: 4px;
-  border-radius: inherit;
-  background: #808744;
-}
-
-.status-row.finalizada .track span {
-  background: #5f8f61;
-}
-
-.status-row.cancelada .track span {
-  background: #c2410c;
-}
-
-.team-summary {
-  min-height: 204px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.team-summary strong {
-  font-size: 4.2rem;
-  line-height: 1;
-}
-
-.team-summary span {
-  font-weight: 800;
-}
-
-.team-summary p {
-  max-width: 280px;
-  line-height: 1.6;
-}
+.status-row.agendada strong { color: #808744; }
+.status-row.finalizada strong { color: #5f8f61; }
+.status-row.cancelada strong { color: #c2410c; }
 
 .appointments {
   padding-bottom: 10px;
@@ -284,7 +255,7 @@ h2 {
   justify-content: space-between;
   gap: 18px;
   padding: 15px 0;
-  border-top: 1px solid #edf0df;
+  border-top: 1px solid var(--border-soft, #edf0df);
 }
 
 .appointment-main {
@@ -312,13 +283,13 @@ h2 {
 }
 
 .appointment-main strong {
-  color: #25291d;
+  color: var(--text, #25291d);
 }
 
 .appointment-main span,
 .appointment-meta span {
   margin-top: 3px;
-  color: #6f7665;
+  color: var(--text-soft, #6f7665);
   font-size: 0.84rem;
 }
 
@@ -349,7 +320,7 @@ h2 {
 
 .empty {
   padding: 34px 0;
-  color: #6f7665;
+  color: var(--text-soft, #6f7665);
   text-align: center;
 }
 
