@@ -330,6 +330,9 @@ tbody tr:hover {
   display: flex;
   justify-content: flex-end;
   background: rgba(31, 35, 22, 0.42);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: backdropIn .18s ease;
 }
 
 .drawer {
@@ -338,6 +341,7 @@ tbody tr:hover {
   overflow-y: auto;
   background: #fffdec;
   box-shadow: -20px 0 50px rgba(31, 35, 22, 0.2);
+  animation: modalPop .22s cubic-bezier(.2,.7,.3,1);
 }
 
 .drawer header {
@@ -465,5 +469,69 @@ footer {
 
   .counter {
     justify-self: start;
+  }
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: translateY(16px) scale(.98); }
+}
+
+.row-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.row-act {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .14s, color .14s;
+  flex: none;
+
+  &:hover {
+    background: var(--surface-inset);
+    color: var(--olive);
+  }
+
+  &.danger:hover {
+    background: var(--st-cancelada-bg);
+    color: var(--st-cancelada-fg);
+  }
+
+  &:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: .15s;
+  flex: none;
+
+  &:hover {
+    background: var(--surface-2);
+    color: var(--text);
+    border-color: var(--border-strong);
   }
 }

@@ -91,7 +91,9 @@
             <h2 id="especialidade-modal-title">Nova especialidade</h2>
             <p>Cadastre uma área clínica para a organização da agenda.</p>
           </div>
-          <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharFormulario()">x</button>
+          <button type="button" class="modal-close" aria-label="Fechar" (click)="fecharFormulario()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
         </header>
 
         <form class="especialidade-form" [formGroup]="especialidadeForm" (ngSubmit)="salvarEspecialidade()">
