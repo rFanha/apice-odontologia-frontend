@@ -125,18 +125,27 @@
 
         <form [formGroup]="usuarioForm" (ngSubmit)="salvarUsuario()">
           <label class="field">
-            <span>Nome completo</span>
-            <input type="text" formControlName="nome" placeholder="Nome do usuario" />
+            <span>Nome completo <span class="req">*</span></span>
+            <input type="text" formControlName="nome" placeholder="Nome do usuario" [class.invalid]="campoInvalido('nome')" />
+            @if (campoInvalido('nome')) {
+              <span class="campo-erro">Nome e obrigatorio.</span>
+            }
           </label>
 
           <label class="field">
-            <span>CPF</span>
-            <input type="text" formControlName="cpf" placeholder="00000000000" />
+            <span>CPF <span class="req">*</span></span>
+            <input type="text" formControlName="cpf" placeholder="00000000000" [class.invalid]="campoInvalido('cpf')" />
+            @if (campoInvalido('cpf')) {
+              <span class="campo-erro">CPF e obrigatorio.</span>
+            }
           </label>
 
           <label class="field">
-            <span>E-mail</span>
-            <input type="email" formControlName="email" placeholder="usuario@apice.com.br" />
+            <span>E-mail <span class="req">*</span></span>
+            <input type="email" formControlName="email" placeholder="usuario@apice.com.br" [class.invalid]="campoInvalido('email')" />
+            @if (campoInvalido('email')) {
+              <span class="campo-erro">Informe um e-mail valido.</span>
+            }
           </label>
 
           <label class="field">

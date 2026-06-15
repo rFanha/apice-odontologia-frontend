@@ -197,6 +197,11 @@ export class Usuarios implements OnInit {
     };
   }
 
+  protected campoInvalido(campo: keyof typeof this.usuarioForm.controls): boolean {
+    const control = this.usuarioForm.controls[campo];
+    return control.invalid && (control.dirty || control.touched);
+  }
+
   private limparMensagens(): void {
     this.erro.set('');
     this.sucesso.set('');
