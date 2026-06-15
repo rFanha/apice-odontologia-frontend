@@ -1,8 +1,8 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 
 import { ConsultaDashboard, StatusConsulta } from '../../core/dashboard/dashboard.service';
+import { extrairMensagemErro } from '../../core/errors/api-error.util';
 import { RelatorioDados, RelatorioFiltros, RelatoriosService } from '../../core/relatorios/relatorios.service';
 
 type ConsultaRelatorio = ConsultaDashboard & {
@@ -132,20 +132,6 @@ export class Relatorios implements OnInit {
   }
 
   private getMensagemErro(error: unknown): string {
-    if (error instanceof HttpErrorResponse) {
-      if (error.status === 0) {
-        return 'Nao foi possivel conectar ao backend em http://localhost:8080.';
-      }
-
-      if (error.status === 403) {
-        return 'Seu usuario nao tem permissao para visualizar relatorios.';
-      }
-
-      if (typeof error.error?.message === 'string') {
-        return error.error.message;
-      }
-    }
-
-    return 'Nao foi possivel carregar a pagina de relatorios.';
+    return extrairMensagemErro(error, 'Nao foi possivel carregar a pagina de relatorios.');
   }
 }

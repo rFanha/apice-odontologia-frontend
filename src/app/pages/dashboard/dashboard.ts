@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -14,6 +13,7 @@ import {
 import Chart from 'chart.js/auto';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { extrairMensagemErro } from '../../core/errors/api-error.util';
 import {
   ConsultaDashboard,
   DashboardDados,
@@ -359,17 +359,7 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getMensagemErro(error: unknown): string {
-    if (error instanceof HttpErrorResponse) {
-      if (error.status === 0) {
-        return 'Nao foi possivel conectar ao backend em http://localhost:8080.';
-      }
-
-      if (error.status === 403) {
-        return 'Seu usuario nao tem permissao para visualizar o dashboard.';
-      }
-    }
-
-    return 'Nao foi possivel carregar os indicadores do dashboard.';
+    return extrairMensagemErro(error, 'Nao foi possivel carregar os indicadores do dashboard.');
   }
 
 }

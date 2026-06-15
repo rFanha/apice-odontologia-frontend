@@ -461,9 +461,9 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 151. [X] {FRONT-END} Services Angular criados para comunicacao com a API.
 
-152. [ ] {FRONT-END} Interceptor HTTP configurado para envio do JWT, se aplicavel.
+152. [X] {FRONT-END} Interceptor HTTP configurado para envio do JWT, se aplicavel.
 
-153. [ ] {FRONT-END} Tratamento de erros da API implementado.
+153. [X] {FRONT-END} Tratamento de erros da API implementado.
 
 ### Autenticacao no Front-End
 

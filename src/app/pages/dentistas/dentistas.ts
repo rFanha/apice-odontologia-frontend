@@ -1,9 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Dentista, DentistaRequest, DentistasService } from '../../core/dentistas/dentistas.service';
+import { extrairMensagemErro } from '../../core/errors/api-error.util';
 
 @Component({
   selector: 'app-dentistas',
@@ -238,20 +238,6 @@ export class Dentistas implements OnInit {
   }
 
   private getMensagemErro(error: unknown): string {
-    if (error instanceof HttpErrorResponse) {
-      if (error.status === 0) {
-        return 'Nao foi possivel conectar ao backend em http://localhost:8080.';
-      }
-
-      if (error.status === 403) {
-        return 'Seu usuario nao tem permissao para gerenciar dentistas.';
-      }
-
-      if (typeof error.error?.message === 'string') {
-        return error.error.message;
-      }
-    }
-
-    return 'Nao foi possivel concluir a operacao de dentistas.';
+    return extrairMensagemErro(error, 'Nao foi possivel concluir a operacao de dentistas.');
   }
 }
