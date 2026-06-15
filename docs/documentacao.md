@@ -487,7 +487,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 162. [X] {FRONT-END} Estados de carregamento implementados.
 
-163. [ ] {FRONT-END} Interface responsiva implementada.
+163. [X] {FRONT-END} Interface responsiva implementada.
 
 ## Integracao e Testes
 
