@@ -123,7 +123,7 @@ export class Dentistas implements OnInit {
     this.dentistaForm.markAllAsTouched();
 
     if (this.dentistaForm.invalid) {
-      this.erro.set('Preencha os campos obrigatorios antes de salvar.');
+      this.erro.set('Preencha os campos obrigatórios antes de salvar.');
       return;
     }
 
@@ -216,7 +216,7 @@ export class Dentistas implements OnInit {
       return 'Salvando...';
     }
 
-    return this.dentistaEmEdicao() ? 'Salvar alteracoes' : 'Cadastrar dentista';
+    return this.dentistaEmEdicao() ? 'Salvar alterações' : 'Cadastrar dentista';
   }
 
   private criarPayload(): DentistaRequest {
@@ -238,6 +238,6 @@ export class Dentistas implements OnInit {
   }
 
   private getMensagemErro(error: unknown): string {
-    return extrairMensagemErro(error, 'Nao foi possivel concluir a operacao de dentistas.');
+    return extrairMensagemErro(error, 'Não foi possível concluir a operação de dentistas.');
   }
 }

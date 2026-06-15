@@ -115,7 +115,7 @@ export class Pacientes implements OnInit {
     this.pacienteForm.markAllAsTouched();
 
     if (this.pacienteForm.invalid) {
-      this.erro.set('Preencha os campos obrigatorios antes de salvar.');
+      this.erro.set('Preencha os campos obrigatórios antes de salvar.');
       return;
     }
 
@@ -153,7 +153,7 @@ export class Pacientes implements OnInit {
   protected subtituloFormulario(): string {
     return this.pacienteEmEdicao()
       ? 'Atualize os dados cadastrais do paciente.'
-      : 'Cadastre um novo paciente na clinica.';
+      : 'Cadastre um novo paciente na clínica.';
   }
 
   protected textoBotaoSalvar(): string {
@@ -161,7 +161,7 @@ export class Pacientes implements OnInit {
       return 'Salvando...';
     }
 
-    return this.pacienteEmEdicao() ? 'Salvar alteracoes' : 'Cadastrar paciente';
+    return this.pacienteEmEdicao() ? 'Salvar alterações' : 'Cadastrar paciente';
   }
 
   protected atualizarBusca(event: Event): void {
@@ -186,7 +186,7 @@ export class Pacientes implements OnInit {
   }
 
   private getMensagemErro(error: unknown): string {
-    return extrairMensagemErro(error, 'Nao foi possivel concluir a operacao de pacientes.');
+    return extrairMensagemErro(error, 'Não foi possível concluir a operação de pacientes.');
   }
 
   private criarPayload(): PacienteRequest {

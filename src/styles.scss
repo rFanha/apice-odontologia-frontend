@@ -1,11 +1,129 @@
-@import '@angular/material/prebuilt-themes/azure-blue.css';
+/* ============================================================
+   ÁPICE ODONTOLOGIA — Tokens de tema globais
+   ============================================================ */
 
-html,
-body {
-  height: 100%;
+:root {
+  --sage:  #A5D5AA;
+  --mint:  #6ED6A4;
+  --leaf:  #8EC46C;
+  --olive: #808744;
+  --cream: #FFFDEC;
+  --olive-deep: #5a6030;
+  --olive-darker: #3f441f;
+  --mint-deep: #3fa87b;
+  --sage-soft: #cfe6d2;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-caps: 'Cinzel', serif;
+  --font-ui: 'Poppins', system-ui, sans-serif;
+  --font-body: 'Lato', system-ui, sans-serif;
+
+  --shadow-sm: 0 1px 2px rgba(63,68,31,.06), 0 1px 3px rgba(63,68,31,.08);
+  --shadow-md: 0 4px 12px rgba(63,68,31,.08), 0 2px 4px rgba(63,68,31,.06);
+  --shadow-lg: 0 18px 40px -12px rgba(63,68,31,.22), 0 8px 16px -8px rgba(63,68,31,.12);
+  --shadow-xl: 0 40px 80px -24px rgba(45,50,20,.30);
+
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
 }
+
+:root, [data-theme="light"] {
+  --bg:           #f6f5e8;
+  --bg-app:       #f1f0e0;
+  --surface:      #ffffff;
+  --surface-2:    #fbfaf1;
+  --surface-inset:#f4f3e6;
+  --border:       #e6e4cf;
+  --border-strong:#d6d3b8;
+
+  --text:         #2c2f1d;
+  --text-soft:    #5a6030;
+  --text-muted:   #8b8e6f;
+  --text-faint:   #aeb094;
+
+  --primary:      #6d7438;
+  --primary-hover:#5a6030;
+  --primary-contrast:#ffffff;
+  --primary-soft: #eef0dc;
+
+  --accent:       var(--mint-deep);
+  --accent-soft:  #d8f1e6;
+
+  --ring: rgba(109,116,56,.28);
+
+  --st-confirmada-bg:#def0e3; --st-confirmada-fg:#2f7d4f;
+  --st-agendada-bg:#e7f0d6;   --st-agendada-fg:#5f7626;
+  --st-concluida-bg:#dfeaf6;  --st-concluida-fg:#3a6190;
+  --st-cancelada-bg:#f6e2e0;  --st-cancelada-fg:#a8463c;
+  --st-pendente-bg:#f7eed5;   --st-pendente-fg:#9a7a1e;
+}
+
+[data-theme="dark"] {
+  --bg:           #12150d;
+  --bg-app:       #0e110a;
+  --surface:      #1b1f14;
+  --surface-2:    #222719;
+  --surface-inset:#161a10;
+  --border:       #2c321f;
+  --border-strong:#3b4329;
+
+  --text:         #edf0dd;
+  --text-soft:    #c3cba6;
+  --text-muted:   #8c9470;
+  --text-faint:   #5f6748;
+
+  --primary:      #9fb05a;
+  --primary-hover:#b2c270;
+  --primary-contrast:#161a10;
+  --primary-soft: #232a16;
+
+  --accent:       #6ED6A4;
+  --accent-soft:  #173024;
+
+  --ring: rgba(159,176,90,.35);
+
+  --st-confirmada-bg:#16301f; --st-confirmada-fg:#7fd6a2;
+  --st-agendada-bg:#26301a;   --st-agendada-fg:#aecb73;
+  --st-concluida-bg:#1a2838;  --st-concluida-fg:#8db8e6;
+  --st-cancelada-bg:#36211e;  --st-cancelada-fg:#e08a80;
+  --st-pendente-bg:#322a14;   --st-pendente-fg:#d8b85a;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.45);
+  --shadow-lg: 0 18px 40px -12px rgba(0,0,0,.6);
+  --shadow-xl: 0 40px 80px -24px rgba(0,0,0,.7);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
 
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
+
+::selection { background: var(--mint); color: #15301f; }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 20px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-track { background: transparent; }
+
+a { color: inherit; text-decoration: none; }

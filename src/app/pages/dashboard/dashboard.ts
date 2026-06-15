@@ -116,7 +116,7 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected nomeCurto(): string {
-    const nome = this.usuario?.nome ?? 'Usuario';
+    const nome = this.usuario?.nome ?? 'Usuário';
     return nome.replace(/^(Dr\.|Dra\.)\s+/i, '').split(' ')[0];
   }
 
@@ -142,11 +142,11 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected pacienteNome(paciente?: PacienteResumo): string {
-    return paciente?.nome ?? 'Paciente nao encontrado';
+    return paciente?.nome ?? 'Paciente não encontrado';
   }
 
   protected dentistaNome(dentista?: DentistaResumo): string {
-    return dentista?.nome ?? 'Dentista nao encontrado';
+    return dentista?.nome ?? 'Dentista não encontrado';
   }
 
   protected trackConsulta(_: number, consulta: ConsultaDashboard): number {
@@ -359,7 +359,7 @@ export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getMensagemErro(error: unknown): string {
-    return extrairMensagemErro(error, 'Nao foi possivel carregar os indicadores do dashboard.');
+    return extrairMensagemErro(error, 'Não foi possível carregar os indicadores do dashboard.');
   }
 
 }

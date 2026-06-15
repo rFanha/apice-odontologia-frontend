@@ -1,10 +1,10 @@
-<!-- Pagina de listagem e agendamento de consultas. -->
+<!-- Página de listagem e agendamento de consultas. -->
 <main class="consultas-page">
   <header class="page-header">
     <div>
       <div class="brand">APICE ODONTOLOGIA</div>
       <h1>Consultas</h1>
-      <p>Agenda clinica e acompanhamento dos atendimentos.</p>
+      <p>Agenda clínica e acompanhamento dos atendimentos.</p>
       <span class="permission-note">Acesso liberado para {{ perfilLabel() }}</span>
     </div>
 
@@ -43,7 +43,7 @@
       <article>
         <span>Finalizadas</span>
         <strong>{{ resumoStatus().finalizadas }}</strong>
-        <p>atendimentos concluidos</p>
+        <p>atendimentos concluídos</p>
       </article>
       <article class="danger">
         <span>Canceladas</span>
@@ -108,11 +108,11 @@
               <tr>
                 <th>Paciente</th>
                 <th>Dentista</th>
-                <th>Descricao</th>
+                <th>Descrição</th>
                 <th>Inicio</th>
                 <th>Fim</th>
                 <th>Status</th>
-                <th>Acoes</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -205,7 +205,7 @@
           </label>
 
           <label class="field">
-            <span>Horario <strong>*</strong></span>
+            <span>Horário <strong>*</strong></span>
             <select formControlName="horaInicio" [class.invalid]="campoInvalido('horaInicio')">
               @for (horario of horarios; track horario) {
                 <option [value]="horario">{{ horario }}</option>
@@ -214,7 +214,7 @@
           </label>
 
           <label class="field">
-            <span>Duracao</span>
+            <span>Duração</span>
             <select formControlName="duracao">
               @for (duracao of duracoes; track duracao.valor) {
                 <option [value]="duracao.valor">{{ duracao.label }}</option>
@@ -223,15 +223,15 @@
           </label>
 
           <label class="field full">
-            <span>Observacoes <strong>*</strong></span>
+            <span>Observações <strong>*</strong></span>
             <textarea
               rows="3"
               formControlName="descricao"
-              placeholder="Motivo da consulta, observacoes..."
+              placeholder="Motivo da consulta, observações..."
               [class.invalid]="campoInvalido('descricao')"
             ></textarea>
             @if (campoInvalido('descricao')) {
-              <small>Informe uma descricao com pelo menos 3 caracteres.</small>
+              <small>Informe uma descrição com pelo menos 3 caracteres.</small>
             }
           </label>
 

@@ -1,11 +1,11 @@
-<!-- Pagina de gerenciamento de usuarios. -->
+<!-- Página de gerenciamento de usuários. -->
 <main class="usuarios-page">
   <header class="page-header">
     <div>
       <div class="brand">APICE ODONTOLOGIA</div>
       <h1>Usuarios</h1>
       <p>Controle de acesso e perfis do sistema.</p>
-      <span class="permission-note">Area exclusiva para perfil ADMIN</span>
+      <span class="permission-note">Área exclusiva para perfil ADMIN</span>
     </div>
 
     <button class="primary-button" type="button" (click)="abrirNovoUsuario()">
@@ -62,8 +62,8 @@
               <th>CPF</th>
               <th>Perfil</th>
               <th>Status</th>
-              <th>Ultimo acesso</th>
-              <th class="actions-col">Acoes</th>
+              <th>Último acesso</th>
+              <th class="actions-col">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -144,7 +144,7 @@
             <span>E-mail <span class="req">*</span></span>
             <input type="email" formControlName="email" placeholder="usuario@apice.com.br" [class.invalid]="campoInvalido('email')" />
             @if (campoInvalido('email')) {
-              <span class="campo-erro">Informe um e-mail valido.</span>
+              <span class="campo-erro">Informe um e-mail válido.</span>
             }
           </label>
 

@@ -47,9 +47,9 @@ export class Relatorios implements OnInit {
       .sort((a, b) => new Date(b.dataInicio).getTime() - new Date(a.dataInicio).getTime())
       .map((consulta) => ({
         ...consulta,
-        pacienteNome: pacientes.get(consulta.pacienteId) ?? 'Paciente nao encontrado',
-        dentistaNome: dentistas.get(consulta.dentistaId) ?? 'Dentista nao encontrado',
-        usuarioNome: usuarios.get(consulta.usuarioId) ?? 'Usuario nao encontrado',
+        pacienteNome: pacientes.get(consulta.pacienteId) ?? 'Paciente não encontrado',
+        dentistaNome: dentistas.get(consulta.dentistaId) ?? 'Dentista não encontrado',
+        usuarioNome: usuarios.get(consulta.usuarioId) ?? 'Usuário não encontrado',
       }));
   });
 
@@ -132,6 +132,6 @@ export class Relatorios implements OnInit {
   }
 
   private getMensagemErro(error: unknown): string {
-    return extrairMensagemErro(error, 'Nao foi possivel carregar a pagina de relatorios.');
+    return extrairMensagemErro(error, 'Não foi possível carregar a página de relatórios.');
   }
 }

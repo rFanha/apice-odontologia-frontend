@@ -1,11 +1,11 @@
-<!-- Pagina de gerenciamento de especialidades. -->
+<!-- Página de gerenciamento de especialidades. -->
 <main class="especialidades-page">
   <header class="page-header">
     <div>
       <div class="brand">APICE ODONTOLOGIA</div>
       <h1>Especialidades</h1>
-      <p>Areas clinicas usadas para organizar equipe e atendimentos.</p>
-      <span class="permission-note">Area exclusiva para perfil ADMIN</span>
+      <p>Áreas clínicas usadas para organizar equipe e atendimentos.</p>
+      <span class="permission-note">Área exclusiva para perfil ADMIN</span>
     </div>
 
     <div class="header-actions">
@@ -62,7 +62,7 @@
           <div class="specialty-mark">{{ especialidade.nome.charAt(0).toUpperCase() }}</div>
           <div>
             <h2>{{ especialidade.nome }}</h2>
-            <p>Codigo interno #{{ especialidade.id }}</p>
+            <p>Código interno #{{ especialidade.id }}</p>
           </div>
         </article>
       }
@@ -75,7 +75,7 @@
         <header class="modal-head">
           <div>
             <h2 id="especialidade-modal-title">Nova especialidade</h2>
-            <p>Cadastre uma area clinica para a organizacao da agenda.</p>
+            <p>Cadastre uma área clínica para a organização da agenda.</p>
           </div>
           <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharFormulario()">x</button>
         </header>

@@ -1,10 +1,10 @@
-<!-- Pagina de dashboard administrativo. -->
+<!-- Página de dashboard administrativo. -->
 <main class="dashboard-page">
   <header class="hero">
     <div>
       <div class="brand">APICE ODONTOLOGIA</div>
       <h1>Ola, {{ nomeCurto() }}</h1>
-      <p>Resumo da clinica com consultas, pacientes e profissionais.</p>
+      <p>Resumo da clínica com consultas, pacientes e profissionais.</p>
     </div>
 
     <button type="button" (click)="carregarDashboard()">Atualizar</button>
@@ -53,13 +53,13 @@
         <header>
           <div>
             <h2>Indicadores por status</h2>
-            <p>Distribuicao atual das consultas</p>
+            <p>Distribuição atual das consultas</p>
           </div>
         </header>
 
         <div class="chart-layout">
           <div class="chart-box">
-            <canvas #statusChart aria-label="Grafico de consultas por status"></canvas>
+            <canvas #statusChart aria-label="Gráfico de consultas por status"></canvas>
           </div>
 
           <div class="status-list compact">
@@ -84,13 +84,13 @@
       <article class="panel">
         <header>
           <div>
-            <h2>Consultas por periodo</h2>
-            <p>Volume dos ultimos 7 dias</p>
+            <h2>Consultas por período</h2>
+            <p>Volume dos últimos 7 dias</p>
           </div>
         </header>
 
         <div class="chart-box bar">
-          <canvas #periodoChart aria-label="Grafico de consultas por periodo"></canvas>
+          <canvas #periodoChart aria-label="Gráfico de consultas por período"></canvas>
         </div>
       </article>
     </section>
@@ -104,14 +104,14 @@
       </header>
 
       <div class="chart-box specialty">
-        <canvas #especialidadeChart aria-label="Grafico de consultas por especialidade"></canvas>
+        <canvas #especialidadeChart aria-label="Gráfico de consultas por especialidade"></canvas>
       </div>
     </section>
 
     <section class="panel appointments">
       <header>
         <div>
-          <h2>Proximas consultas</h2>
+          <h2>Próximas consultas</h2>
           <p>Agendamentos ativos retornados pela API</p>
         </div>
       </header>

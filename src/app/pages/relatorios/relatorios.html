@@ -1,11 +1,11 @@
-<!-- Pagina de relatorios administrativos. -->
+<!-- Página de relatórios administrativos. -->
 <main class="relatorios-page">
   <header class="page-header">
     <div>
       <div class="brand">APICE ODONTOLOGIA</div>
-      <h1>Relatorios</h1>
-      <p>Indicadores por paciente, profissional, especialidade, usuario e periodo.</p>
-      <span class="permission-note">Area exclusiva para perfil ADMIN</span>
+      <h1>Relatórios</h1>
+      <p>Indicadores por paciente, profissional, especialidade, usuário e período.</p>
+      <span class="permission-note">Área exclusiva para perfil ADMIN</span>
     </div>
 
     <button type="button" class="primary-button" (click)="carregarRelatorio()">Atualizar</button>
@@ -15,7 +15,7 @@
     <div class="alert" role="alert">{{ erro() }}</div>
   }
 
-  <section class="filters-panel" aria-label="Filtros de relatorio">
+  <section class="filters-panel" aria-label="Filtros de relatório">
     <label>
       <span>Paciente</span>
       <select [value]="filtros().pacienteId ?? ''" (change)="atualizarFiltro('pacienteId', $event)">
@@ -90,7 +90,7 @@
       <article>
         <span>Finalizadas</span>
         <strong>{{ dados()?.resumo?.consultasFinalizadas ?? 0 }}</strong>
-        <p>atendimentos concluidos</p>
+        <p>atendimentos concluídos</p>
       </article>
       <article class="danger">
         <span>Canceladas</span>

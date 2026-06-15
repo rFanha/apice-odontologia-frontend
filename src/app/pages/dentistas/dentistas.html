@@ -1,11 +1,11 @@
-<!-- Pagina de gerenciamento de dentistas. -->
+<!-- Página de gerenciamento de dentistas. -->
 <main class="dentistas-page">
   <header class="page-header">
     <div>
       <div class="brand">APICE ODONTOLOGIA</div>
       <h1>Dentistas</h1>
-      <p>Equipe clinica, CRO e status de atendimento.</p>
-      <span class="permission-note">Area exclusiva para perfil ADMIN</span>
+      <p>Equipe clínica, CRO e status de atendimento.</p>
+      <span class="permission-note">Área exclusiva para perfil ADMIN</span>
     </div>
 
     <div class="header-actions">
@@ -82,7 +82,7 @@
               <th>CRO</th>
               <th>Status</th>
               <th>Cadastro</th>
-              <th>Acoes</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -163,7 +163,7 @@
             <span>E-mail <strong>*</strong></span>
             <input type="email" formControlName="email" placeholder="profissional@apice.com.br" [class.invalid]="campoInvalido('email')" />
             @if (campoInvalido('email')) {
-              <small>Informe um e-mail valido.</small>
+              <small>Informe um e-mail válido.</small>
             }
           </label>
 

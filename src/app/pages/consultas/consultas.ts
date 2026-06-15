@@ -108,8 +108,8 @@ export class Consultas implements OnInit {
       .sort((a, b) => new Date(b.dataInicio).getTime() - new Date(a.dataInicio).getTime())
       .map((consulta) => ({
         ...consulta,
-        pacienteNome: pacientes.get(consulta.pacienteId) ?? 'Paciente nao encontrado',
-        dentistaNome: dentistas.get(consulta.dentistaId) ?? 'Dentista nao encontrado',
+        pacienteNome: pacientes.get(consulta.pacienteId) ?? 'Paciente não encontrado',
+        dentistaNome: dentistas.get(consulta.dentistaId) ?? 'Dentista não encontrado',
       }));
   });
 
@@ -256,7 +256,7 @@ export class Consultas implements OnInit {
     this.consultaForm.markAllAsTouched();
 
     if (this.consultaForm.invalid) {
-      this.erro.set('Preencha os dados obrigatorios para agendar a consulta.');
+      this.erro.set('Preencha os dados obrigatórios para agendar a consulta.');
       return;
     }
 
@@ -265,7 +265,7 @@ export class Consultas implements OnInit {
     const dataInicio = new Date(payload.dataInicio);
 
     if (dataInicio.getTime() < Date.now()) {
-      this.erro.set('Nao e permitido agendar consulta em data ou horario passado.');
+      this.erro.set('Não é permitido agendar consulta em data ou horário passado.');
       return;
     }
 
@@ -305,7 +305,7 @@ export class Consultas implements OnInit {
       return this.consultaEmEdicao() ? 'Salvando...' : 'Agendando...';
     }
 
-    return this.consultaEmEdicao() ? 'Salvar alteracoes' : 'Confirmar agendamento';
+    return this.consultaEmEdicao() ? 'Salvar alterações' : 'Confirmar agendamento';
   }
 
   protected campoInvalido(campo: keyof typeof this.consultaForm.controls): boolean {
@@ -405,7 +405,7 @@ export class Consultas implements OnInit {
   }
 
   private getMensagemErro(error: unknown): string {
-    return extrairMensagemErro(error, 'Nao foi possivel concluir a operacao de consulta.');
+    return extrairMensagemErro(error, 'Não foi possível concluir a operação de consulta.');
   }
 
 }

@@ -115,6 +115,6 @@ export class Especialidades implements OnInit {
   }
 
   private getMensagemErro(error: unknown): string {
-    return extrairMensagemErro(error, 'Nao foi possivel concluir a operacao de especialidades.');
+    return extrairMensagemErro(error, 'Não foi possível concluir a operação de especialidades.');
   }
 }

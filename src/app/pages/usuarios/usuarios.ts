@@ -114,7 +114,7 @@ export class Usuarios implements OnInit {
 
     if (this.usuarioForm.invalid) {
       this.usuarioForm.markAllAsTouched();
-      this.erro.set('Preencha os campos obrigatorios antes de salvar.');
+      this.erro.set('Preencha os campos obrigatórios antes de salvar.');
       return;
     }
 
@@ -122,7 +122,7 @@ export class Usuarios implements OnInit {
     const payload = this.criarPayload(usuarioAtual);
 
     if (!usuarioAtual && !payload.senha) {
-      this.erro.set('Senha e obrigatoria para criar um usuario.');
+      this.erro.set('Senha é obrigatória para criar um usuário.');
       return;
     }
 
@@ -134,7 +134,7 @@ export class Usuarios implements OnInit {
 
     request$.subscribe({
       next: () => {
-        this.sucesso.set(usuarioAtual ? 'Usuario atualizado com sucesso.' : 'Usuario criado com sucesso.');
+        this.sucesso.set(usuarioAtual ? 'Usuário atualizado com sucesso.' : 'Usuário criado com sucesso.');
         this.salvando.set(false);
         this.fecharFormulario();
         this.carregarUsuarios();
@@ -147,7 +147,7 @@ export class Usuarios implements OnInit {
   }
 
   protected excluirUsuario(usuario: Usuario): void {
-    const confirmou = window.confirm(`Deseja excluir o usuario ${usuario.nome}?`);
+    const confirmou = window.confirm(`Deseja excluir o usuário ${usuario.nome}?`);
 
     if (!confirmou) {
       return;
@@ -156,7 +156,7 @@ export class Usuarios implements OnInit {
     // Remove no backend e recarrega a lista para refletir o estado real.
     this.usuariosService.excluir(usuario.id).subscribe({
       next: () => {
-        this.sucesso.set('Usuario excluido com sucesso.');
+        this.sucesso.set('Usuário excluído com sucesso.');
         this.carregarUsuarios();
       },
       error: (error: unknown) => this.erro.set(this.getMensagemErro(error)),
@@ -208,6 +208,6 @@ export class Usuarios implements OnInit {
   }
 
   private getMensagemErro(error: unknown): string {
-    return extrairMensagemErro(error, 'Nao foi possivel concluir a operacao.');
+    return extrairMensagemErro(error, 'Não foi possível concluir a operação.');
   }
 }
