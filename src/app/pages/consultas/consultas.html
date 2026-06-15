@@ -194,7 +194,15 @@
 
           <label class="field">
             <span>Status</span>
-            <input value="Agendada" disabled />
+            @if (consultaEmEdicao()) {
+              <select formControlName="status">
+                @for (s of statusOptions; track s.valor) {
+                  <option [value]="s.valor">{{ s.label }}</option>
+                }
+              </select>
+            } @else {
+              <input value="Agendada" disabled />
+            }
           </label>
 
           <label class="field">

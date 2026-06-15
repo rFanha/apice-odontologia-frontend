@@ -62,6 +62,12 @@ export class Consultas implements OnInit {
     { valor: 60, label: '1 hora' },
     { valor: 90, label: '1h30' },
   ];
+  protected readonly statusOptions: { valor: StatusConsulta; label: string }[] = [
+    { valor: 'AGENDADA',   label: 'Agendada' },
+    { valor: 'FINALIZADA', label: 'Finalizada' },
+    { valor: 'CANCELADA',  label: 'Cancelada' },
+  ];
+
   protected readonly consultaForm = this.formBuilder.nonNullable.group({
     pacienteId: ['', Validators.required],
     dentistaId: ['', Validators.required],
@@ -69,6 +75,7 @@ export class Consultas implements OnInit {
     horaInicio: ['09:00', Validators.required],
     duracao: [60, [Validators.required, Validators.min(15)]],
     descricao: ['', [Validators.required, Validators.minLength(3)]],
+    status: ['AGENDADA' as StatusConsulta, Validators.required],
   });
   protected readonly cancelamentoForm = this.formBuilder.nonNullable.group({
     motivoCancelamento: ['', [Validators.required, Validators.minLength(5)]],
@@ -162,6 +169,7 @@ export class Consultas implements OnInit {
       horaInicio: '09:00',
       duracao: 60,
       descricao: '',
+      status: 'AGENDADA',
     });
     this.definirDentistaPadrao();
     this.modalAberto.set(true);
@@ -182,6 +190,7 @@ export class Consultas implements OnInit {
       horaInicio: this.formatarHora(dataInicio),
       duracao,
       descricao: consulta.descricao,
+      status: consulta.status,
     });
     this.modalAberto.set(true);
   }
@@ -262,9 +271,8 @@ export class Consultas implements OnInit {
 
     const consultaAtual = this.consultaEmEdicao();
     const payload = this.montarPayloadConsulta(consultaAtual);
-    const dataInicio = new Date(payload.dataInicio);
 
-    if (dataInicio.getTime() < Date.now()) {
+    if (!consultaAtual && new Date(payload.dataInicio).getTime() < Date.now()) {
       this.erro.set('Não é permitido agendar consulta em data ou horário passado.');
       return;
     }
@@ -386,7 +394,6 @@ export class Consultas implements OnInit {
     const dataInicio = this.montarDataHora(form.data, form.horaInicio);
     const dataFim = new Date(dataInicio.getTime() + Number(form.duracao) * 60000);
 
-    // Na edicao preserva o status atual para nao misturar com o fluxo de cancelamento.
     return {
       pacienteId: Number(form.pacienteId),
       dentistaId: Number(form.dentistaId),
@@ -394,7 +401,7 @@ export class Consultas implements OnInit {
       motivoCancelamento: consultaAtual?.motivoCancelamento ?? null,
       dataInicio: this.formatarLocalDateTime(dataInicio),
       dataFim: this.formatarLocalDateTime(dataFim),
-      status: consultaAtual?.status ?? 'AGENDADA',
+      status: form.status as StatusConsulta,
     };
   }
 
