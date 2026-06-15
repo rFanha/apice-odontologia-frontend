@@ -326,7 +326,7 @@ tbody tr:hover {
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 20;
+  z-index: 50;
   display: flex;
   justify-content: flex-end;
   background: rgba(31, 35, 22, 0.42);
