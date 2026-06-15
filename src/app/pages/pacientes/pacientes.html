@@ -1,10 +1,10 @@
-<!-- Pagina de listagem de pacientes. -->
+<!-- Página de listagem de pacientes. -->
 <main class="pacientes-page">
   <header class="page-header">
     <div>
       <div class="brand">APICE ODONTOLOGIA</div>
       <h1>Pacientes</h1>
-      <p>Cadastro e consulta rapida dos pacientes da clinica.</p>
+      <p>Cadastro e consulta rápida dos pacientes da clínica.</p>
       <span class="permission-note">Acesso liberado para usuarios autenticados</span>
     </div>
 
@@ -31,12 +31,12 @@
     <article>
       <span>Com e-mail</span>
       <strong>{{ resumo().comEmail }}</strong>
-      <p>contato digital disponivel</p>
+      <p>contato digital disponível</p>
     </article>
     <article>
       <span>Com telefone</span>
       <strong>{{ resumo().comTelefone }}</strong>
-      <p>contato telefonico disponivel</p>
+      <p>contato telefônico disponível</p>
     </article>
   </section>
 
@@ -72,7 +72,7 @@
               <th>CPF</th>
               <th>Contato</th>
               <th>Cadastro</th>
-              <th>Acoes</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -91,9 +91,11 @@
                 </td>
                 <td>{{ formatarData(paciente.dataCriacao) }}</td>
                 <td>
-                  <button type="button" class="secondary-button table-action" (click)="abrirEdicao(paciente)">
-                    Editar
-                  </button>
+                  <div class="row-actions">
+                    <button type="button" class="row-act" title="Editar paciente" (click)="abrirEdicao(paciente)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4v16h16v-7M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                    </button>
+                  </div>
                 </td>
               </tr>
             }
@@ -111,7 +113,9 @@
             <h2 id="paciente-modal-title">{{ tituloFormulario() }}</h2>
             <p>{{ subtituloFormulario() }}</p>
           </div>
-          <button type="button" class="icon-close" aria-label="Fechar" (click)="fecharFormulario()">x</button>
+          <button type="button" class="modal-close" aria-label="Fechar" (click)="fecharFormulario()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
         </header>
 
         <form class="paciente-form" [formGroup]="pacienteForm" (ngSubmit)="salvarPaciente()">
@@ -155,7 +159,7 @@
               [class.invalid]="campoInvalido('email')"
             />
             @if (campoInvalido('email')) {
-              <small>Informe um e-mail valido.</small>
+              <small>Informe um e-mail válido.</small>
             }
           </label>
 

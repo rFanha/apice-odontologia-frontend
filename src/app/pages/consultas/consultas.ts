@@ -62,6 +62,12 @@ export class Consultas implements OnInit {
     { valor: 60, label: '1 hora' },
     { valor: 90, label: '1h30' },
   ];
+  protected readonly statusOptions: { valor: StatusConsulta; label: string }[] = [
+    { valor: 'AGENDADA',   label: 'Agendada' },
+    { valor: 'FINALIZADA', label: 'Finalizada' },
+    { valor: 'CANCELADA',  label: 'Cancelada' },
+  ];
+
   protected readonly consultaForm = this.formBuilder.nonNullable.group({
     pacienteId: ['', Validators.required],
     dentistaId: ['', Validators.required],
@@ -69,6 +75,7 @@ export class Consultas implements OnInit {
     horaInicio: ['09:00', Validators.required],
     duracao: [60, [Validators.required, Validators.min(15)]],
     descricao: ['', [Validators.required, Validators.minLength(3)]],
+    status: ['AGENDADA' as StatusConsulta, Validators.required],
   });
   protected readonly cancelamentoForm = this.formBuilder.nonNullable.group({
     motivoCancelamento: ['', [Validators.required, Validators.minLength(5)]],
@@ -108,8 +115,8 @@ export class Consultas implements OnInit {
       .sort((a, b) => new Date(b.dataInicio).getTime() - new Date(a.dataInicio).getTime())
       .map((consulta) => ({
         ...consulta,
-        pacienteNome: pacientes.get(consulta.pacienteId) ?? 'Paciente nao encontrado',
-        dentistaNome: dentistas.get(consulta.dentistaId) ?? 'Dentista nao encontrado',
+        pacienteNome: pacientes.get(consulta.pacienteId) ?? 'Paciente não encontrado',
+        dentistaNome: dentistas.get(consulta.dentistaId) ?? 'Dentista não encontrado',
       }));
   });
 
@@ -162,6 +169,7 @@ export class Consultas implements OnInit {
       horaInicio: '09:00',
       duracao: 60,
       descricao: '',
+      status: 'AGENDADA',
     });
     this.definirDentistaPadrao();
     this.modalAberto.set(true);
@@ -182,6 +190,7 @@ export class Consultas implements OnInit {
       horaInicio: this.formatarHora(dataInicio),
       duracao,
       descricao: consulta.descricao,
+      status: consulta.status,
     });
     this.modalAberto.set(true);
   }
@@ -256,16 +265,15 @@ export class Consultas implements OnInit {
     this.consultaForm.markAllAsTouched();
 
     if (this.consultaForm.invalid) {
-      this.erro.set('Preencha os dados obrigatorios para agendar a consulta.');
+      this.erro.set('Preencha os dados obrigatórios para agendar a consulta.');
       return;
     }
 
     const consultaAtual = this.consultaEmEdicao();
     const payload = this.montarPayloadConsulta(consultaAtual);
-    const dataInicio = new Date(payload.dataInicio);
 
-    if (dataInicio.getTime() < Date.now()) {
-      this.erro.set('Nao e permitido agendar consulta em data ou horario passado.');
+    if (!consultaAtual && new Date(payload.dataInicio).getTime() < Date.now()) {
+      this.erro.set('Não é permitido agendar consulta em data ou horário passado.');
       return;
     }
 
@@ -305,7 +313,7 @@ export class Consultas implements OnInit {
       return this.consultaEmEdicao() ? 'Salvando...' : 'Agendando...';
     }
 
-    return this.consultaEmEdicao() ? 'Salvar alteracoes' : 'Confirmar agendamento';
+    return this.consultaEmEdicao() ? 'Salvar alterações' : 'Confirmar agendamento';
   }
 
   protected campoInvalido(campo: keyof typeof this.consultaForm.controls): boolean {
@@ -386,7 +394,6 @@ export class Consultas implements OnInit {
     const dataInicio = this.montarDataHora(form.data, form.horaInicio);
     const dataFim = new Date(dataInicio.getTime() + Number(form.duracao) * 60000);
 
-    // Na edicao preserva o status atual para nao misturar com o fluxo de cancelamento.
     return {
       pacienteId: Number(form.pacienteId),
       dentistaId: Number(form.dentistaId),
@@ -394,7 +401,7 @@ export class Consultas implements OnInit {
       motivoCancelamento: consultaAtual?.motivoCancelamento ?? null,
       dataInicio: this.formatarLocalDateTime(dataInicio),
       dataFim: this.formatarLocalDateTime(dataFim),
-      status: consultaAtual?.status ?? 'AGENDADA',
+      status: form.status as StatusConsulta,
     };
   }
 
@@ -405,7 +412,7 @@ export class Consultas implements OnInit {
   }
 
   private getMensagemErro(error: unknown): string {
-    return extrairMensagemErro(error, 'Nao foi possivel concluir a operacao de consulta.');
+    return extrairMensagemErro(error, 'Não foi possível concluir a operação de consulta.');
   }
 
 }

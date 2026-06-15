@@ -1,24 +1,24 @@
-<!-- Pagina de login do sistema. -->
+<!-- Página de login do sistema. -->
 <main class="login-page">
-  <section class="brand-panel" aria-label="Apice Odontologia">
-    <div class="brand-lockup">
-      <img src="/assets/logo-apice-transp.png" alt="Logo Apice Odontologia" />
-      <span>APICE</span>
+  <section class="brand-panel" aria-label="Ápice Odontologia">
+    <a class="brand-lockup" routerLink="/" aria-label="Voltar à página inicial">
+      <img src="/assets/logo-apice-transp.png" alt="Logo Ápice Odontologia" />
+      <span>ÁPICE</span>
       <small>ODONTOLOGIA</small>
-    </div>
+    </a>
 
     <div class="brand-copy">
       <div class="eyebrow">
         <span></span>
-        Sistema de Gestao Clinica
+        Sistema de Gestão Clínica
       </div>
-      <h1>Excelencia em cada sorriso.</h1>
+      <h1>Excelência em cada sorriso.</h1>
       <p>
-        Gerencie pacientes, agenda, equipe e relatorios da clinica em um so lugar.
+        Gerencie pacientes, agenda, equipe e relatórios da clínica em um só lugar.
       </p>
     </div>
 
-    <div class="brand-stats" aria-label="Indicadores da clinica">
+    <div class="brand-stats" aria-label="Indicadores da clínica">
       <div>
         <strong>12k</strong>
         <span>Pacientes</span>
@@ -109,12 +109,11 @@
       </form>
 
       <div class="demo-access">
-        <div class="demo-title">Painel de acesso</div>
+        <div class="demo-title">Acesso rápido</div>
         <div class="demo-actions">
           <button type="button" (click)="preencherDemo('admin')">Entrar como Admin</button>
           <button type="button" (click)="preencherDemo('dentista')">Como Dentista</button>
         </div>
-        <p>Senha: <code>Apice&#64;123</code></p>
       </div>
     </div>
   </section>

@@ -194,7 +194,7 @@ h2 {
 
 .specialty-card {
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   padding: 20px;
 }
 
@@ -235,11 +235,14 @@ h2 {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: 50;
   display: grid;
   place-items: center;
   padding: 24px;
   background: rgba(37, 41, 29, 0.42);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: backdropIn .18s ease;
 }
 
 .especialidade-modal {
@@ -248,6 +251,7 @@ h2 {
   border-radius: 14px;
   background: #fffef6;
   box-shadow: 0 28px 70px rgba(37, 41, 29, 0.2);
+  animation: modalPop .22s cubic-bezier(.2,.7,.3,1);
 }
 
 .modal-head {
@@ -294,6 +298,40 @@ h2 {
   background: #f8f8ec;
 }
 
+.specialty-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.delete-btn {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: .14s;
+  opacity: 0;
+
+  &:hover {
+    background: var(--st-cancelada-bg);
+    color: var(--st-cancelada-fg);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+}
+
+.specialty-card:hover .delete-btn {
+  opacity: 1;
+}
+
 @keyframes shimmer {
   to {
     background-position: -220% 0;
@@ -323,5 +361,69 @@ h2 {
   .header-actions button,
   .modal-foot button {
     width: 100%;
+  }
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: translateY(16px) scale(.98); }
+}
+
+.row-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.row-act {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .14s, color .14s;
+  flex: none;
+
+  &:hover {
+    background: var(--surface-inset);
+    color: var(--olive);
+  }
+
+  &.danger:hover {
+    background: var(--st-cancelada-bg);
+    color: var(--st-cancelada-fg);
+  }
+
+  &:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: .15s;
+  flex: none;
+
+  &:hover {
+    background: var(--surface-2);
+    color: var(--text);
+    border-color: var(--border-strong);
   }
 }

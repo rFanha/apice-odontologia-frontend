@@ -1,13 +1,13 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -87,14 +87,14 @@ export class Login {
   private getLoginErrorMessage(error: unknown): string {
     if (error instanceof HttpErrorResponse) {
       if (error.status === 0) {
-        return 'Nao foi possivel conectar ao backend em http://localhost:8080.';
+        return 'Não foi possível conectar ao backend em http://localhost:8080.';
       }
 
       if (error.status === 401) {
-        return 'E-mail ou senha invalidos.';
+        return 'E-mail ou senha inválidos.';
       }
     }
 
-    return 'Nao foi possivel realizar o login. Tente novamente.';
+    return 'Não foi possível realizar o login. Tente novamente.';
   }
 }
