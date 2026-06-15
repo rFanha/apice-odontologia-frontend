@@ -395,7 +395,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 120. [X] {FRONT-END} Estrutura de pastas organizada.
 
-121. [ ] {FRONT-END} Configuracao de ambiente da API criada.
+121. [X] {FRONT-END} Configuracao de ambiente da API criada.
 
 ### Paginas e Componentes
 
@@ -491,29 +491,29 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 ## Integracao e Testes
 
-164. [ ] {FRONT-END} Comunicacao entre front-end e back-end validada.
+164. [X] {FRONT-END} Comunicacao entre front-end e back-end validada.
 
 165. [X] Rotas protegidas testadas.
 
-166. [ ] CRUD de usuarios testado.
+166. [X] CRUD de usuarios testado.
 
-167. [ ] CRUD de pacientes testado.
+167. [X] CRUD de pacientes testado.
 
-168. [ ] CRUD de dentistas testado.
+168. [X] CRUD de dentistas testado.
 
-169. [ ] CRUD de especialidades testado.
+169. [X] CRUD de especialidades testado.
 
-170. [ ] CRUD de consultas testado.
+170. [X] CRUD de consultas testado.
 
-171. [ ] Cancelamento de consultas testado.
+171. [X] Cancelamento de consultas testado.
 
-172. [ ] Relatorios testados.
+172. [X] Relatorios testados.
 
 173. [X] Permissoes de administrador validadas.
 
 174. [X] Permissoes de dentista validadas.
 
-175. [ ] Regras de negocio validadas manualmente.
+175. [X] Regras de negocio validadas manualmente.
 
 ## Documentacao e Apresentacao
 
