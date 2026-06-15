@@ -68,6 +68,11 @@ const NAV_GROUPS: NavGroup[] = [
         icon: 'M18 20V10M12 20V4M6 20v-6',
         perfis: ['ADMIN'],
       },
+      {
+        path: 'mensagens', label: 'Mensagens', crumb: 'Solicitações de agendamento',
+        icon: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
+        perfis: ['ADMIN'],
+      },
     ],
   },
 ];
@@ -80,6 +85,7 @@ const PAGE_META: Record<string, { titulo: string; crumb: string }> = {
   especialidades: { titulo: 'Especialidades', crumb: 'Configuração clínica' },
   usuarios:       { titulo: 'Usuários',       crumb: 'Controle de acesso' },
   relatorios:     { titulo: 'Relatórios',     crumb: 'Análises e filtros' },
+  mensagens:      { titulo: 'Mensagens',      crumb: 'Solicitações de agendamento' },
 };
 
 @Component({
