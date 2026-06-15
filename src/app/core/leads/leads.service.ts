@@ -32,7 +32,7 @@ export class LeadsService {
   }
 
   listar(lido?: boolean): Observable<LeadResponse[]> {
-    const params = lido !== undefined ? { lido: String(lido) } : {};
+    const params = lido !== undefined ? { lido: String(lido) } : undefined;
     return this.http.get<LeadResponse[]>('/api/leads', { params });
   }
 
