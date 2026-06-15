@@ -1,0 +1,72 @@
+<!-- Shell: sidebar + topbar envolvendo todas as paginas autenticadas. -->
+<div class="shell" [class.menu-aberto]="menuAberto()">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-topo">
+      <div class="logo-mark">Á</div>
+      <div class="logo-texto">
+        ÁPICE
+        <small>ODONTOLOGIA</small>
+      </div>
+    </div>
+
+    <nav class="nav" aria-label="Navegação principal">
+      @for (grupo of navGroups(); track grupo.label) {
+        <div class="nav-grupo">
+          <span class="nav-grupo-label">{{ grupo.label }}</span>
+          @for (item of grupo.items; track item.path) {
+            <a
+              class="nav-item"
+              [routerLink]="['/', item.path]"
+              routerLinkActive="ativo"
+              (click)="fecharMenuMobile()"
+            >
+              {{ item.label }}
+            </a>
+          }
+        </div>
+      }
+    </nav>
+
+    <div class="sidebar-rodape">
+      <button class="nav-item sair-btn" type="button" (click)="sair()">Sair</button>
+    </div>
+  </aside>
+
+  <!-- Overlay mobile -->
+  @if (menuAberto()) {
+    <div class="overlay" (click)="fecharMenuMobile()" aria-hidden="true"></div>
+  }
+
+  <!-- Área principal -->
+  <div class="principal">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-esq">
+        <button class="burger" type="button" (click)="alternarMenu()" aria-label="Abrir menu">
+          ☰
+        </button>
+        <span class="topbar-titulo">{{ tituloPagina() }}</span>
+      </div>
+
+      <div class="topbar-dir">
+        <div class="usuario-chip">
+          <div class="avatar">{{ iniciaisUsuario() }}</div>
+          <div class="usuario-info">
+            <span class="usuario-nome">{{ sessao?.nome }}</span>
+            <span class="usuario-perfil">{{ sessao?.perfil === 'ADMIN' ? 'Administrador' : 'Dentista' }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Conteudo da pagina -->
+    <main class="conteudo">
+      <router-outlet />
+    </main>
+
+  </div>
+
+</div>

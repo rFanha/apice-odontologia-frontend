@@ -13,61 +13,55 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login').then((m) => m.Login),
   },
   {
-    path: 'dashboard',
+    // Shell envolve todas as paginas autenticadas com sidebar e topbar.
+    path: '',
+    loadComponent: () => import('./pages/shell/shell').then((m) => m.Shell),
     canActivate: [perfilGuard],
-    data: {
-      perfis: ['ADMIN'],
-    },
-    loadComponent: () => import('./pages/dashboard/dashboard').then((m) => m.Dashboard),
-  },
-  {
-    path: 'usuarios',
-    canActivate: [perfilGuard],
-    data: {
-      perfis: ['ADMIN'],
-    },
-    loadComponent: () => import('./pages/usuarios/usuarios').then((m) => m.Usuarios),
-  },
-  {
-    path: 'consultas',
-    canActivate: [perfilGuard],
-    data: {
-      perfis: ['ADMIN', 'DENTISTA'],
-    },
-    loadComponent: () => import('./pages/consultas/consultas').then((m) => m.Consultas),
-  },
-  {
-    path: 'pacientes',
-    canActivate: [perfilGuard],
-    data: {
-      perfis: ['ADMIN', 'DENTISTA'],
-    },
-    loadComponent: () => import('./pages/pacientes/pacientes').then((m) => m.Pacientes),
-  },
-  {
-    path: 'dentistas',
-    canActivate: [perfilGuard],
-    data: {
-      perfis: ['ADMIN'],
-    },
-    loadComponent: () => import('./pages/dentistas/dentistas').then((m) => m.Dentistas),
-  },
-  {
-    path: 'especialidades',
-    canActivate: [perfilGuard],
-    data: {
-      perfis: ['ADMIN'],
-    },
-    loadComponent: () =>
-      import('./pages/especialidades/especialidades').then((m) => m.Especialidades),
-  },
-  {
-    path: 'relatorios',
-    canActivate: [perfilGuard],
-    data: {
-      perfis: ['ADMIN'],
-    },
-    loadComponent: () => import('./pages/relatorios/relatorios').then((m) => m.Relatorios),
+    children: [
+      {
+        path: 'dashboard',
+        data: { perfis: ['ADMIN'] },
+        canActivate: [perfilGuard],
+        loadComponent: () => import('./pages/dashboard/dashboard').then((m) => m.Dashboard),
+      },
+      {
+        path: 'usuarios',
+        data: { perfis: ['ADMIN'] },
+        canActivate: [perfilGuard],
+        loadComponent: () => import('./pages/usuarios/usuarios').then((m) => m.Usuarios),
+      },
+      {
+        path: 'consultas',
+        data: { perfis: ['ADMIN', 'DENTISTA'] },
+        canActivate: [perfilGuard],
+        loadComponent: () => import('./pages/consultas/consultas').then((m) => m.Consultas),
+      },
+      {
+        path: 'pacientes',
+        data: { perfis: ['ADMIN', 'DENTISTA'] },
+        canActivate: [perfilGuard],
+        loadComponent: () => import('./pages/pacientes/pacientes').then((m) => m.Pacientes),
+      },
+      {
+        path: 'dentistas',
+        data: { perfis: ['ADMIN'] },
+        canActivate: [perfilGuard],
+        loadComponent: () => import('./pages/dentistas/dentistas').then((m) => m.Dentistas),
+      },
+      {
+        path: 'especialidades',
+        data: { perfis: ['ADMIN'] },
+        canActivate: [perfilGuard],
+        loadComponent: () =>
+          import('./pages/especialidades/especialidades').then((m) => m.Especialidades),
+      },
+      {
+        path: 'relatorios',
+        data: { perfis: ['ADMIN'] },
+        canActivate: [perfilGuard],
+        loadComponent: () => import('./pages/relatorios/relatorios').then((m) => m.Relatorios),
+      },
+    ],
   },
   {
     path: 'acesso-negado',

@@ -1,0 +1,273 @@
+/* Shell: layout grid com sidebar fixa e área de conteúdo. */
+
+:host {
+  display: block;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  min-height: 100vh;
+  background: #fffdec;
+}
+
+/* ---- Sidebar ---- */
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-right: 1px solid #e1e4d2;
+  overflow: hidden;
+}
+
+.sidebar-topo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 20px 16px;
+}
+
+.logo-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 12px;
+  background: linear-gradient(150deg, #808744, #6ed6a4);
+  color: #fff;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(128, 135, 68, 0.25);
+}
+
+.logo-texto {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #25291d;
+  line-height: 1;
+
+  small {
+    display: block;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: #6a7050;
+    margin-top: 3px;
+  }
+}
+
+.nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 14px 16px;
+}
+
+.nav-grupo {
+  margin-bottom: 6px;
+}
+
+.nav-grupo-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9da48f;
+  padding: 14px 12px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #59604f;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  margin-bottom: 2px;
+
+  &:hover {
+    background: #f4f6e9;
+    color: #25291d;
+  }
+
+  &.ativo {
+    background: #eef5df;
+    color: #4e5528;
+    font-weight: 700;
+  }
+}
+
+.sidebar-rodape {
+  padding: 12px 14px;
+  border-top: 1px solid #e1e4d2;
+}
+
+.sair-btn {
+  color: #9a3412;
+
+  &:hover {
+    background: #fff1e8;
+    color: #7c2d12;
+  }
+}
+
+/* ---- Principal ---- */
+
+.principal {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 28px;
+  background: rgba(255, 253, 236, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e1e4d2;
+}
+
+.topbar-esq {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-titulo {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #25291d;
+}
+
+/* Burger aparece só em mobile */
+.burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #e1e4d2;
+  border-radius: 9px;
+  background: #fff;
+  color: #59604f;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #f4f6e9;
+  }
+}
+
+.topbar-dir {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.usuario-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px 5px 5px;
+  border-radius: 10px;
+  border: 1px solid #e1e4d2;
+  background: #fff;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #808744, #6ed6a4);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.usuario-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.usuario-nome {
+  font-size: 13px;
+  font-weight: 600;
+  color: #25291d;
+}
+
+.usuario-perfil {
+  font-size: 11px;
+  color: #6f7665;
+}
+
+.conteudo {
+  flex: 1;
+}
+
+/* ---- Overlay mobile ---- */
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* ---- Mobile ---- */
+
+@media (max-width: 860px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    width: 256px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: none;
+  }
+
+  .shell.menu-aberto .sidebar {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .shell.menu-aberto .overlay {
+    display: block;
+  }
+
+  .burger {
+    display: flex;
+  }
+}

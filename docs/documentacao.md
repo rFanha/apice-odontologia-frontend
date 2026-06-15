@@ -455,7 +455,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 148. [X] {FRONT-END} Angular Router configurado.
 
-149. [ ] {FRONT-END} Navegacao entre paginas implementada.
+149. [X] {FRONT-END} Navegacao entre paginas implementada.
 
 150. [X] {FRONT-END} Consumo da API configurado com `HttpClient`, Fetch API, Axios ou alternativa.
 
