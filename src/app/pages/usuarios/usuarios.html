@@ -108,6 +108,26 @@
     }
   </section>
 
+  @if (usuarioParaExcluir()) {
+    <div class="overlay" (click)="cancelarExclusaoUsuario()">
+      <section class="drawer confirm-dialog" (click)="$event.stopPropagation()" role="alertdialog" aria-modal="true" aria-labelledby="confirm-usuario-title">
+        <header>
+          <div>
+            <h2 id="confirm-usuario-title">Excluir usuário</h2>
+            <p>Esta ação não pode ser desfeita.</p>
+          </div>
+        </header>
+        <div class="confirm-body">
+          <p>Deseja excluir o usuário <strong>{{ usuarioParaExcluir()!.nome }}</strong>?</p>
+        </div>
+        <footer>
+          <button class="secondary-button" type="button" (click)="cancelarExclusaoUsuario()">Cancelar</button>
+          <button class="danger-button" type="button" (click)="executarExclusaoUsuario()">Excluir</button>
+        </footer>
+      </section>
+    </div>
+  }
+
   @if (formularioAberto()) {
     <div class="overlay" (click)="fecharFormulario()">
       <section class="drawer" (click)="$event.stopPropagation()" aria-label="Formulario de usuario">

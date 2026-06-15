@@ -23,6 +23,7 @@ export class Especialidades implements OnInit {
   protected readonly busca = signal('');
   protected readonly formularioAberto = signal(false);
   protected readonly excluindo = signal<number | null>(null);
+  protected readonly especialidadeParaExcluir = signal<Especialidade | null>(null);
   protected readonly especialidadeForm = this.formBuilder.nonNullable.group({
     nome: ['', [Validators.required, Validators.maxLength(255)]],
   });
@@ -64,8 +65,18 @@ export class Especialidades implements OnInit {
   }
 
   protected confirmarExclusao(especialidade: Especialidade): void {
-    if (!window.confirm(`Excluir a especialidade "${especialidade.nome}"?\nEsta ação não pode ser desfeita.`)) return;
     this.limparMensagens();
+    this.especialidadeParaExcluir.set(especialidade);
+  }
+
+  protected cancelarExclusao(): void {
+    this.especialidadeParaExcluir.set(null);
+  }
+
+  protected executarExclusao(): void {
+    const especialidade = this.especialidadeParaExcluir();
+    if (!especialidade) return;
+    this.especialidadeParaExcluir.set(null);
     this.excluindo.set(especialidade.id);
     this.especialidadesService.excluir(especialidade.id).subscribe({
       next: () => {
