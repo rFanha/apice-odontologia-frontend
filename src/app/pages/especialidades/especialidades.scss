@@ -194,7 +194,7 @@ h2 {
 
 .specialty-card {
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   padding: 20px;
 }
 
@@ -292,6 +292,40 @@ h2 {
   padding: 18px 26px;
   border-top: 1px solid #e1e4d2;
   background: #f8f8ec;
+}
+
+.specialty-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.delete-btn {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: .14s;
+  opacity: 0;
+
+  &:hover {
+    background: var(--st-cancelada-bg);
+    color: var(--st-cancelada-fg);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+}
+
+.specialty-card:hover .delete-btn {
+  opacity: 1;
 }
 
 @keyframes shimmer {

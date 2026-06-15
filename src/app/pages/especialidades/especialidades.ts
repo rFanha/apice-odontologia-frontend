@@ -22,6 +22,7 @@ export class Especialidades implements OnInit {
   protected readonly sucesso = signal('');
   protected readonly busca = signal('');
   protected readonly formularioAberto = signal(false);
+  protected readonly excluindo = signal<number | null>(null);
   protected readonly especialidadeForm = this.formBuilder.nonNullable.group({
     nome: ['', [Validators.required, Validators.maxLength(255)]],
   });
@@ -60,6 +61,23 @@ export class Especialidades implements OnInit {
     this.limparMensagens();
     this.especialidadeForm.reset({ nome: '' });
     this.formularioAberto.set(true);
+  }
+
+  protected confirmarExclusao(especialidade: Especialidade): void {
+    if (!window.confirm(`Excluir a especialidade "${especialidade.nome}"?\nEsta ação não pode ser desfeita.`)) return;
+    this.limparMensagens();
+    this.excluindo.set(especialidade.id);
+    this.especialidadesService.excluir(especialidade.id).subscribe({
+      next: () => {
+        this.sucesso.set('Especialidade excluída com sucesso.');
+        this.excluindo.set(null);
+        this.carregarEspecialidades();
+      },
+      error: (error: unknown) => {
+        this.erro.set(this.getMensagemErro(error));
+        this.excluindo.set(null);
+      },
+    });
   }
 
   protected fecharFormulario(): void {

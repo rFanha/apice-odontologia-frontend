@@ -26,4 +26,8 @@ export class EspecialidadesService {
   criar(dados: EspecialidadeRequest): Observable<Especialidade> {
     return this.http.post<Especialidade>('/api/especialidades', dados);
   }
+
+  excluir(id: number): Observable<void> {
+    return this.http.delete<void>(`/api/especialidades/${id}`);
+  }
 }
