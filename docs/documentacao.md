@@ -475,7 +475,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 157. [X] {FRONT-END} Controle de acesso por perfil implementado no front-end.
 
-158. [ ] {FRONT-END} Logout implementado.
+158. [X] {FRONT-END} Logout implementado.
 
 ### Experiencia do Usuario
 
