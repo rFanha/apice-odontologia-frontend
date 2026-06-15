@@ -83,6 +83,26 @@
     }
   </section>
 
+  @if (especialidadeParaExcluir()) {
+    <div class="modal-backdrop" role="presentation" (click)="cancelarExclusao()">
+      <section class="especialidade-modal confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" (click)="$event.stopPropagation()">
+        <header class="modal-head">
+          <div>
+            <h2 id="confirm-title">Excluir especialidade</h2>
+            <p>Esta ação não pode ser desfeita.</p>
+          </div>
+        </header>
+        <div class="confirm-body">
+          <p>Deseja excluir a especialidade <strong>{{ especialidadeParaExcluir()!.nome }}</strong>?</p>
+        </div>
+        <footer class="modal-foot">
+          <button type="button" class="secondary-button" (click)="cancelarExclusao()">Cancelar</button>
+          <button type="button" class="danger-button" (click)="executarExclusao()">Excluir</button>
+        </footer>
+      </section>
+    </div>
+  }
+
   @if (formularioAberto()) {
     <div class="modal-backdrop" role="presentation" (click)="fecharFormulario()">
       <section class="especialidade-modal" role="dialog" aria-modal="true" aria-labelledby="especialidade-modal-title" (click)="$event.stopPropagation()">

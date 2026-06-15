@@ -29,6 +29,7 @@ export class Usuarios implements OnInit {
   protected readonly filtroPerfil = signal<'todos' | PerfilUsuario>('todos');
   protected readonly usuarioEmEdicao = signal<Usuario | null>(null);
   protected readonly formularioAberto = signal(false);
+  protected readonly usuarioParaExcluir = signal<Usuario | null>(null);
 
   protected readonly usuarioForm = this.formBuilder.nonNullable.group({
     nome: ['', [Validators.required, Validators.maxLength(255)]],
@@ -147,13 +148,18 @@ export class Usuarios implements OnInit {
   }
 
   protected excluirUsuario(usuario: Usuario): void {
-    const confirmou = window.confirm(`Deseja excluir o usuário ${usuario.nome}?`);
+    this.limparMensagens();
+    this.usuarioParaExcluir.set(usuario);
+  }
 
-    if (!confirmou) {
-      return;
-    }
+  protected cancelarExclusaoUsuario(): void {
+    this.usuarioParaExcluir.set(null);
+  }
 
-    // Remove no backend e recarrega a lista para refletir o estado real.
+  protected executarExclusaoUsuario(): void {
+    const usuario = this.usuarioParaExcluir();
+    if (!usuario) return;
+    this.usuarioParaExcluir.set(null);
     this.usuariosService.excluir(usuario.id).subscribe({
       next: () => {
         this.sucesso.set('Usuário excluído com sucesso.');
