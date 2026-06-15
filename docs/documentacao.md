@@ -455,15 +455,15 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 148. [X] {FRONT-END} Angular Router configurado.
 
-149. [ ] {FRONT-END} Navegacao entre paginas implementada.
+149. [X] {FRONT-END} Navegacao entre paginas implementada.
 
 150. [X] {FRONT-END} Consumo da API configurado com `HttpClient`, Fetch API, Axios ou alternativa.
 
 151. [X] {FRONT-END} Services Angular criados para comunicacao com a API.
 
-152. [ ] {FRONT-END} Interceptor HTTP configurado para envio do JWT, se aplicavel.
+152. [X] {FRONT-END} Interceptor HTTP configurado para envio do JWT, se aplicavel.
 
-153. [ ] {FRONT-END} Tratamento de erros da API implementado.
+153. [X] {FRONT-END} Tratamento de erros da API implementado.
 
 ### Autenticacao no Front-End
 
@@ -475,7 +475,7 @@ O checklist atual está **alinhado com o anexo** na maior parte dos itens.
 
 157. [X] {FRONT-END} Controle de acesso por perfil implementado no front-end.
 
-158. [ ] {FRONT-END} Logout implementado.
+158. [X] {FRONT-END} Logout implementado.
 
 ### Experiencia do Usuario
 
